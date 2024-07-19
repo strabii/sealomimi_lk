@@ -38,7 +38,11 @@ return [
         // The type of form. In this case, since the user is picking from several options, it's "choice"!
         'type' => 'choice',
         // These are the choices themselves. The key is what the form outputs, and the value is the text shown to the user.
+<<<<<<< HEAD
         'choices' => ['art' => 'Digital or Traditional Art', 'lit' => 'Writing', 'craft' => 'Crafts'],
+=======
+        'choices' => ['art' => 'Digital or Traditional Art', 'lit' => 'Writing and Poetry', 'craft' => 'Craft or Other Physical Item'],
+>>>>>>> f0aa1f88702d6a9ed67747767595597335179ea0
         // This makes this field required!
         'rules' => 'required',
         // This allows the user to select multiple options! You don't need to set it at all unless you want it to be true,
@@ -83,7 +87,11 @@ return [
     ], 
     'word_count' => [
         'name' => 'Word Count',
+<<<<<<< HEAD
         'label' => 'Writing Word Count',
+=======
+        'label' => 'Word Count (For Writing or Poetry)',
+>>>>>>> f0aa1f88702d6a9ed67747767595597335179ea0
         'type' => 'number',
     ],
 

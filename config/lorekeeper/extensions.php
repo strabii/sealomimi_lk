@@ -23,6 +23,7 @@ return [
     'navbar_news_notif' => 0,
 
     // Species Trait Index - Mercury
+<<<<<<< HEAD
     'species_trait_index' => 1,
 
     // Character Status Badges - Juni
@@ -30,14 +31,28 @@ return [
 
     // Character TH Profile Link - Juni
     'character_TH_profile_link' => 1,
+=======
+    'species_trait_index' => 0,
+
+    // Character Status Badges - Juni
+    'character_status_badges' => 0,
+
+    // Character TH Profile Link - Juni
+    'character_TH_profile_link' => 0,
+>>>>>>> f0aa1f88702d6a9ed67747767595597335179ea0
 
     // Design Update Voting - Mercury
     'design_update_voting' => 0,
 
     // Item Entry Expansion - Mercury
     'item_entry_expansion' => [
+<<<<<<< HEAD
         'extra_fields' => 1,
         'resale_function' => 1,
+=======
+        'extra_fields' => 0,
+        'resale_function' => 0,
+>>>>>>> f0aa1f88702d6a9ed67747767595597335179ea0
         'loot_tables' => [
             // Adds the ability to use either rarity criteria for items or item categories with rarity criteria in loot tables. Note that disabling this does not apply retroactively.
             'enable' => 0,
@@ -46,7 +61,11 @@ return [
     ],
 
     // Group Traits By Category - Uri
+<<<<<<< HEAD
     'traits_by_category' => 1,
+=======
+    'traits_by_category' => 0,
+>>>>>>> f0aa1f88702d6a9ed67747767595597335179ea0
 
     // Character Reward Expansion - Uri
     'character_reward_expansion' => [

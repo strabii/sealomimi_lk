@@ -36,7 +36,11 @@ return [
     | site wherever the name needs to be displayed.
     |
     */
+<<<<<<< HEAD
     'site_name' => 'Sealomimis',
+=======
+    'site_name' => 'Lorekeeper',
+>>>>>>> f0aa1f88702d6a9ed67747767595597335179ea0
 
     /*
     |--------------------------------------------------------------------------
@@ -48,7 +52,11 @@ return [
     | It is not, however, displayed on the site itself. This should be kept short and snappy!
     |
     */
+<<<<<<< HEAD
     'site_desc' => 'Sealomimis Closed Species ARPG',
+=======
+    'site_desc' => 'A Lorekeeper ARPG',
+>>>>>>> f0aa1f88702d6a9ed67747767595597335179ea0
 
     /*
     |--------------------------------------------------------------------------
@@ -110,9 +118,15 @@ return [
     'character_number_digits' => 3,
     'character_pull_number' => 'all',
 
+<<<<<<< HEAD
     'reset_character_status_on_transfer' => 1,
     'reset_character_profile_on_transfer' => 0,
     'clear_myo_slot_name_on_approval' => 1,
+=======
+    'reset_character_status_on_transfer' => 0,
+    'reset_character_profile_on_transfer' => 0,
+    'clear_myo_slot_name_on_approval' => 0,
+>>>>>>> f0aa1f88702d6a9ed67747767595597335179ea0
 
     /*
     |--------------------------------------------------------------------------
@@ -136,10 +150,17 @@ return [
     | 'masterlist_image_background' => 'png',
     |
     */
+<<<<<<< HEAD
     'watermark_masterlist_images' => 1,
     'masterlist_image_dimension' => 0,
     'masterlist_image_format' => null,
     'masterlist_image_background' => null,
+=======
+    'watermark_masterlist_images' => 0,
+    'masterlist_image_dimension' => 0,
+    'masterlist_image_format' => null,
+    'masterlist_image_background' => '#ffffff',
+>>>>>>> f0aa1f88702d6a9ed67747767595597335179ea0
 
     /*
     |--------------------------------------------------------------------------
@@ -153,8 +174,13 @@ return [
     | Images above this cap in either dimension will be resized to suit. Enter "0" to disable resizing.
     |
     */
+<<<<<<< HEAD
     'store_masterlist_fullsizes' => 1,
     'masterlist_fullsizes_cap' => 4000,
+=======
+    'store_masterlist_fullsizes' => 0,
+    'masterlist_fullsizes_cap' => 0,
+>>>>>>> f0aa1f88702d6a9ed67747767595597335179ea0
 
     /*
     |--------------------------------------------------------------------------
@@ -189,7 +215,11 @@ return [
     | Simply change to "1" to enable, or keep at "0" to disable.
     |
     */
+<<<<<<< HEAD
     'masterlist_image_automation' => 1,
+=======
+    'masterlist_image_automation' => 0,
+>>>>>>> f0aa1f88702d6a9ed67747767595597335179ea0
 
     /*
     |--------------------------------------------------------------------------
