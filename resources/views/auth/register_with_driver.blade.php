@@ -6,72 +6,24 @@
 @if($userCount)
     <div class="row">
         <div class="col-md-6 offset-md-4">
-            <h1>Register</h1>
+            <h1>Register with {{ $provider }}</h1>
         </div>
     </div>
-        
-        @if($altRegistrations)
-            <h3 class="text-center">Alternate Registrations</h3>
-            @foreach($altRegistrations as $provider => $site)
-                @if(isset($site['login']) && $site['login'])
-                    <div class="text-center w-75 m-auto pt-2 pb-2">
-                        <a href="{{ url('/login/redirect/'.$provider) }}" class="btn btn-primary text-white w-100"><i class="{{ $site['icon'] }} mr-2"></i> Register With {{ ucfirst($provider) }}</a>
-                    </div>
-                @endif
-            @endforeach
-        @endif
-    
-    <h3 class="mt-5 text-center">Regular Registration</h3>
-    <form method="POST" action="{{ route('register') }}">
+    <form method="POST" action="{{ url('register/' . $provider) }}">
         @csrf
-
+        {!! Form::hidden('token', $token ?? old('token')) !!}
+    
         <div class="form-group row">
             <label for="name" class="col-md-4 col-form-label text-md-right">Username</label>
 
             <div class="col-md-6">
-                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
+                <input id="name" type="text" class="form-control{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') ?? $user }}" required autofocus>
 
                 @if ($errors->has('name'))
                     <span class="invalid-feedback" role="alert">
                         <strong>{{ $errors->first('name') }}</strong>
                     </span>
                 @endif
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label for="email" class="col-md-4 col-form-label text-md-right">E-mail Address</label>
-
-            <div class="col-md-6">
-                <input id="email" type="email" class="form-control{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required>
-
-                @if ($errors->has('email'))
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->first('email') }}</strong>
-                    </span>
-                @endif
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label for="password" class="col-md-4 col-form-label text-md-right">{{ __('Password') }}</label>
-
-            <div class="col-md-6">
-                <input id="password" type="password" class="form-control{{ $errors->has('password') ? ' is-invalid' : '' }}" name="password" required>
-
-                @if ($errors->has('password'))
-                    <span class="invalid-feedback" role="alert">
-                        <strong>{{ $errors->first('password') }}</strong>
-                    </span>
-                @endif
-            </div>
-        </div>
-
-        <div class="form-group row">
-            <label for="password-confirm" class="col-md-4 col-form-label text-md-right">{{ __('Confirm Password') }}</label>
-
-            <div class="col-md-6">
-                <input id="password-confirm" type="password" class="form-control" name="password_confirmation" required>
             </div>
         </div>
 
