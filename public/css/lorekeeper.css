@@ -107,6 +107,13 @@ main > .row {
     min-height: 200px;
 }
 
+.clock-style{
+    letter-spacing: .04em;
+    padding: 5px 10px;
+    border-radius: 15px 15px;
+    margin-bottom: .5em;
+}
+
 .navbar .navbar-brand, .navbar .nav-item {
     text-transform: uppercase;
     font-family: Roboto Condensed, serif;

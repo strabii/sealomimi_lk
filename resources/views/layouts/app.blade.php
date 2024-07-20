@@ -87,7 +87,14 @@
 
 <body>
     <div id="app">
-        <div class="site-header-image" id="header" style="background-image: url('{{ asset('images/header.png') }}');"></div>
+        <div class="site-header-image" id="header" style="background-image: url('{{ asset('images/header.png') }}');">
+            
+            <div class="clock-style bg-dark text-white" style="position: absolute; top: 160px; left: 1.5%;">
+                <i class="far fa-clock"></i> {!! LiveClock() !!}
+            </div>
+            <img class="img-fluid d-none d-lg-block" style="max-width: 300px; position: absolute; top: 75px; right: 5%;" src="/files/Decoration/sealhearted.png">
+
+        </div>
         @include('layouts._nav')
         @if (View::hasSection('sidebar'))
             <div class="site-mobile-header bg-secondary"><a href="#" class="btn btn-sm btn-outline-light" id="mobileMenuButton">Menu <i class="fas fa-caret-right ml-1"></i></a></div>
@@ -187,6 +194,7 @@
                 });
             });
         </script>
+        @include('js._liveclock')
     </div>
 </body>
 
