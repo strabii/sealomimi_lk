@@ -13,10 +13,20 @@ class AddLikesToComments extends Migration {
             $table->integer('allow_dislikes')->default(0);
         });
 
-        Schema::create('comment_likes', function (Blueprint $table) {
+        /*Schema::create('comment_likes', function (Blueprint $table) {
             //
             $table->integer('user_id')->unsigned();
             $table->integer('comment_id')->unsigned();
+            $table->boolean('is_like')->default(true);
+        });*/
+
+        Schema::create('comment_likes', function (Blueprint $table) {
+            $table->increments('id');
+            $table->timestamps();
+            $table->unsignedBigInteger('comment_id');
+            $table->foreign('comment_id')->references('id')->on('comments')->onDelete('cascade');
+            $table->integer('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->boolean('is_like')->default(true);
         });
     }
