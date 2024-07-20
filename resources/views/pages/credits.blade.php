@@ -36,7 +36,7 @@
             <a href="http://wiki.lorekeeper.me/index.php?title=Extensions:Extended_Mentions"><strong>Extended Mentions</strong></a> by <a href="https://github.com/SpeedyD">Speedy</a>
         </p>
         <p class="mb-0 col-md-4">
-            <strong>Extension Tracker</strong> by <a href="https://github.com/preimpression">Preimpression</a> (This page/the section below!)
+            <strong>Extension Tracker</strong> by <a href="https://github.com/preimpression">Preimpression</a>
         </p>
         <p class="mb-0 col-md-4">
             <a href="http://wiki.lorekeeper.me/index.php?title=Extensions:Galleries"><strong>Galleries</strong></a> by <a href="https://github.com/itinerare">itinerare</a>
