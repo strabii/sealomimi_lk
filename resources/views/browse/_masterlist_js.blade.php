@@ -44,8 +44,6 @@
             }
         }
 
-        var $categories => CharacterCategory::orderBy('sort')->pluck('name', 'id')->toArray();
-
         var $customTitle = $('#customTitle');
         var $customTitleOptions = $('#customTitleOptions');
 

@@ -11,9 +11,6 @@
         @if ($blacklistLink)
             <a href="{{ url('blacklist') }}" class="btn btn-dark float-right ml-2">Blacklist</a>
         @endif
-        @if ($deactivatedLink || (Auth::check() && Auth::user()->isStaff))
-            <a href="{{ url('deactivated-list') }}" class="btn btn-dark float-right">Deactivated Accounts</a>
-        @endif
     </h1>
 
     <div>
@@ -87,4 +84,8 @@
     {!! $users->render() !!}
 
     <div class="text-center mt-4 small text-muted">{{ $users->total() }} result{{ $users->total() == 1 ? '' : 's' }} found.</div>
+    
+    @if ($deactivatedLink || (Auth::check() && Auth::user()->isStaff))
+        <a href="{{ url('deactivated-list') }}" class="btn btn-sm btn-dark float-right">Deactivated Accounts</a>
+    @endif
 @endsection

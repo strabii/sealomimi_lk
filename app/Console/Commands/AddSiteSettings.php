@@ -80,7 +80,7 @@ class AddSiteSettings extends Command {
                 [
                     'key' => 'character_title_display',
                     'value' => 0,
-                    'description' => '0: Characters\' titles only display in their image info. 1: Characters\'s titles display alongside their category, species, rarity.'
+                    'description' => '0: Characters\' design names only display in their image info. 1: Characters\'s design names display alongside their category, species, rarity.'
                 ]
 
             ]);
