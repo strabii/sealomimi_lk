@@ -116,7 +116,7 @@
         </div>
         <div class="card mb-3" id="resellOptions">
             <div class="card-body">
-                {!! Form::label('Resale Value') !!} {!! add_help('This value is publicly displayed on the ' . ($isMyo ? 'MYO slot' : 'character') . '\'s page.') !!}
+                {!! Form::label('Obtained Value') !!} {!! add_help('This value is publicly displayed on the ' . ($isMyo ? 'MYO slot' : 'character') . '\'s page.') !!}
                 {!! Form::text('sale_value', old('sale_value'), ['class' => 'form-control']) !!}
             </div>
         </div>
@@ -238,6 +238,28 @@
             {!! Form::select('rarity_id', $rarities, old('rarity_id'), ['class' => 'form-control']) !!}
         </div>
 
+        @if(!$isMyo)
+        <div class="row no-gutters">
+            <div class="col-md-6 pr-2">
+                <div class="form-group">
+                    {!! Form::label('Design Name') !!}
+                    {!! Form::select('title_id', $titles, old('title_id'), ['class' => 'form-control', 'id' => 'charTitle']) !!}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form-group" id="titleOptions">
+                    {!! Form::label('Extra Info/Custom Title (Optional)') !!} {!! add_help('If \'custom title\' is selected, this will be displayed as the title. If a preexisting title is selected, it will be displayed in addition to it. The short version is only used in the case of a custom title.') !!}
+                    <div class="d-flex">
+                        {!! Form::text('title_data[full]', null, ['class' => 'form-control mr-2', 'placeholder' => 'Full Title']) !!}
+                        @if(Settings::get('character_title_display'))
+                            {!! Form::text('title_data[short]', null, ['class' => 'form-control mr-2', 'placeholder' => 'Short Title (Optional)']) !!}
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+        @endif
+
         <div class="form-group">
             {!! Form::label('Traits') !!} @if ($isMyo)
                 {!! add_help(
@@ -254,13 +276,13 @@
             </div>
         </div>
 
-        @if ($stats)
+        
             <h3>Stats</h3>
             <p class="alert alert-info">If you want a character to have different stats from the default, set them here. Else, leave it as default</p>
             <div class="form-group" id="stats">
                 <p>Set species and/or subtype to edit stats.</p>
             </div>
-        @endif
+        
 
         <div class="text-right">
             {!! Form::submit('Create Character', ['class' => 'btn btn-primary']) !!}

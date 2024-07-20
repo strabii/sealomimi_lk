@@ -15,20 +15,32 @@
                     </a>
                 </div>
             @endif
+    @endif
+    
+    <div class="character-masterlist-categories">
+    @if(!$character->is_myo_slot)
+        {!! $character->category->displayName !!} ・ {!! $character->image->species->displayName !!} ・ {!! $character->image->rarity->displayName !!}
+        @if(Settings::get('character_title_display') && $character->image->hasTitle)
+            ・ "{!! $character->image->title_id ? $character->image->title->displayName : nl2br(htmlentities($character->image->title_data['full'])) !!}"
+        @endif
+    @else
+        MYO Slot @if($character->image->species_id) ・ {!! $character->image->species->displayName !!}@endif @if($character->image->rarity_id) ・ {!! $character->image->rarity->displayName !!}@endif
+    @endif
+    </div>
+    
+    <h1 class="mb-0">
+    @if(Config::get('lorekeeper.extensions.character_status_badges'))
+        <!-- character trade/gift status badges -->
+        <div class="float-right">
+            <span class="btn {{ $character->is_trading ? 'badge-success' : 'badge-danger' }} float-right ml-2" data-toggle="tooltip" title="{{ $character->is_trading ? 'OPEN for sale and trade offers.' : 'CLOSED for sale and trade offers.' }}"><i class="fas fa-comments-dollar"></i></span>
+            @if(!$character->is_myo_slot)
+                <span class="btn {{ $character->is_gift_writing_allowed == 1 ? 'badge-success' : ($character->is_gift_writing_allowed == 2 ? 'badge-warning text-light' : 'badge-danger') }} float-right ml-2" data-toggle="tooltip" title="{{ $character->is_gift_writing_allowed == 1 ? 'OPEN for gift writing.' : ($character->is_gift_writing_allowed == 2 ? 'PLEASE ASK before gift writing.' : 'CLOSED for gift writing.') }}"><i class="fas fa-file-alt"></i></span>
+                <span class="btn {{ $character->is_gift_art_allowed == 1 ? 'badge-success' : ($character->is_gift_art_allowed == 2 ? 'badge-warning text-light' : 'badge-danger') }} float-right ml-2" data-toggle="tooltip" title="{{ $character->is_gift_art_allowed == 1 ? 'OPEN for gift art.' : ($character->is_gift_art_allowed == 2 ? 'PLEASE ASK before gift art.' : 'CLOSED for gift art.') }}"><i class="fas fa-pencil-ruler"></i></span>
+            @endif
         </div>
     @endif
-@endif
-<div class="character-masterlist-categories">
-    @if (!$character->is_myo_slot)
-        {!! $character->category->displayName !!} ・ {!! $character->image->species->displayName !!} ・ {!! $character->image->rarity->displayName !!}
-    @else
-        MYO Slot @if ($character->image->species_id)
-            ・ {!! $character->image->species->displayName !!}
-            @endif @if ($character->image->rarity_id)
-                ・ {!! $character->image->rarity->displayName !!}
-            @endif
-        @endif
-</div>
+
+
 <h1 class="mb-0">
     @if (config('lorekeeper.extensions.character_status_badges'))
         <!-- character trade/gift status badges -->

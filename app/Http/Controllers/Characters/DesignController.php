@@ -17,6 +17,10 @@ use App\Services\DesignUpdateManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+// design name extension additions //
+use App\Models\Character\CharacterTitle;
+use App\Services\CharacterManager;
+
 class DesignController extends Controller {
     /**
      * Shows the index of character design update submissions.
@@ -221,11 +225,12 @@ class DesignController extends Controller {
         }
 
         return view('character.design.features', [
-            'request'   => $r,
-            'specieses' => ['0' => 'Select Species'] + Species::visible()->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'subtypes'  => ['0' => 'No Subtype'] + Subtype::visible()->where('species_id', '=', $r->species_id)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'rarities'  => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'features'  => Feature::getDropdownItems(),
+            'request' => $r,
+            'specieses' => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'subtypes' => ['0' => 'No Subtype'] + Subtype::where('species_id','=',$r->species_id)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'rarities' => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'titles' => ['0' => 'Select Title', 'custom' => 'Custom Title'] + CharacterTitle::orderBy('sort', 'DESC')->pluck('title', 'id')->toArray(),
+            'features' => Feature::orderBy('name')->pluck('name', 'id')->toArray()
         ]);
     }
 

@@ -9,6 +9,7 @@ use App\Models\Character\CharacterCategory;
 use App\Models\Character\CharacterTransfer;
 use App\Models\Feature\Feature;
 use App\Models\Rarity;
+use App\Models\Character\CharacterTitle;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
 use App\Models\Stat\Stat;
@@ -50,12 +51,12 @@ class CharacterController extends Controller {
         return view('admin.masterlist.create_character', [
             'categories'  => CharacterCategory::orderBy('sort')->get(),
             'userOptions' => User::query()->orderBy('name')->pluck('name', 'id')->toArray(),
-            'rarities'    => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'specieses'   => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'subtypes'    => ['0' => 'Pick a Species First'],
-            'features'    => Feature::getDropdownItems(1),
-            'isMyo'       => false,
-            'stats'       => Stat::orderBy('name')->get(),
+            'rarities' => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'titles' => ['0' => 'Select Design Name', 'custom' => 'Custom Design Name'] + CharacterTitle::orderBy('sort', 'DESC')->pluck('title', 'id')->toArray(),
+            'specieses' => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'subtypes' => ['0' => 'Pick a Species First'],
+            'features' => Feature::orderBy('name')->pluck('name', 'id')->toArray(),
+            'isMyo' => false
         ]);
     }
 
@@ -128,8 +129,8 @@ class CharacterController extends Controller {
             'x0', 'x1', 'y0', 'y1',
             'designer_id', 'designer_url',
             'artist_id', 'artist_url',
-            'species_id', 'subtype_id', 'rarity_id', 'feature_id', 'feature_data',
-            'image', 'thumbnail', 'image_description', 'stats',
+            'species_id', 'subtype_id', 'rarity_id', 'feature_id', 'feature_data', 'title_id', 'title_data',
+            'image', 'thumbnail', 'image_description'
         ]);
         if ($character = $service->createCharacter($data, Auth::user())) {
             flash('Character created successfully.')->success();

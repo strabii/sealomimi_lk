@@ -464,6 +464,7 @@ main > .row {
 .masterlist-search-field label {
     margin-bottom: 0px;
     margin-right: 10px;
+    text-align: left;
 }
 .masterlist-search-field input[type=text], .masterlist-search-field select {
     width: 300px;

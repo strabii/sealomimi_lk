@@ -18,6 +18,9 @@ use App\Models\Level\Level;
 use App\Models\Pet\Pet;
 use App\Models\Pet\PetCategory;
 use App\Models\Rarity;
+use App\Models\Character\CharacterTitle;
+use App\Models\Prompt\PromptCategory;
+use App\Models\Prompt\Prompt;
 use App\Models\Shop\Shop;
 use App\Models\Shop\ShopStock;
 use App\Models\Skill\Skill;
@@ -456,10 +459,33 @@ class WorldController extends Controller {
             'levels' => $levels->paginate(20),
             'type'   => $type,
         ]);
+        
     }
 
     /**
+     * Shows the design names page.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Contracts\Support\Renderable
+     *
+     *public function getCharacterTitles(Request $request)
+     *{
+     *    $query = CharacterTitle::query();
+     *    $title = $request->get('title');
+     *    $rarity = $request->get('rarity_id');
+     *    if($title) $query->where('title', 'LIKE', '%'.$title.'%');
+     *    if(isset($rarity) && $rarity != 'none')
+     *        $query->where('rarity_id', $rarity);
+     *
+     *    return view('world.character_titles', [
+     *        'titles' => $query->orderBy('sort', 'DESC')->paginate(20)->appends($request->query()),
+     *        'rarities' => ['none' => 'Any Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+     *    ]);
+     *}*/
+
+    /**
      * Shows the stats page.
+     * Shows the prompt categories page.
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */

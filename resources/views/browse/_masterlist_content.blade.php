@@ -1,92 +1,108 @@
 <div>
     {!! Form::open(['method' => 'GET']) !!}
     <div class="form-inline justify-content-end">
-        <div class="form-group mr-3 mb-3">
-            {!! Form::label('name', 'Character Name/Code: ', ['class' => 'mr-2']) !!}
+        <div class="form-group mr-2 mb-3">
+            {!! Form::label('name', 'Character Name: ', ['class' => 'mr-2']) !!}
             {!! Form::text('name', Request::get('name'), ['class' => 'form-control']) !!}
         </div>
-        <div class="form-group mb-3 mr-1">
-            {!! Form::select('rarity_id', $rarities, Request::get('rarity_id'), ['class' => 'form-control mr-2']) !!}
-        </div>
-        <div class="form-group mb-3">
-            {!! Form::select('species_id', $specieses, Request::get('species_id'), ['class' => 'form-control']) !!}
-        </div>
-    </div>
-    <div class="text-right mb-3"><a href="#advancedSearch" class="btn btn-sm btn-outline-info" data-toggle="collapse">Show Advanced Search Options <i class="fas fa-caret-down"></i></a></div>
-    <div class="card bg-light mb-3 collapse" id="advancedSearch">
-        <div class="card-body masterlist-advanced-search">
+        <div class="form-group mr-3 mb-3">
+            {!! Form::label('sort', 'Sort: ', ['class' => 'mr-2']) !!}
             @if (!$isMyo)
-                <div class="masterlist-search-field">
-                    {!! Form::label('character_category_id', 'Category: ') !!}
-                    {!! Form::select('character_category_id', $categories, Request::get('character_category_id'), ['class' => 'form-control mr-2', 'style' => 'width: 250px']) !!}
-                </div>
-                <div class="masterlist-search-field">
-                    {!! Form::label('subtype_id', 'Species Subtype: ') !!}
-                    {!! Form::select('subtype_id', $subtypes, Request::get('subtype_id'), ['class' => 'form-control mr-2', 'style' => 'width: 250px']) !!}
-                </div>
-                <hr />
+                {!! Form::select(
+                    'sort',
+                    ['number_desc' => 'Number Descending', 'number_asc' => 'Number Ascending', 'id_desc' => 'Newest First', 'id_asc' => 'Oldest First', 'sale_value_desc' => 'Highest Sale Value', 'sale_value_asc' => 'Lowest Sale Value'],
+                    Request::get('sort'),
+                    ['class' => 'form-control'],
+                ) !!}
+            @else
+                {!! Form::select('sort', ['id_desc' => 'Newest First', 'id_asc' => 'Oldest First', 'sale_value_desc' => 'Highest Sale Value', 'sale_value_asc' => 'Lowest Sale Value'], Request::get('sort'), ['class' => 'form-control']) !!}
             @endif
+        </div>
+        <div class="text-right mb-3"><a href="#advancedSearch" class="btn btn-outline-info" data-toggle="collapse">Filter <i class="fas fa-caret-down"></i></a></div>
+        <div class="card bg-light mb-3 collapse" id="advancedSearch" style="width:100%;">
+            <div class="card-body masterlist-advanced-search">
+                @if(!$isMyo)
+                    <div class="masterlist-search-field">
+                        {!! Form::label('character_category_id', 'Category: ') !!}
+                        {!! Form::select('character_category_id', $categories, Request::get('character_category_id'), ['class' => 'form-control']) !!}
+                    </div>
+                    <div class="masterlist-search-field">
+                        {!! Form::label('subtype_id', 'Species Subtype: ') !!}
+                        {!! Form::select('subtype_id', $subtypes, Request::get('subtype_id'), ['class' => 'form-control']) !!}
+                    </div>
+                    <!--<div class="masterlist-search-field">
+                        {!! Form::label('title_id', 'Design Name: ') !!}
+                        {!! Form::select('title_id', $titles, Request::get('title_id'), ['class' => 'form-control', 'id' => 'customTitle']) !!}
+                    </div>-->
+                    <div class="masterlist-search-field" id="customTitleOptions">
+                        {!! Form::label('title_data', 'Design Name: ') !!}
+                        {!! Form::text('title_data', Request::get('title_data'), ['class' => 'form-control', 'style' => 'max-width: 250px', 'placeholder' => 'Enter a Design Name']) !!}
+                    </div>
+                    
+                <hr/>
+                @endif
+            
             <div class="masterlist-search-field">
                 {!! Form::label('owner', 'Owner Username: ') !!}
-                {!! Form::select('owner', $userOptions, Request::get('owner'), ['class' => 'form-control mr-2 userselectize', 'style' => 'width: 250px', 'placeholder' => 'Select a User']) !!}
+                {!! Form::select('owner', $userOptions, Request::get('owner'), ['class' => 'form-control mr-2 userselectize', 'style' => 'max-width: 250px', 'placeholder' => 'Select a User']) !!}
             </div>
             <div class="masterlist-search-field">
                 {!! Form::label('artist', 'Artist: ') !!}
-                {!! Form::select('artist', $userOptions, Request::get('artist'), ['class' => 'form-control mr-2 userselectize', 'style' => 'width: 250px', 'placeholder' => 'Select a User']) !!}
+                {!! Form::select('artist', $userOptions, Request::get('artist'), ['class' => 'form-control mr-2 userselectize', 'style' => 'max-width: 250px', 'placeholder' => 'Select a User']) !!}
             </div>
             <div class="masterlist-search-field">
                 {!! Form::label('designer', 'Designer: ') !!}
-                {!! Form::select('designer', $userOptions, Request::get('designer'), ['class' => 'form-control mr-2 userselectize', 'style' => 'width: 250px', 'placeholder' => 'Select a User']) !!}
+                {!! Form::select('designer', $userOptions, Request::get('designer'), ['class' => 'form-control mr-2 userselectize', 'style' => 'max-width: 250px', 'placeholder' => 'Select a User']) !!}
             </div>
             <hr />
             <div class="masterlist-search-field">
-                {!! Form::label('owner_url', 'Owner URL / Username: ') !!} {!! add_help('Example: https://deviantart.com/username OR username') !!}
-                {!! Form::text('owner_url', Request::get('owner_url'), ['class' => 'form-control mr-2', 'style' => 'width: 250px', 'placeholder' => 'Type a Username']) !!}
+                {!! Form::label('owner_url', 'Owner Username: ') !!} {!! add_help('eg: username OR https://toyhou.se/username') !!}
+                {!! Form::text('owner_url', Request::get('owner_url'), ['class' => 'form-control mr-2', 'style' => 'max-width: 200px', 'placeholder' => 'Type a Username']) !!}
             </div>
             <div class="masterlist-search-field">
-                {!! Form::label('artist_url', 'Artist URL / Username: ') !!} {!! add_help('Example: https://deviantart.com/username OR username') !!}
-                {!! Form::text('artist_url', Request::get('artist_url'), ['class' => 'form-control mr-2', 'style' => 'width: 250px', 'placeholder' => 'Type a Username']) !!}
+                {!! Form::label('artist_url', 'Artist Username: ') !!} {!! add_help('eg: username OR https://toyhou.se/username') !!}
+                {!! Form::text('artist_url', Request::get('artist_url'), ['class' => 'form-control mr-2', 'style' => 'max-width: 200px', 'placeholder' => 'Type a Username']) !!}
             </div>
             <div class="masterlist-search-field">
-                {!! Form::label('designer_url', 'Designer URL / Username: ') !!} {!! add_help('Example: https://deviantart.com/username OR username') !!}
-                {!! Form::text('designer_url', Request::get('designer_url'), ['class' => 'form-control mr-2', 'style' => 'width: 250px', 'placeholder' => 'Type a Username']) !!}
+                {!! Form::label('designer_url', 'Designer Username: ') !!} {!! add_help('eg: username OR https://toyhou.se/username') !!}
+                {!! Form::text('designer_url', Request::get('designer_url'), ['class' => 'form-control mr-2', 'style' => 'max-width: 200px', 'placeholder' => 'Type a Username']) !!}
             </div>
             <hr />
             <div class="masterlist-search-field">
-                {!! Form::label('sale_value_min', 'Resale Minimum ($): ') !!}
-                {!! Form::text('sale_value_min', Request::get('sale_value_min'), ['class' => 'form-control mr-2', 'style' => 'width: 250px']) !!}
+                {!! Form::label('sale_value_min', 'Resale Min ($): ') !!}
+                {!! Form::text('sale_value_min', Request::get('sale_value_min'), ['class' => 'form-control mr-2', 'style' => 'max-width: 100px']) !!}
             </div>
             <div class="masterlist-search-field">
-                {!! Form::label('sale_value_max', 'Resale Maximum ($): ') !!}
-                {!! Form::text('sale_value_max', Request::get('sale_value_max'), ['class' => 'form-control mr-2', 'style' => 'width: 250px']) !!}
+                {!! Form::label('sale_value_max', 'Resale Max ($): ') !!}
+                {!! Form::text('sale_value_max', Request::get('sale_value_max'), ['class' => 'form-control mr-2', 'style' => 'max-width: 100px']) !!}
             </div>
             @if (!$isMyo)
                 <div class="masterlist-search-field">
-                    {!! Form::label('is_gift_art_allowed', 'Gift Art Status: ') !!}
-                    {!! Form::select('is_gift_art_allowed', [0 => 'Any', 2 => 'Ask First', 1 => 'Yes', 3 => 'Yes OR Ask First'], Request::get('is_gift_art_allowed'), ['class' => 'form-control', 'style' => 'width: 250px']) !!}
+                    {!! Form::label('is_gift_art_allowed', 'Gift Art OK? ') !!}
+                    {!! Form::select('is_gift_art_allowed', [0 => 'Any', 2 => 'Ask First', 1 => 'Yes', 3 => 'Yes OR Ask First'], Request::get('is_gift_art_allowed'), ['class' => 'form-control', 'style' => 'max-width: 200px']) !!}
                 </div>
                 <div class="masterlist-search-field">
-                    {!! Form::label('is_gift_writing_allowed', 'Gift Writing Status: ') !!}
-                    {!! Form::select('is_gift_writing_allowed', [0 => 'Any', 2 => 'Ask First', 1 => 'Yes', 3 => 'Yes OR Ask First'], Request::get('is_gift_writing_allowed'), ['class' => 'form-control', 'style' => 'width: 250px']) !!}
+                    {!! Form::label('is_gift_writing_allowed', 'Gift Writing OK? ') !!}
+                    {!! Form::select('is_gift_writing_allowed', [0 => 'Any', 2 => 'Ask First', 1 => 'Yes', 3 => 'Yes OR Ask First'], Request::get('is_gift_writing_allowed'), ['class' => 'form-control', 'style' => 'max-width: 200px']) !!}
                 </div>
             @endif
             <br />
             {{-- Setting the width and height on the toggles as they don't seem to calculate correctly if the div is collapsed. --}}
             <div class="masterlist-search-field">
-                {!! Form::checkbox('is_trading', 1, Request::get('is_trading'), ['class' => 'form-check-input', 'data-toggle' => 'toggle', 'data-on' => 'Open For Trade', 'data-off' => 'Any Trading Status', 'data-width' => '200', 'data-height' => '46']) !!}
+                {!! Form::checkbox('is_trading', 1, Request::get('is_trading'), ['class' => 'form-check-input', 'data-toggle' => 'toggle', 'data-on' => 'Open For Trade', 'data-off' => 'Any Trade Status', 'data-width' => '150', 'data-height' => '46']) !!}
             </div>
             <div class="masterlist-search-field">
-                {!! Form::checkbox('is_sellable', 1, Request::get('is_sellable'), ['class' => 'form-check-input', 'data-toggle' => 'toggle', 'data-on' => 'Can Be Sold', 'data-off' => 'Any Sellable Status', 'data-width' => '204', 'data-height' => '46']) !!}
+                {!! Form::checkbox('is_sellable', 1, Request::get('is_sellable'), ['class' => 'form-check-input', 'data-toggle' => 'toggle', 'data-on' => 'Can Be Sold', 'data-off' => 'Any Sellable Status', 'data-width' => '150', 'data-height' => '46']) !!}
             </div>
             <div class="masterlist-search-field">
-                {!! Form::checkbox('is_tradeable', 1, Request::get('is_tradeable'), ['class' => 'form-check-input', 'data-toggle' => 'toggle', 'data-on' => 'Can Be Traded', 'data-off' => 'Any Tradeable Status', 'data-width' => '220', 'data-height' => '46']) !!}
+                {!! Form::checkbox('is_tradeable', 1, Request::get('is_tradeable'), ['class' => 'form-check-input', 'data-toggle' => 'toggle', 'data-on' => 'Can Be Traded', 'data-off' => 'Any Tradeable Status', 'data-width' => '150', 'data-height' => '46']) !!}
             </div>
             <div class="masterlist-search-field">
-                {!! Form::checkbox('is_giftable', 1, Request::get('is_giftable'), ['class' => 'form-check-input', 'data-toggle' => 'toggle', 'data-on' => 'Can Be Gifted', 'data-off' => 'Any Giftable Status', 'data-width' => '202', 'data-height' => '46']) !!}
+                {!! Form::checkbox('is_giftable', 1, Request::get('is_giftable'), ['class' => 'form-check-input', 'data-toggle' => 'toggle', 'data-on' => 'Can Be Gifted', 'data-off' => 'Any Giftable Status', 'data-width' => '150', 'data-height' => '46']) !!}
             </div>
             <hr />
-            <a href="#" class="float-right btn btn-sm btn-outline-primary add-feature-button">Add Trait</a>
-            {!! Form::label('Has Traits: ') !!} {!! add_help('This will narrow the search to characters that have ALL of the selected traits at the same time.') !!}
+            {!! add_help('This will narrow the search to characters that have ALL of the selected traits at the same time.') !!} <a href="#" class="float-right btn btn-sm btn-outline-primary add-feature-button">Add Trait</a>
+            {!! Form::label('Has Traits: ') !!}
             <div id="featureBody" class="row w-100">
                 @if (Request::get('feature_id'))
                     @foreach (Request::get('feature_id') as $featureId)
@@ -112,20 +128,7 @@
         </div>
 
     </div>
-    <div class="form-inline justify-content-end mb-3">
-        <div class="form-group mr-3">
-            {!! Form::label('sort', 'Sort: ', ['class' => 'mr-2']) !!}
-            @if (!$isMyo)
-                {!! Form::select(
-                    'sort',
-                    ['number_desc' => 'Number Descending', 'number_asc' => 'Number Ascending', 'id_desc' => 'Newest First', 'id_asc' => 'Oldest First', 'sale_value_desc' => 'Highest Sale Value', 'sale_value_asc' => 'Lowest Sale Value'],
-                    Request::get('sort'),
-                    ['class' => 'form-control'],
-                ) !!}
-            @else
-                {!! Form::select('sort', ['id_desc' => 'Newest First', 'id_asc' => 'Oldest First', 'sale_value_desc' => 'Highest Sale Value', 'sale_value_asc' => 'Lowest Sale Value'], Request::get('sort'), ['class' => 'form-control']) !!}
-            @endif
-        </div>
+    <div class="form-inline justify-content-end ml-2 mb-3">
         {!! Form::submit('Search', ['class' => 'btn btn-primary']) !!}
     </div>
     {!! Form::close() !!}
@@ -167,6 +170,17 @@
                         {!! $character->image->species_id ? $character->image->species->displayName : 'No Species' !!} ・ {!! $character->image->rarity_id ? $character->image->rarity->displayName : 'No Rarity' !!} ・ {!! $character->displayOwner !!}
                     </div>
                 </div>
+                <div class="mt-1">
+                    <a href="{{ $character->url }}" class="h5 mb-0">@if(!$character->is_visible) <i class="fas fa-eye-slash"></i> @endif {{ $character->fullName }}</a>
+                </div>
+                <div class="small">
+                    {!! $character->image->species_id ? $character->image->species->displayName : 'No Species' !!} ・ {!! $character->image->rarity_id ? $character->image->rarity->displayName : 'No Rarity' !!}
+                    @if(Settings::get('character_title_display') && $character->image->hasTitle)
+                        ・ {!! $character->image->title_id ? $character->image->title->displayNameShort : (isset($character->image->title_data['short']) ? nl2br(htmlentities($character->image->title_data['short'])) : nl2br(htmlentities($character->image->title_data['full']))) !!}
+                    @endif
+                     ・ {!! $character->displayOwner !!}
+                </div>
+            </div>
             @endforeach
         </div>
     @endforeach
@@ -179,6 +193,9 @@
                 <th>Name</th>
                 <th>Rarity</th>
                 <th>Species</th>
+                @if(Settings::get('character_title_display'))
+                    <th>Title</th>
+                @endif
                 <th>Created</th>
             </tr>
         </thead>
@@ -193,6 +210,9 @@
                     </td>
                     <td>{!! $character->image->rarity_id ? $character->image->rarity->displayName : 'None' !!}</td>
                     <td>{!! $character->image->species_id ? $character->image->species->displayName : 'None' !!}</td>
+                    @if(Settings::get('character_title_display'))
+                        <td>{!! $character->image->hasTitle ? ($character->image->title_id ? $character->image->title->displayNameShort : (isset($character->image->title_data['short']) ? nl2br(htmlentities($character->image->title_data['short'])) : nl2br(htmlentities($character->image->title_data['full'])))) : 'None' !!}</td>
+                    @endif
                     <td>{!! format_date($character->created_at) !!}</td>
                 </tr>
             @endforeach
