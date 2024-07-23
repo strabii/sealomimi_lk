@@ -14,10 +14,10 @@ class CharacterTitleService extends Service
 {
     /*
     |--------------------------------------------------------------------------
-    | Design Name Service
+    | Title Service
     |--------------------------------------------------------------------------
     |
-    | Handles the creation and editing of design names.
+    | Handles the creation and editing of Titles.
     |
     */
 

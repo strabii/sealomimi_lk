@@ -87,7 +87,7 @@
                     <div>{!! $currency->display($currency->quantity) !!}</div>
                 @endforeach
             </div>
-            <div class="text-right"><a href="{{ $user->url . '/bank' }}">View all...</a></div>
+            <div class="text-right"><a href="{{ $user->url . '/bank' }}">[view all]</a></div>
         </div>
     </div>
     <div class="card profile-inventory profile-assets-card">
@@ -110,7 +110,7 @@
                     <div>No items owned.</div>
                 @endif
             </div>
-            <div class="text-right"><a href="{{ $user->url . '/inventory' }}">View all...</a></div>
+            <div class="text-right"><a href="{{ $user->url . '/inventory' }}">[view all]</a></div>
         </div>
     </div>
 </div>
@@ -134,7 +134,7 @@
                     <div>No pets owned.</div>
                 @endif
             </div>
-            <div class="text-right"><a href="{{ $user->url . '/pets' }}">View all...</a></div>
+            <div class="text-right"><a href="{{ $user->url . '/pets' }}">[view all]</a></div>
         </div>
     </div>
     <div class="card profile-inventory profile-assets-card">
@@ -157,13 +157,13 @@
                     <div>No weapons or gear owned.</div>
                 @endif
             </div>
-            <div class="text-right"><a href="{{ $user->url . '/armoury' }}">View all...</a></div>
+            <div class="text-right"><a href="{{ $user->url . '/armoury' }}">[view all]</a></div>
         </div>
     </div>
 </div>
 
 <h2>
-    <a href="{{ $user->url . '/characters' }}">Characters</a>
+    <a href="{{ $user->url . '/characters' }}">Sealomimis</a>
     @if (isset($sublists) && $sublists->count() > 0)
         @foreach ($sublists as $sublist)
             / <a href="{{ $user->url . '/sublist/' . $sublist->key }}">{{ $sublist->name }}</a>
@@ -190,21 +190,21 @@
     </div>
 @endforeach
 
-<div class="text-right"><a href="{{ $user->url . '/characters' }}">View all...</a></div>
+<div class="text-right"><a href="{{ $user->url . '/characters' }}">[view all]</a></div>
 <hr class="mb-5" />
 
-<div class="row col-12">
-    <div class="col-md-8">
+<div class="row">
+    <div class="col-12">
 
         @comments(['model' => $user->profile, 'perPage' => 5])
 
     </div>
-    <div class="col-md-4">
+    <div class="col-12">
         <div class="card mb-4">
             <div class="card-header">
-                <h5>Mention This User</h5>
+            <a href="#mentionspoiler" data-toggle="collapse"><h5>Mention This User<i class="fas fa-caret-down ml-2"></i></h5></a>
             </div>
-            <div class="card-body">
+            <div class="card-body collapse" id="mentionspoiler">
                 In the rich text editor:
                 <div class="alert alert-secondary">
                     {{ '@' . $user->name }}
@@ -223,7 +223,7 @@
                 <div class="alert alert-secondary">
                     [![{{ $user->name }}'s Avatar]({{ $user->avatarUrl }})]({{ $user->url }}) [{{ $user->name }}]({{ $user->url }})
                 </div>
-            </div>
+            
             @if (Auth::check() && Auth::user()->isStaff)
                 <div class="card-footer">
                     <h5>[ADMIN]</h5>
@@ -237,6 +237,7 @@
                     </div>
                 </div>
             @endif
+            </div>
         </div>
     </div>
 </div>

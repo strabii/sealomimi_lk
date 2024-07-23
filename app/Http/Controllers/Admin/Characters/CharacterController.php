@@ -52,7 +52,7 @@ class CharacterController extends Controller {
             'categories'  => CharacterCategory::orderBy('sort')->get(),
             'userOptions' => User::query()->orderBy('name')->pluck('name', 'id')->toArray(),
             'rarities' => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'titles' => ['0' => 'Select Design Name', 'custom' => 'Custom Design Name'] + CharacterTitle::orderBy('sort', 'DESC')->pluck('title', 'id')->toArray(),
+            'titles' => ['0' => 'Select Title', 'custom' => 'Custom Title'] + CharacterTitle::orderBy('sort', 'DESC')->pluck('title', 'id')->toArray(),
             'specieses' => ['0' => 'Select Species'] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
             'subtypes' => ['0' => 'Pick a Species First'],
             'features' => Feature::orderBy('name')->pluck('name', 'id')->toArray(),

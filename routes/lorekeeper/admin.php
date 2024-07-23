@@ -118,7 +118,7 @@ Route::group(['prefix' => 'data', 'namespace' => 'Data', 'middleware' => 'power:
     Route::post('rarities/delete/{id}', 'RarityController@postDeleteRarity');
     Route::post('rarities/sort', 'RarityController@postSortRarity');
 
-    # DESIGN NAMES
+    # TITLES
     Route::get('character-titles', 'CharacterTitleController@getIndex');
     Route::get('character-titles/create', 'CharacterTitleController@getCreateTitle');
     Route::get('character-titles/edit/{id}', 'CharacterTitleController@getEditTitle');

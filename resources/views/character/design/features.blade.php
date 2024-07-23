@@ -54,7 +54,7 @@
             <div class="row no-gutters">
                 <div class="col-md-6 pr-2">
                     <div class="form-group">
-                        {!! Form::label('Design Name') !!}
+                        {!! Form::label('Title') !!}
                         {!! Form::select('title_id', $titles, $request->title_id ?? (isset($request->title_data) ? 'custom' : ($request->character->image->title_data ? 'custom' : null)), ['class' => 'form-control', 'id' => 'charTitle']) !!}
                     </div>
                 </div>

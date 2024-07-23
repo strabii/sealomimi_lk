@@ -30,13 +30,13 @@
                         {!! Form::label('subtype_id', 'Species Subtype: ') !!}
                         {!! Form::select('subtype_id', $subtypes, Request::get('subtype_id'), ['class' => 'form-control']) !!}
                     </div>
-                    <!--<div class="masterlist-search-field">
-                        {!! Form::label('title_id', 'Design Name: ') !!}
+                    <div class="masterlist-search-field">
+                        {!! Form::label('title_id', 'Title: ') !!}
                         {!! Form::select('title_id', $titles, Request::get('title_id'), ['class' => 'form-control', 'id' => 'customTitle']) !!}
-                    </div>-->
-                    <div class="masterlist-search-field"> <!--id="customTitleOptions"-->
-                        {!! Form::label('title_data', 'Design Name: ') !!}
-                        {!! Form::text('title_data', Request::get('title_data'), ['class' => 'form-control', 'style' => 'max-width: 250px', 'placeholder' => 'Type a Design Name']) !!}
+                    </div>
+                    <div class="masterlist-search-field" id="customTitleOptions">
+                        {!! Form::label('title_data', 'Custom Title: ') !!}
+                        {!! Form::text('title_data', Request::get('title_data'), ['class' => 'form-control', 'style' => 'max-width: 250px', 'placeholder' => 'Type a Title']) !!}
                     </div>
                     
                 <hr/>
@@ -128,11 +128,12 @@
         </div>
 
     </div>
-    <div class="form-inline justify-content-end ml-2 mb-3">
+</div>
+    <div class="form-inline justify-content-end mb-3">
         {!! Form::submit('Search', ['class' => 'btn btn-primary']) !!}
     </div>
     {!! Form::close() !!}
-</div>
+
 <div class="hide" id="featureContent">
     <div class="feature-block col-md-4 col-sm-6 mt-3 p-1">
         <div class="card">

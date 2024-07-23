@@ -189,7 +189,7 @@ return [
                 'url'  => 'admin/data/traits',
             ],
             [
-                'name' => 'Design Names',
+                'name' => 'Titles',
                 'url' => 'admin/data/character-titles'
             ],
             [

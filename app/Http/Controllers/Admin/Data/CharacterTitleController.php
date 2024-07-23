@@ -16,10 +16,10 @@ class CharacterTitleController extends Controller
 {
     /*
     |--------------------------------------------------------------------------
-    | Admin / Design Names Controller
+    | Admin / Titles Controller
     |--------------------------------------------------------------------------
     |
-    | Handles creation/editing of design names.
+    | Handles creation/editing of titles.
     |
     */
 
@@ -125,7 +125,7 @@ class CharacterTitleController extends Controller
     }
 
     /**
-     * Sorts design names.
+     * Sorts Titles.
      *
      * @param  \Illuminate\Http\Request    $request
      * @param  App\Services\CharacterTitleService  $service

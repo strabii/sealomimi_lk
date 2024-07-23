@@ -1,17 +1,17 @@
 @extends('admin.layout')
 
-@section('admin-title') Design Names @endsection
+@section('admin-title') Titles @endsection
 
 @section('admin-content')
-{!! breadcrumbs(['Admin Panel' => 'admin', 'Design Names' => 'admin/data/character-titles']) !!}
+{!! breadcrumbs(['Admin Panel' => 'admin', 'Titles' => 'admin/data/character-titles']) !!}
 
-<h1>Design Names</h1>
+<h1>Titles</h1>
 
-<p>This is a list of design names that can be applied to characters. Design names are optional, and pre-set design names may be created here for ease of use, or custom design names can be given to individual characters when editing their traits, etc.</p>
+<p>This is a list of titles that can be applied to characters. Titles are optional, and pre-set titles may be created here for ease of use, or custom titles can be given to individual characters when editing their traits, etc.</p>
 
-<div class="text-right mb-3"><a class="btn btn-primary" href="{{ url('admin/data/character-titles/create') }}"><i class="fas fa-plus"></i> Create New Design Name</a></div>
+<div class="text-right mb-3"><a class="btn btn-primary" href="{{ url('admin/data/character-titles/create') }}"><i class="fas fa-plus"></i> Create New Title</a></div>
 @if(!count($titles))
-    <p>No design names found.</p>
+    <p>No titles found.</p>
 @else
     <table class="table table-sm title-table">
         <tbody id="sortable" class="sortable">

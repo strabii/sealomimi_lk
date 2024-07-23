@@ -17,7 +17,7 @@ use App\Services\DesignUpdateManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-// design name extension additions //
+// Titles extension additions //
 use App\Models\Character\CharacterTitle;
 use App\Services\CharacterManager;
 

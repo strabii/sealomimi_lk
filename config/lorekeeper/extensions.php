@@ -66,7 +66,7 @@ return [
 
     // Auto-populate New Image Traits - Mercury
     // Automatically adds the traits present on a character's active image to the list when uploading a new image for an extant character.
-    'autopopulate_image_features'          => 1,
+    'autopopulate_image_features'          => 0,
 
     // Staff Rewards - Mercury
     'staff_rewards'                        => [

@@ -1,9 +1,9 @@
 @extends('admin.layout')
 
-@section('admin-title') Design Names @endsection
+@section('admin-title') Titles @endsection
 
 @section('admin-content')
-{!! breadcrumbs(['Admin Panel' => 'admin', 'Design Names' => 'admin/data/character-titles', ($title->id ? 'Edit' : 'Create').' Title' => $title->id ? 'admin/data/character-titles/edit/'.$title->id : 'admin/data/character-titles/create']) !!}
+{!! breadcrumbs(['Admin Panel' => 'admin', 'Titles' => 'admin/data/character-titles', ($title->id ? 'Edit' : 'Create').' Title' => $title->id ? 'admin/data/character-titles/edit/'.$title->id : 'admin/data/character-titles/create']) !!}
 
 <h1>{{ $title->id ? 'Edit' : 'Create' }} Title
     @if($title->id)

@@ -463,7 +463,7 @@ class WorldController extends Controller {
     }
 
     /**
-     * Shows the design names page.
+     * Shows the Titles page.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\Support\Renderable

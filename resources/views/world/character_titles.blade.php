@@ -1,10 +1,10 @@
 @extends('world.layout')
 
-@section('title') Design Names @endsection
+@section('title') Titles @endsection
 
 @section('content')
-{!! breadcrumbs(['World' => 'world', 'Design Names' => 'world/character-titles']) !!}
-<h1>Design Names</h1>
+{!! breadcrumbs(['World' => 'world', 'Titles' => 'world/character-titles']) !!}
+<h1>Titles</h1>
 
 <div>
     {!! Form::open(['method' => 'GET', 'class' => 'form-inline justify-content-end']) !!}

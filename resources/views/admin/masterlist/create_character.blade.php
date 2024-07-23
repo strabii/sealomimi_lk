@@ -242,7 +242,7 @@
         <div class="row no-gutters">
             <div class="col-md-6 pr-2">
                 <div class="form-group">
-                    {!! Form::label('Design Name') !!}
+                    {!! Form::label('Title') !!}
                     {!! Form::select('title_id', $titles, old('title_id'), ['class' => 'form-control', 'id' => 'charTitle']) !!}
                 </div>
             </div>
