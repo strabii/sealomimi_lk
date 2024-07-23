@@ -25,6 +25,11 @@
     </div>
 @endif
 
+    <div class="form-group">
+        {!! Form::label('Design Name') !!} {!! add_help('Add a custom design name or design theme. Optional.') !!}
+        {!! Form::text('design_name', $character->design_name, ['class' => 'form-control']) !!}
+    </div>
+
 <div class="alert alert-info">
     These are displayed on the character's profile, but don't have any effect on site functionality except for the following:
     <ul>

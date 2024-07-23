@@ -129,7 +129,7 @@ class CharacterController extends Controller {
             'x0', 'x1', 'y0', 'y1',
             'designer_id', 'designer_url',
             'artist_id', 'artist_url',
-            'species_id', 'subtype_id', 'rarity_id', 'feature_id', 'feature_data', 'title_id', 'title_data',
+            'species_id', 'subtype_id', 'rarity_id', 'feature_id', 'feature_data', 'title_id', 'title_data', 'design_name',
             'image', 'thumbnail', 'image_description'
         ]);
         if ($character = $service->createCharacter($data, Auth::user())) {
@@ -161,7 +161,7 @@ class CharacterController extends Controller {
             'x0', 'x1', 'y0', 'y1',
             'designer_id', 'designer_url',
             'artist_id', 'artist_url',
-            'species_id', 'subtype_id', 'rarity_id', 'feature_id', 'feature_data',
+            'species_id', 'subtype_id', 'rarity_id', 'feature_id', 'feature_data', 'design_name',
             'image', 'thumbnail', 'stats',
         ]);
         if ($character = $service->createCharacter($data, Auth::user(), true)) {
@@ -232,7 +232,7 @@ class CharacterController extends Controller {
         $data = $request->only([
             'character_category_id', 'number', 'slug',
             'is_giftable', 'is_tradeable', 'is_sellable', 'sale_value',
-            'transferrable_at',
+            'transferrable_at', 'design_name',
         ]);
         $this->character = Character::where('slug', $slug)->first();
         if (!$this->character) {
@@ -264,7 +264,7 @@ class CharacterController extends Controller {
         $data = $request->only([
             'name',
             'is_giftable', 'is_tradeable', 'is_sellable', 'sale_value',
-            'transferrable_at',
+            'transferrable_at', 'design_name',
         ]);
         $this->character = Character::where('is_myo_slot', 1)->where('id', $id)->first();
         if (!$this->character) {

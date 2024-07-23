@@ -7,7 +7,7 @@
             <div class="mb-2 d-flex">
                 {!! Form::select('designer_id[' . $designer->id . ']', $users, $designer->user_id, ['class' => 'form-control mr-2 selectize', 'placeholder' => 'Select a Designer']) !!}
                 {!! Form::text('designer_url[' . $designer->id . ']', $designer->url, ['class' => 'form-control mr-2', 'placeholder' => 'Designer URL']) !!}
-
+                <a href="#" class="remove-feature btn btn-danger mb-2">×</a>
                 <a href="#" class="add-designer btn btn-link" data-toggle="tooltip" title="Add another designer" @if ($count != $designerCount - 1) style="visibility: hidden;" @endif>+</a>
             </div>
         @endforeach
@@ -15,7 +15,7 @@
             <div class="mb-2 d-flex">
                 {!! Form::select('designer_id[]', $users, null, ['class' => 'form-control mr-2 selectize', 'placeholder' => 'Select a Designer']) !!}
                 {!! Form::text('designer_url[]', null, ['class' => 'form-control mr-2', 'placeholder' => 'Designer URL']) !!}
-
+                <a href="#" class="remove-feature btn btn-danger mb-2">×</a>
                 <a href="#" class="add-designer btn btn-link" data-toggle="tooltip" title="Add another designer">+</a>
             </div>
         @endif
@@ -23,6 +23,7 @@
     <div class="designer-row hide mb-2">
         {!! Form::select('designer_id[]', $users, null, ['class' => 'form-control mr-2 designer-select', 'placeholder' => 'Select a Designer']) !!}
         {!! Form::text('designer_url[]', null, ['class' => 'form-control mr-2', 'placeholder' => 'Designer URL']) !!}
+        <a href="#" class="remove-feature btn btn-danger mb-2">×</a>
         <a href="#" class="add-designer btn btn-link" data-toggle="tooltip" title="Add another designer">+</a>
     </div>
 </div>
@@ -34,6 +35,7 @@
             <div class="mb-2 d-flex">
                 {!! Form::select('artist_id[' . $artist->id . ']', $users, $artist->user_id, ['class' => 'form-control mr-2 selectize', 'placeholder' => 'Select an Artist']) !!}
                 {!! Form::text('artist_url[' . $artist->id . ']', $artist->url, ['class' => 'form-control mr-2', 'placeholder' => 'Artist URL']) !!}
+                <a href="#" class="remove-feature btn btn-danger mb-2">×</a>
                 <a href="#" class="add-artist btn btn-link" data-toggle="tooltip" title="Add another artist" @if ($count != $artistCount - 1) style="visibility: hidden;" @endif>+</a>
             </div>
         @endforeach
@@ -41,6 +43,7 @@
             <div class="mb-2 d-flex">
                 {!! Form::select('artist_id[]', $users, null, ['class' => 'form-control mr-2 selectize', 'placeholder' => 'Select an Artist']) !!}
                 {!! Form::text('artist_url[]', null, ['class' => 'form-control mr-2', 'placeholder' => 'Artist URL']) !!}
+                <a href="#" class="remove-feature btn btn-danger mb-2">×</a>
                 <a href="#" class="add-artist btn btn-link" data-toggle="tooltip" title="Add another artist">+</a>
             </div>
         @endif
@@ -48,6 +51,7 @@
     <div class="artist-row hide mb-2">
         {!! Form::select('artist_id[]', $users, null, ['class' => 'form-control mr-2 artist-select', 'placeholder' => 'Select an Artist']) !!}
         {!! Form::text('artist_url[]', null, ['class' => 'form-control mr-2', 'placeholder' => 'Artist URL']) !!}
+        <a href="#" class="remove-feature btn btn-danger mb-2">×</a>
         <a href="#" class="add-artist btn btn-link mb-2" data-toggle="tooltip" title="Add another artist">+</a>
     </div>
 </div>
@@ -99,5 +103,28 @@
             });
             $clone.find('.artist-select').selectize();
         }
+
+        $('.remove-feature').on('click', function(e) {
+            e.preventDefault();
+            removeFeatureRow($(this));
+        })
+
+        function addFeatureRow() {
+            var $clone = $('.feature-row').clone();
+            $('#featureList').append($clone);
+            $clone.removeClass('hide feature-row');
+            $clone.addClass('d-flex');
+            $clone.find('.remove-feature').on('click', function(e) {
+                e.preventDefault();
+                removeFeatureRow($(this));
+            })
+            $clone.find('.feature-select').selectize();
+            attachTypeChangeListener($clone.find('.type'));
+        }
+
+        function removeFeatureRow($trigger) {
+            $trigger.parent().remove();
+        }
+
     });
 </script>

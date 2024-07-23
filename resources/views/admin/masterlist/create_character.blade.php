@@ -238,6 +238,11 @@
             {!! Form::select('rarity_id', $rarities, old('rarity_id'), ['class' => 'form-control']) !!}
         </div>
 
+        <div class="form-group">
+            {!! Form::label('Design Name (Optional)') !!}
+            {!! Form::text('design_name', null, old('design_name'), ['class' => 'form-control']) !!}
+        </div>
+
         @if(!$isMyo)
         <div class="row no-gutters">
             <div class="col-md-6 pr-2">

@@ -26,6 +26,11 @@
 </div>
 
 <div class="form-group">
+    {!! Form::label('Design Name') !!} {!! add_help('Add a cosmetic design theme or design name. Optional') !!}
+    {!! Form::text('design_name', $request->character->design_name, ['class' => 'form-control']) !!}
+</div>
+
+<div class="form-group">
     {!! Form::label('Description (Optional)') !!} {!! add_help('This section is for making additional notes about the character and is separate from the character\'s profile (this is not editable by the user).') !!}
     {!! Form::textarea('description', $request->character->description, ['class' => 'form-control wysiwyg']) !!}
 </div>

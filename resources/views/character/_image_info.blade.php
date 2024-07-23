@@ -6,9 +6,9 @@
                 <li class="nav-item">
                     <a class="nav-link active" id="infoTab-{{ $image->id }}" data-toggle="tab" href="#info-{{ $image->id }}" role="tab">Info</a>
                 </li>
-                <li class="nav-item">
+                <!--<li class="nav-item">
                     <a class="nav-link" id="notesTab-{{ $image->id }}" data-toggle="tab" href="#notes-{{ $image->id }}" role="tab">Notes</a>
-                </li>
+                </li>-->
                 <li class="nav-item">
                     <a class="nav-link" id="creditsTab-{{ $image->id }}" data-toggle="tab" href="#credits-{{ $image->id }}" role="tab">Credits</a>
                 </li>
@@ -43,7 +43,7 @@
                     <div class="col-lg-8 col-md-6 col-8">{!! $image->character->class_id ? $image->character->class->displayName : 'None' !!}
                         @if (Auth::check())
                             @if (Auth::user()->isStaff || (Auth::user()->id == $image->character->user_id && $image->character->class_id == null))
-                                <a href="#" class="btn btn-outline-info btn-sm edit-class ml-1" data-id="{{ $image->character->id }}"><i class="fas fa-cog"></i></a>
+                                <a href="#" class="btn btn-outline-info btn-ty edit-class ml-1" data-id="{{ $image->character->id }}"><i class="fas fa-cog"></i></a>
                             @endif
                         @endif
                     </div>
@@ -86,7 +86,7 @@
                     }
                     $type = $type ?? null;
                 @endphp
-                @if ($type || (Auth::check() && Auth::user()->hasPower('manage_characters')))
+                <!---@if ($type || (Auth::check() && Auth::user()->hasPower('manage_characters')))
                     <div class="row">
                         <div class="col-lg-4 col-md-6 col-4">
                             <h5>Typing</h5>
@@ -96,12 +96,14 @@
                             @if (Auth::check() && Auth::user()->hasPower('manage_characters'))
                                 {!! add_help('Typing is assigned on an image basis') !!}
                                 <div class="ml-auto">
-                                    <a href="#" class="btn btn-outline-info btn-sm edit-typing" data-id="{{ $image->id }}">
+                                    <a href="#" class="btn btn-outline-info-ty edit-typing" data-id="{{ $image->id }}">
                                         <i class="fas fa-cog"></i> {{ $type ? 'Edit' : 'Create' }}
                                     </a>
                                 </div>
                             @endif
                         </div>
+                    </div>
+                @endif--->
                 @if($image->hasTitle)
                     <div class="row">
                         <div class="col-lg-4 col-md-6 col-4"><h5>Title</h5></div>
@@ -172,7 +174,7 @@
 
                 @if (Auth::check() && Auth::user()->hasPower('manage_characters'))
                     <div class="mt-3">
-                        <a href="#" class="btn btn-outline-info btn-sm edit-features mb-3" data-id="{{ $image->id }}"><i class="fas fa-cog"></i> Edit</a>
+                        <a href="#" class="btn btn-outline-info btn-ty edit-features mb-3" data-id="{{ $image->id }}"><i class="fas fa-cog"></i> Edit</a>
                     </div>
                 @endif
 
@@ -223,8 +225,8 @@
                 @endif
             </div>
 
-            {{-- Image notes --}}
-            <div class="tab-pane fade" id="notes-{{ $image->id }}">
+            {{-- Image notes tab --}}
+            <!--<div class="tab-pane fade" id="notes-{{ $image->id }}">
                 @if ($image->parsed_description)
                     <div class="parsed-text imagenoteseditingparse">{!! $image->parsed_description !!}</div>
                 @else
@@ -232,17 +234,22 @@
                 @endif
                 @if (Auth::check() && Auth::user()->hasPower('manage_characters'))
                     <div class="mt-3">
-                        <a href="#" class="btn btn-outline-info btn-sm edit-notes" data-id="{{ $image->id }}"><i class="fas fa-cog"></i> Edit</a>
+                        <a href="#" class="btn btn-outline-info btn-ty edit-notes" data-id="{{ $image->id }}"><i class="fas fa-cog"></i> Edit</a>
                     </div>
                 @endif
-            </div>
+            </div>-->
 
             {{-- Image credits --}}
             <div class="tab-pane fade" id="credits-{{ $image->id }}">
+                
+                <h5 class="mt-3">Credits
+                    @if (Auth::check() && Auth::user()->hasPower('manage_characters'))
+                        <a href="#" class="btn btn-outline-info btn-ty edit-credits" data-id="{{ $image->id }}"><i class="fas fa-cog"></i> Edit Credits</a>
+                    @endif</h5>
 
                 <div class="row mb-2">
                     <div class="col-lg-4 col-md-6 col-4">
-                        <h5>Design</h5>
+                        <b>Design</b>
                     </div>
                     <div class="col-lg-8 col-md-6 col-8">
                         @foreach ($image->designers as $designer)
@@ -252,7 +259,7 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-4 col-md-6 col-4">
-                        <h5>Art</h5>
+                        <b>Art</b>
                     </div>
                     <div class="col-lg-8 col-md-6 col-8">
                         @foreach ($image->artists as $artist)
@@ -261,11 +268,20 @@
                     </div>
                 </div>
 
-                @if (Auth::check() && Auth::user()->hasPower('manage_characters'))
-                    <div class="mt-3">
-                        <a href="#" class="btn btn-outline-info btn-sm edit-credits" data-id="{{ $image->id }}"><i class="fas fa-cog"></i> Edit</a>
-                    </div>
-                @endif
+                
+                <hr>
+                {{-- Image notes --}}
+                
+                <h5 class="mt-3">Notes
+                    @if (Auth::check() && Auth::user()->hasPower('manage_characters'))
+                        <a href="#" class="btn btn-outline-info btn-ty edit-notes" data-id="{{ $image->id }}"><i class="fas fa-cog"></i> Edit Notes</a>
+                    @endif</h5>
+                    @if ($image->parsed_description)
+                        <div class="parsed-text imagenoteseditingparse">{!! $image->parsed_description !!}</div>
+                    @else
+                        <div class="imagenoteseditingparse">No additional notes.</div>
+                    @endif
+
             </div>
 
             @if (isset($showMention) && $showMention)

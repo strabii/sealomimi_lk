@@ -39,7 +39,7 @@
             @endif
         </div>
     @endif
-
+@endif
 
 <h1 class="mb-0">
     @if (config('lorekeeper.extensions.character_status_badges'))

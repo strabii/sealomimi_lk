@@ -472,7 +472,7 @@ class DesignUpdateManager extends Service {
                 throw new \Exception('This request cannot be processed.');
             }
             if (!isset($data['character_category_id'])) {
-                throw new \Exception('Please select a character category.');
+                throw new \Exception('Please select a character species.');
             }
             if (!isset($data['number'])) {
                 throw new \Exception('Please enter a character number.');
@@ -620,6 +620,7 @@ class DesignUpdateManager extends Service {
             $request->character->is_tradeable = isset($data['is_tradeable']);
             $request->character->is_giftable = isset($data['is_giftable']);
             $request->character->sale_value = $data['sale_value'] ?? 0;
+            $request->character->design_name = isset($data['design_name']) ? $data['design_name'] : null;
 
             // Invalidate old image if desired
             if (isset($data['invalidate_old'])) {

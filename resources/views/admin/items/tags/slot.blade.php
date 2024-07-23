@@ -17,6 +17,11 @@
 </div>
 
 <div class="form-group">
+    {!! Form::label('Design Name') !!} {!! add_help('Add a cosmetic design theme or design name. Optional') !!}
+    {!! Form::text('design_name', null, ['class' => 'form-control']) !!}
+</div>
+
+<div class="form-group">
     {!! Form::checkbox('is_visible', 1, $tag->getData()['is_visible'], ['class' => 'form-check-input', 'data-toggle' => 'toggle']) !!}
     {!! Form::label('is_visible', 'Is Visible', ['class' => 'form-check-label ml-3']) !!} {!! add_help(
         'Turn this off to hide the ' . ($isMyo ? 'MYO slot' : 'character') . '. Only mods with the Manage Masterlist power (that\'s you!) can view it - the owner will also not be able to see the ' . ($isMyo ? 'MYO slot' : 'character') . '\'s page.',

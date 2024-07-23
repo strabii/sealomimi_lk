@@ -120,7 +120,7 @@ class CharacterCategoryService extends Service {
         try {
             // Check first if the category is currently in use
             if (Character::where('character_category_id', $category->id)->exists()) {
-                throw new \Exception('An character with this category exists. Please change its category first.');
+                throw new \Exception('An character with this species exists. Please change its species first.');
             }
 
             if (!$this->logAdminAction($user, 'Deleted Character Category', 'Deleted '.$category->name)) {
