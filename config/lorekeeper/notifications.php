@@ -333,6 +333,7 @@ return [
         'message' => 'Your report (#{report_id}) was closed by <a href="{staff_url}">{staff_name}</a>. (<a href="{url}">View Report</a>)',
         'url'     => 'reports/view/{report_id}',
     ],
+
     // Comment made on user's model
     // COMMENT_MADE
     239 => [
@@ -346,6 +347,47 @@ return [
         'name'    => 'Comment Reply',
         'message' => '<a href="{sender_url}">{sender}</a> has made a reply to your comment. <a href="comment/{comment_url}">See Reply.</a>',
         'url'     => '',
+    ],
+    // AWARD_GRANT
+    341 => [
+        'name' => 'Medal Grant',
+        'message' => 'You have earned the following medal(s): {award_name} (×{award_quantity}). Congratulations! (<a href="{url}">View Medals</a>)',
+        'url' => 'awardcase'
+    ],
+
+    // AWARD_REMOVAL
+    342 => [
+        'name' => 'Medal Removal',
+        'message' => '{award_name} (×{award_quantity}) was removed from your Medals by <a href="{sender_url}">{sender_name}</a>. (<a href="{url}">View Medals</a>)',
+        'url' => 'awardcase'
+    ],
+
+    // AWARD_TRANSFER
+    343 => [
+        'name' => 'Medal Transfer',
+        'message' => 'You have received {award_name} (×{award_quantity}) from <a href="{sender_url}">{sender_name}</a>. (<a href="{url}">View Medals</a>)',
+        'url' => 'awardcase'
+    ],
+
+    // FORCED_AWARD_TRANSFER
+    344 => [
+        'name' => 'Forced Medal Transfer',
+        'message' => '{item_name} (×{item_quantity}) was removed from {character_name} by <a href="{sender_url}">{sender_name}</a>. (<a href="{url}">View Inventory</a>)',
+        'url' => 'character/{character_slug}/inventory'
+    ],
+
+    // CHARACTER_AWARD_GRANT
+    345 => [
+        'name' => 'Character Medal Grant',
+        'message' => '{character_name} has received a staff grant of {award_name} (×{award_quantity}) from <a href="{sender_url}">{sender_name}</a>. (<a href="{url}">View Medals</a>)',
+        'url' => 'character/{character_slug}/awardcase'
+    ],
+
+    // CHARACTER_AWARD_REMOVAL
+    346 => [
+        'name' => 'Character Medal Removal',
+        'message' => '{award_name} (×{award_quantity}) was removed from {character_name} by <a href="{sender_url}">{sender_name}</a>. (<a href="{url}">View Medals</a>)',
+        'url' => 'character/{character_slug}/awardcase'
     ],
 
     // PET_REMOVAL

@@ -42,7 +42,7 @@
     </div>
 
     <div class="form-group">
-        {!! Form::label('species[]', 'Species') !!}
+        {!! Form::label('species[]', ucfirst(__('lorekeeper.species'))) !!}
         {!! Form::select('species[]', $species, $subSpecies, ['id' => 'speciesList', 'class' => 'form-control', 'multiple']) !!}
     </div>
 
@@ -117,29 +117,5 @@
                 removeItemRow($(this));
             })
 
-            function addItemRow() {
-                var $rows = $("#itemList > div")
-                if ($rows.length === 1) {
-                    $rows.find('.remove-item').removeClass('disabled')
-                }
-                var $clone = $('.item-row').clone();
-                $('#itemList').append($clone);
-                $clone.removeClass('hide item-row');
-                $clone.addClass('d-flex');
-                $clone.find('.remove-item').on('click', function(e) {
-                    e.preventDefault();
-                    removeItemRow($(this));
-                })
-                $clone.find('.item-select').selectize();
-            }
-
-            function removeItemRow($trigger) {
-                $trigger.parent().remove();
-                var $rows = $("#itemList > div")
-                if ($rows.length === 1) {
-                    $rows.find('.remove-item').addClass('disabled')
-                }
-            }
-        });
-    </script>
+</script>
 @endsection

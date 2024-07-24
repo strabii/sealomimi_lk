@@ -59,7 +59,7 @@
                         <div class="logs-table-cell">Species</div>
                     </div>
                     <div class="col-6 col-md-2">
-                        <div class="logs-table-cell">Subtype</div>
+                        <div class="logs-table-cell">{{ ucfirst(__('lorekeeper.subtype')) }}</div>
                     </div>
                 </div>
             </div>

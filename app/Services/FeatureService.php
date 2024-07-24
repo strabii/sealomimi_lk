@@ -208,15 +208,15 @@ class FeatureService extends Service {
                 throw new \Exception('The selected trait category is invalid.');
             }
             if ((isset($data['species_id']) && $data['species_id']) && !Species::where('id', $data['species_id'])->exists()) {
-                throw new \Exception('The selected species is invalid.');
+                throw new \Exception('The selected '.__('lorekeeper.species').' is invalid.');
             }
             if (isset($data['subtype_id']) && $data['subtype_id']) {
                 $subtype = Subtype::find($data['subtype_id']);
                 if (!(isset($data['species_id']) && $data['species_id'])) {
-                    throw new \Exception('Species must be selected to select a subtype.');
+                    throw new \Exception(ucfirst(__('lorekeeper.species')).' must be selected to select a '.__('lorekeeper.subtype').'.');
                 }
                 if (!$subtype || $subtype->species_id != $data['species_id']) {
-                    throw new \Exception('Selected subtype invalid or does not match species.');
+                    throw new \Exception('Selected '.__('lorekeeper.subtype').' invalid or does not match '.__('lorekeeper.species').'.');
                 }
             }
 
@@ -281,15 +281,15 @@ class FeatureService extends Service {
                 throw new \Exception('The selected trait category is invalid.');
             }
             if ((isset($data['species_id']) && $data['species_id']) && !Species::where('id', $data['species_id'])->exists()) {
-                throw new \Exception('The selected species is invalid.');
+                throw new \Exception('The selected '.__('lorekeeper.species').' is invalid.');
             }
             if (isset($data['subtype_id']) && $data['subtype_id']) {
                 $subtype = Subtype::find($data['subtype_id']);
                 if (!(isset($data['species_id']) && $data['species_id'])) {
-                    throw new \Exception('Species must be selected to select a subtype.');
+                    throw new \Exception(ucfirst(__('lorekeeper.species')).' must be selected to select a '.__('lorekeeper.subtype').'.');
                 }
                 if (!$subtype || $subtype->species_id != $data['species_id']) {
-                    throw new \Exception('Selected subtype invalid or does not match species.');
+                    throw new \Exception('Selected '.__('lorekeeper.subtype').' invalid or does not match '.__('lorekeeper.species').'.');
                 }
             }
 

@@ -24,7 +24,7 @@
             ・ "{!! $character->image->title_id ? $character->image->title->displayName : nl2br(htmlentities($character->image->title_data['full'])) !!}"
         @endif
     @else
-        MYO Slot @if($character->image->species_id) ・ {!! $character->image->species->displayName !!}@endif @if($character->image->rarity_id) ・ {!! $character->image->rarity->displayName !!}@endif
+        {{ __('lorekeeper.myo') }} @if($character->image->species_id) ・ {!! $character->image->species->displayName !!}@endif @if($character->image->rarity_id) ・ {!! $character->image->rarity->displayName !!}@endif
     @endif
     </div>
     

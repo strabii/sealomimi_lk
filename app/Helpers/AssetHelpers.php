@@ -72,9 +72,9 @@ function calculateGroupCurrency($data) {
  */
 function getAssetKeys($isCharacter = false) {
     if (!$isCharacter) {
-        return ['items', 'currencies', 'pets', 'weapons', 'gears', 'raffle_tickets', 'loot_tables', 'user_items', 'characters', 'exp', 'points'];
+        return ['items', 'awards', 'currencies', 'pets', 'weapons', 'gears', 'raffle_tickets', 'loot_tables', 'user_items', 'user_awards', 'characters', 'exp', 'points'];
     } else {
-        return ['currencies', 'items', 'character_items', 'loot_tables', 'elements', 'exp', 'points'];
+        return ['currencies', 'items', 'character_items', 'loot_tables', 'elements', 'exp', 'points', 'awards'];
     }
 }
 
@@ -95,6 +95,11 @@ function getAssetModelString($type, $namespaced = true) {
             } else {
                 return 'Item';
             }
+            break;
+
+        case 'awards':
+            if($namespaced) return '\App\Models\Award\Award';
+            else return 'Award';
             break;
 
         case 'currencies':
@@ -151,6 +156,11 @@ function getAssetModelString($type, $namespaced = true) {
             } else {
                 return 'UserItem';
             }
+            break;
+
+        case 'user_awards':
+            if($namespaced) return '\App\Models\User\UserAward';
+            else return 'UserAward';
             break;
 
         case 'characters':
@@ -449,6 +459,13 @@ function fillUserAssets($assets, $sender, $recipient, $logType, $data) {
                     return false;
                 }
             }
+        } elseif ($key == 'awards' && count($contents)) {
+            $service = new \App\Services\AwardCaseManager;
+            foreach($contents as $asset) {
+                if(!$service->creditAward($sender, $recipient, $logType, $data, $asset['asset'], $asset['quantity'])) {
+                    return false;
+                }
+            }
         } elseif ($key == 'pets' && count($contents)) {
             $service = new App\Services\PetManager;
             foreach ($contents as $asset) {
@@ -481,6 +498,13 @@ function fillUserAssets($assets, $sender, $recipient, $logType, $data) {
             $service = new App\Services\InventoryManager;
             foreach ($contents as $asset) {
                 if (!$service->moveStack($sender, $recipient, $logType, $data, $asset['asset'], $asset['quantity'])) {
+                    return false;
+                }
+            }
+        } elseif ($key == 'user_awards' && count($contents)) {
+            $service = new \App\Services\AwardCaseManager;
+            foreach($contents as $asset) {
+                if(!$service->moveStack($sender, $recipient, $logType, $data, $asset['asset'])) {
                     return false;
                 }
             }
@@ -568,6 +592,12 @@ function fillCharacterAssets($assets, $sender, $recipient, $logType, $data, $sub
             if (!$service->creditStat($sender, $recipient, $logType, $data['data'], $contents['quantity'])) {
                 return false;
             }
+        }
+        elseif($key == 'awards' && count($contents))
+        {
+            $service = new \App\Services\AwardCaseManager;
+            foreach($contents as $asset)
+                if(!$service->creditAward($sender, ( $asset['asset']->is_character_owned ? $recipient : $item_recipient), $logType, $data, $asset['asset'], $asset['quantity'])) return false;
         }
     }
 

@@ -29,6 +29,7 @@ class Subtype extends Model {
     protected $appends = [
         'name_with_species',
     ];
+    
     /**
      * Validation rules for creation.
      *
@@ -64,6 +65,7 @@ class Subtype extends Model {
      */
     public function species() {
         return $this->belongsTo(Species::class, 'species_id');
+        /*return $this->belongsTo('App\Models\Species\Species', 'species_id');*/
     }
 
     /**********************************************************************************************
@@ -100,7 +102,7 @@ class Subtype extends Model {
      * @return string
      */
     public function getNameWithSpeciesAttribute() {
-        return $this->name.' ['.$this->species->name.' Subtype]';
+        return $this->name.' [' . $this->species->name . ' ' . ucfirst(__('lorekeeper.subtype')) . ']';
     }
 
     /**
@@ -158,7 +160,7 @@ class Subtype extends Model {
      * @return string
      */
     public function getUrlAttribute() {
-        return url('world/subtypes?name='.$this->name);
+        return url('world/'.__('lorekeeper.subtypes').'?name='.$this->name);
     }
 
     /**
@@ -167,7 +169,7 @@ class Subtype extends Model {
      * @return string
      */
     public function getSearchUrlAttribute() {
-        return url('masterlist?subtype_id='.$this->id);
+        return url('masterlist?'.__('lorekeeper.subtype').'_id='.$this->id);
     }
 
     /**

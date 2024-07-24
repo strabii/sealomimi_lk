@@ -126,6 +126,10 @@ return [
                 'name' => 'Skill Grants',
                 'url'  => 'admin/grants/skills',
             ],
+            [
+                'name' => 'Medal Grants',
+                'url' => 'admin/grants/awards'
+            ],
         ],
     ],
     'Masterlist' => [
@@ -163,6 +167,10 @@ return [
             [
                 'name' => 'Galleries',
                 'url'  => 'admin/data/galleries',
+            ],
+            [
+                'name' => 'Award Categories',
+                'url' => 'admin/data/award-categories'
             ],
             [
                 'name' => 'Character Categories',
@@ -215,6 +223,10 @@ return [
             [
                 'name' => 'Pets',
                 'url'  => 'admin/data/pets',
+            ],
+            [
+                'name' => 'Medals',
+                'url' => 'admin/data/awards'
             ],
         ],
     ],

@@ -15,6 +15,8 @@
         <div class="alert alert-info">This user has changed their name to <strong>{{ $user->name }}</strong>.</div>
     @endif
 
+    @include('widgets._awardcase_feature', ['target' => $user, 'count' => Config::get('lorekeeper.extensions.awards.user_featured'), 'float' => false])
+
     @if ($user->is_banned)
         <div class="alert alert-danger">This user has been banned.</div>
     @endif

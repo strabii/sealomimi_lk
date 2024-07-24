@@ -4,12 +4,9 @@ namespace App\Services;
 
 use App\Models\User\UserAlias;
 use App\Models\User\UserUpdateLog;
-<<<<<<< HEAD
 use Illuminate\Support\Facades\Config;
-=======
 use Illuminate\Support\Facades\DB;
 use Laravel\Socialite\Facades\Socialite;
->>>>>>> a2863246a7308f90c911df813e185a260b26ea6b
 
 class LinkService extends Service {
     /*

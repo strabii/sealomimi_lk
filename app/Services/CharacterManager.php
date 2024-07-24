@@ -96,7 +96,7 @@ class CharacterManager extends Service {
             }
             if (!$isMyo) {
                 if (!(isset($data['species_id']) && $data['species_id'])) {
-                    throw new \Exception('Characters require a species.');
+                    throw new \Exception('Characters require a '.__('lorekeeper.species'));
                 }
                 if (!(isset($data['rarity_id']) && $data['rarity_id'])) {
                     throw new \Exception('Characters require a rarity.');
@@ -105,10 +105,10 @@ class CharacterManager extends Service {
             if (isset($data['subtype_id']) && $data['subtype_id']) {
                 $subtype = Subtype::find($data['subtype_id']);
                 if (!(isset($data['species_id']) && $data['species_id'])) {
-                    throw new \Exception('Species must be selected to select a subtype.');
+                    throw new \Exception(ucfirst(__('lorekeeper.species')).' must be selected to select a '.__('lorekeeper.subtype'));
                 }
                 if (!$subtype || $subtype->species_id != $data['species_id']) {
-                    throw new \Exception('Selected subtype invalid or does not match species.');
+                    throw new \Exception('Selected '.__('lorekeeper.subtype').' invalid or does not match '.__('lorekeeper.species'));
                 }
             } else {
                 $data['subtype_id'] = null;
@@ -624,10 +624,10 @@ class CharacterManager extends Service {
             if (isset($data['subtype_id']) && $data['subtype_id']) {
                 $subtype = Subtype::find($data['subtype_id']);
                 if (!(isset($data['species_id']) && $data['species_id'])) {
-                    throw new \Exception('Species must be selected to select a subtype.');
+                    throw new \Exception(ucfirst(__('lorekeeper.species')).' must be selected to select a '.__('lorekeeper.subtype'));
                 }
                 if (!$subtype || $subtype->species_id != $data['species_id']) {
-                    throw new \Exception('Selected subtype invalid or does not match species.');
+                    throw new \Exception('Selected '.__('lorekeeper.subtype').' invalid or does not match '.__('lorekeeper.species'));
                 }
             } else {
                 $data['subtype_id'] = null;
@@ -692,10 +692,10 @@ class CharacterManager extends Service {
             if (isset($data['subtype_id']) && $data['subtype_id']) {
                 $subtype = Subtype::find($data['subtype_id']);
                 if (!(isset($data['species_id']) && $data['species_id'])) {
-                    throw new \Exception('Species must be selected to select a subtype.');
+                    throw new \Exception(ucfirst(__('lorekeeper.species')).' must be selected to select a '.__('lorekeeper.subtype'));
                 }
                 if (!$subtype || $subtype->species_id != $data['species_id']) {
-                    throw new \Exception('Selected subtype invalid or does not match species.');
+                    throw new \Exception('Selected '.__('lorekeeper.subtype').' invalid or does not match '.__('lorekeeper.species'));
                 }
             }
 
