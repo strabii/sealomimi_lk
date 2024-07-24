@@ -27,6 +27,7 @@ class MyoController extends Controller {
      * Create a new controller instance.
      */
     public function __construct() {
+        parent::__construct();
         $this->middleware(function ($request, $next) {
             $id = Route::current()->parameter('id');
             $check = Character::where('id', $id)->first();

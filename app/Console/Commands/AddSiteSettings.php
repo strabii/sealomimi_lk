@@ -87,6 +87,7 @@ class AddSiteSettings extends Command {
             $this->info("Added:   character_title_display / Default: 0");
         }
         else $this->line("Skipped: character_title_display");
+        $this->addSiteSetting('default_theme', 0, 'ID of the default theme users should see. 0: Disabled, shows default lorekeeper. This setting is overwritten by the users theme setting.');
 
         $this->line("\nSite settings up to date!");
 

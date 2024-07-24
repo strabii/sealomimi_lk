@@ -23,10 +23,12 @@ Route::group(['prefix' => 'notifications', 'namespace' => 'Users'], function () 
 Route::group(['prefix' => 'account', 'namespace' => 'Users'], function () {
     Route::get('settings', 'AccountController@getSettings');
     Route::post('profile', 'AccountController@postProfile');
+    Route::post('theme', 'AccountController@postTheme');
     Route::post('password', 'AccountController@postPassword');
     Route::post('email', 'AccountController@postEmail');
     Route::post('avatar', 'AccountController@postAvatar');
     Route::post('username', 'AccountController@postUsername');
+    Route::post('theme', 'AccountController@postTheme');
     Route::get('aliases', 'AccountController@getAliases');
     Route::get('make-primary/{id}', 'AccountController@getMakePrimary');
     Route::post('make-primary/{id}', 'AccountController@postMakePrimary');
@@ -291,6 +293,7 @@ Route::group(['prefix' => 'comments', 'namespace' => 'Comments'], function () {
     Route::post('make/{model}/{id}', 'CommentController@store');
     Route::delete('/{comment}', 'CommentController@destroy')->name('comments.destroy');
     Route::post('edit/{comment}', 'CommentController@update')->name('comments.update');
+    //Route::put('/{comment}', 'CommentController@update')->name('comments.update');//
     Route::post('/{comment}', 'CommentController@reply')->name('comments.reply');
     Route::post('/{id}/feature', 'CommentController@feature')->name('comments.feature');
     Route::post('/{id}/like/{action}', 'CommentController@like')->name('comments.like');

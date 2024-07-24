@@ -72,7 +72,7 @@ function calculateGroupCurrency($data) {
  */
 function getAssetKeys($isCharacter = false) {
     if (!$isCharacter) {
-        return ['items', 'awards', 'currencies', 'pets', 'weapons', 'gears', 'raffle_tickets', 'loot_tables', 'user_items', 'user_awards', 'characters', 'exp', 'points'];
+        return ['items', 'awards', 'currencies', 'pets', 'weapons', 'gears', 'raffle_tickets', 'loot_tables', 'user_items', 'user_awards', 'characters', 'exp', 'points', 'themes'];
     } else {
         return ['currencies', 'items', 'character_items', 'loot_tables', 'elements', 'exp', 'points', 'awards'];
     }
@@ -193,6 +193,12 @@ function getAssetModelString($type, $namespaced = true) {
         case 'points':
             return 'Points';
             break;
+
+        case 'themes':
+            if ($namespaced) return '\App\Models\Theme';
+            else return 'Theme';
+            break;
+    
     }
 
     return null;
@@ -525,6 +531,13 @@ function fillUserAssets($assets, $sender, $recipient, $logType, $data) {
             dd($data, $contents);
             if (!$service->creditStat($sender, $recipient, $logType, $data['data'], 'none', $contents['quantity'])) {
                 return false;
+            }
+        } else if ($key == 'themes' && count($contents)) {
+            $service = new \App\Services\ThemeManager;
+            foreach ($contents as $asset) {
+                if (!$service->creditTheme($recipient, $asset['asset'])) {
+                    return false;
+                }
             }
         }
     }

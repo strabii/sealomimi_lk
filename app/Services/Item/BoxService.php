@@ -10,6 +10,7 @@ use App\Models\Currency\Currency;
 use App\Models\Award\Award;
 use App\Models\Loot\LootTable;
 use App\Models\Raffle\Raffle;
+use App\Models\Theme;
 
 class BoxService extends Service {
     /*
@@ -35,6 +36,7 @@ class BoxService extends Service {
             'awards' => Award::orderBy('name')->pluck('name', 'id'),
             'tables' => LootTable::orderBy('name')->pluck('name', 'id'),
             'raffles' => Raffle::where('rolled_at', null)->where('is_active', 1)->orderBy('name')->pluck('name', 'id'),
+            'themes' => Theme::orderBy('name')->where('is_user_selectable', 0)->pluck('name', 'id'),
         ];
     }
 
@@ -108,6 +110,9 @@ class BoxService extends Service {
                         break;
                     case 'Raffle':
                         $type = 'App\Models\Raffle\Raffle';
+                        break;
+                    case 'Theme':
+                        $type = 'App\Models\Theme';
                         break;
                 }
                 $asset = $type::find($data['rewardable_id'][$key]);
