@@ -3,7 +3,7 @@
 @else
     <div class="text-center">
         @if($award->has_image)
-            <div class="mb-1"><a href="{{ $award->idUrl }}"><img src="{{ $award->imageUrl }}" alt="{{ $award->name }}"/></a></div>
+            <div class="mb-4"><a href="{{ $award->idUrl }}"><img src="{{ $award->imageUrl }}" alt="{{ $award->name }}"/></a></div>
         @endif
         <!--<a href="{{ $award->idUrl }}">{{ $award->name }}</a>-->
     </div>
@@ -17,7 +17,7 @@
     <!--<h5>Owned Stacks</h5>-->
 
     {!! Form::open(['url' => __('awards.awardcase').'/edit']) !!}
-    <div class="card" style="border: 0px">
+    <div class="card mt-2" style="border: 0px">
         <table class="table table-sm">
             <thead class="thead">
                 <tr class="d-flex">
