@@ -116,9 +116,13 @@
         </div>
         <div class="card mb-3" id="resellOptions">
             <div class="card-body">
-                {!! Form::label('Obtained Value') !!} {!! add_help('This value is publicly displayed on the ' . ($isMyo ? 'MYO slot' : 'character') . '\'s page.') !!}
+                {!! Form::label('Resale Value') !!} {!! add_help('This value is publicly displayed on the ' . ($isMyo ? 'MYO slot' : 'character') . '\'s page.') !!}
                 {!! Form::text('sale_value', old('sale_value'), ['class' => 'form-control']) !!}
             </div>
+        </div>
+        <div class="form-group">
+            {!! Form::label('Obtained By') !!} {!! add_help('Recommended to have input but can be left blank if Resale Value is filled. Describe how the owner obtained the character.') !!}
+            {!! Form::text('obtained_by', null, old('obtained_by'), ['class' => 'form-control']) !!}
         </div>
         <div class="form-group">
             {!! Form::label('On Transfer Cooldown Until (Optional)') !!}

@@ -232,7 +232,7 @@
                 
                 tinymce.init({
                     selector: '.wysiwyg',
-                    height: 500,
+                    height: 400,
                     menubar: false,
                     convert_urls: false,
                     plugins: [
@@ -245,7 +245,10 @@
                         '{{ asset('css/app.css') }}',
                         '{{ asset('css/lorekeeper.css') }}',
                         '{{ asset('css/custom.css') }}',
-                        '{{ asset($theme?->cssUrl) }}'
+                        '{{ asset($theme?->cssUrl) }}',
+                        '{{ asset($conditionalTheme?->cssUrl) }}',
+                        '{{ asset($decoratorTheme?->cssUrl) }}',
+                        '{{ asset('css/all.min.css') }}' //fontawesome
                     ],
                     spoiler_caption: 'Toggle Spoiler',
                     target_list: false

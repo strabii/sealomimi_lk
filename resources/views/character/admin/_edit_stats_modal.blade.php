@@ -54,6 +54,10 @@
     {!! Form::text('sale_value', $character->sale_value, ['class' => 'form-control']) !!}
 </div>
 <div class="form-group">
+    {!! Form::label('Obtained By') !!} {!! add_help('Recommended to have input but can be left blank if Resale Value is filled. Describe how the owner obtained the character.') !!}
+    {!! Form::text('obtained_by', $character->obtained_by, ['class' => 'form-control']) !!}
+</div>
+<div class="form-group">
     {!! Form::label('On Transfer Cooldown Until (Optional)') !!}
     <div class="input-group">
         {!! Form::text('transferrable_at', $character->transferrable_at, ['class' => 'form-control datepickeralt']) !!}

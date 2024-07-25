@@ -224,7 +224,7 @@ class CharacterManager extends Service {
             $characterData = Arr::only($data, [
                 'character_category_id', 'rarity_id', 'user_id',
                 'number', 'slug', 'description',
-                'sale_value', 'transferrable_at', 'is_visible', 'design_name',
+                'sale_value', 'obtained_by', 'transferrable_at', 'is_visible', 'design_name',
             ]);
 
             $characterData['name'] = ($isMyo && isset($data['name'])) ? $data['name'] : null;
@@ -239,6 +239,7 @@ class CharacterManager extends Service {
             $characterData['is_trading'] = 0;
             $characterData['parsed_description'] = parse($data['description']);
             $characterData['design_name'] = isset($data['design_name']) ? $data['design_name'] : null;
+            $characterData['obtained_by'] = isset($data['obtained_by']) ? $data['obtained_by'] : null;
             if($isMyo) $characterData['is_myo_slot'] = 1;
 
             $character = Character::create($characterData);
@@ -1236,6 +1237,7 @@ class CharacterManager extends Service {
             $characterData['sale_value'] = $data['sale_value'] ?? 0;
             $characterData['transferrable_at'] = $data['transferrable_at'] ?? null;
             $characterData['design_name'] = (isset($data['design_name']) && $data['design_name']) ? $data['design_name'] : null;
+            $characterData['obtained_by'] = (isset($data['obtained_by']) && $data['obtained_by']) ? $data['obtained_by'] : null;
             if ($character->is_myo_slot) {
                 $characterData['name'] = (isset($data['name']) && $data['name']) ? $data['name'] : null;
             }
@@ -1296,6 +1298,11 @@ class CharacterManager extends Service {
                 $result[] = 'design_name';
                 $old['design_name'] = $character->design_name;
                 $new['design_name'] = $characterData['design_name'];
+            }
+            if ($characterData['obtained_by'] != $character->obtained_by) {
+                $result[] = 'obtained_by';
+                $old['obtained_by'] = $character->obtained_by;
+                $new['obtained_by'] = $characterData['obtained_by'];
             }
 
             if (count($result)) {

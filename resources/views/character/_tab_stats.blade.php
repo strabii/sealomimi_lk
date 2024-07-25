@@ -12,12 +12,14 @@
         <div class="col-lg-9 col-8">{!! $character->category->displayName !!}</div>
     </div>
 @endif
+@if( !empty($character->design_name))
 <div class="row">
     <div class="col-lg-3 col-4">
         <h5>Design Name</h5>
     </div>
     <div class="col-lg-9 col-8">{!! $character->design_name !!}</div>
 </div>
+@endif
 <div class="row">
     <div class="col-lg-3 col-4">
         <h5 class="mb-0">Created</h5>
@@ -46,6 +48,14 @@
             {{ Config::get('lorekeeper.settings.currency_symbol') }}{{ $character->sale_value }}
         </div>
     </div>
+@endif
+@if( !empty($character->obtained_by))
+<div class="row">
+    <div class="col-lg-3 col-4">
+        <h5>Obtained By</h5>
+    </div>
+    <div class="col-lg-9 col-8">{!! $character->obtained_by !!}</div>
+</div>
 @endif
 @if ($character->transferrable_at && $character->transferrable_at->isFuture())
     <div class="row">

@@ -50,7 +50,7 @@ class Character extends Model {
         'character_image_id', 'character_category_id', 'rarity_id', 'user_id',
         'owner_alias', 'number', 'slug', 'description', 'parsed_description',
         'is_sellable', 'is_tradeable', 'is_giftable',
-        'sale_value', 'transferrable_at', 'is_visible',
+        'sale_value', 'obtained_by', 'transferrable_at', 'is_visible',
         'is_gift_art_allowed', 'is_gift_writing_allowed', 'is_trading', 'sort',
         'is_myo_slot', 'name', 'trade_id', 'owner_url', 'class_id', 'design_name',
     ];
@@ -102,6 +102,7 @@ class Character extends Model {
         'thumbnail'             => 'nullable|mimes:jpeg,jpg,gif,png|max:20000',
         'owner_url'             => 'url|nullable',
         'design_name'           => 'nullable',
+        'obtained_by'           => 'nullable',
     ];
 
     /**
@@ -116,6 +117,7 @@ class Character extends Model {
         'description'           => 'nullable',
         'sale_value'            => 'nullable',
         'design_name'           => 'nullable',
+        'obtained_by'           => 'nullable',
     ];
 
     /**
@@ -134,6 +136,7 @@ class Character extends Model {
         'image'       => 'nullable|mimes:jpeg,gif,png|max:20000',
         'thumbnail'   => 'nullable|mimes:jpeg,gif,png|max:20000',
         'design_name' => 'nullable',
+        'obtained_by' => 'nullable',
     ];
 
     /**********************************************************************************************

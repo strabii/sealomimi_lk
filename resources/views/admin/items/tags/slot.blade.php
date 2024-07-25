@@ -55,6 +55,10 @@
         {!! Form::text('sale_value', $tag->getData()['sale_value'], ['class' => 'form-control']) !!}
     </div>
 </div>
+<div class="form-group">
+    {!! Form::label('Obtained By') !!} {!! add_help('Recommended to have input but can be left blank if Resale Value is filled. Describe how the owner obtained the character.') !!}
+    {!! Form::text('obtained_by', null, ['class' => 'form-control']) !!}
+</div>
 
 <h3>Traits</h3>
 

@@ -68,7 +68,7 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <label for="message">Update your message here:</label>
+                                        <label for="message">Edit your comment:</label>
                                         <textarea required class="form-control" name="message" rows="3">{{ $comment->comment }}</textarea>
                                         <small class="form-text text-muted"><a target="_blank" href="https://help.github.com/articles/basic-writing-and-formatting-syntax">Markdown cheatsheet.</a></small>
                                     </div>
@@ -97,12 +97,12 @@
                                 </div>
                                 <div class="modal-body">
                                     <div class="form-group">
-                                        <label for="message">Enter your message here:</label>
+                                        <!--<label for="message">Enter your message here:</label>-->
                                         <textarea required class="form-control" name="message" rows="3"></textarea>
-                                        <small class="form-text text-muted"><a target="_blank" href="https://help.github.com/articles/basic-writing-and-formatting-syntax">Markdown cheatsheet.</a></small>
+                                        <small class="form-text d-flex justify-content-end text-muted"><a target="_blank" href="https://help.github.com/articles/basic-writing-and-formatting-syntax">Markdown cheatsheet.</a></small>
                                     </div>
                                 </div>
-                                <div class="modal-footer">
+                                <div class="modal-footer float-right">
                                     <button type="button" class="btn btn-sm btn-outline-secondary text-uppercase" data-dismiss="modal">Cancel</button>
                                     <button type="submit" class="btn btn-sm btn-outline-success text-uppercase">Reply</button>
                                 </div>

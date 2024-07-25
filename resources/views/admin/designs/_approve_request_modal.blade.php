@@ -64,6 +64,10 @@
     </div>
 </div>
 <div class="form-group">
+    {!! Form::label('Obtained By') !!} {!! add_help('Recommended to have input but can be left blank if Resale Value is filled. Describe how the owner obtained the character.') !!}
+    {!! Form::text('obtained_by', $request->character->obtained_by, ['class' => 'form-control']) !!}
+</div>
+<div class="form-group">
     {!! Form::label('On Transfer Cooldown Until (Optional)') !!}
     {!! Form::text('transferrable_at', $request->character->transferrable_at, ['class' => 'form-control datepicker']) !!}
 </div>
