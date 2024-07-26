@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use Config;
+
 use App\Models\Character\Character;
 use App\Models\Item\Item;
 use App\Models\Shop\Shop;
