@@ -491,6 +491,7 @@ class SubmissionManager extends Service {
                     'submission_id' => $submission->id,
                     'data'          => json_encode(getDataReadyAssets($assets)),
                     'is_focus'      => isset($data['character_is_focus']) && $data['character_is_focus'][$c->id] ? $data['character_is_focus'][$c->id] : 0,
+                    'notify_owner'  => isset($data['character_notify_owner']) && $data['character_notify_owner'][$c->id] ? $data['character_notify_owner'][$c->id] : 0,
                 ]);
 
                 // here we do da skills
@@ -556,6 +557,25 @@ class SubmissionManager extends Service {
 
             if (!$this->logAdminAction($user, 'Submission Approved', 'Approved submission <a href="'.$submission->viewurl.'">#'.$submission->id.'</a>')) {
                 throw new \Exception('Failed to log admin action.');
+            }
+
+            // Get included characters that are set to notify
+            $notifiableCharacter = $submission->characters->where('notify_owner', true);
+
+            if($notifiableCharacter->count()) {
+                // Send a notification to included characters' owners now that the submission is accepted
+                // but not for the submitting user's own characters
+                foreach($notifiableCharacter as $character) {
+                    if($character->character->user->id != $submission->user->id) {
+                        Notifications::create($submission->prompt_id ? 'GIFT_SUBMISSION_RECEIVED' : 'GIFT_CLAIM_RECEIVED', $character->character->user, [
+                            'sender' => $submission->user->name,
+                            'sender_url' => $submission->user->url,
+                            'character_url' => $character->character->url,
+                            'character' => isset($character->character->name) ? $character->character->fullName : $character->character->slug,
+                            'submission_id' => $submission->id,
+                        ]);
+                    }
+                }
             }
 
             return $this->commitReturn($submission);

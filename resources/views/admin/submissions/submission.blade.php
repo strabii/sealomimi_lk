@@ -212,6 +212,13 @@
                                 {!! Form::label('character-is-focus[]', 'Focus Character?', ['class' => 'form-check-label ']) !!}
                                 {!! Form::select('character-is-focus[]', [0 => 'No', 1 => 'Yes'], 0, ['class' => 'form-control character-is-focus']) !!}
                             </div>
+                            <div class="form-group gift-notifs hide">
+                                <h4>Notify Owner?</h4>
+                                <div class="row">
+                                    {!! Form::select('character-notify-owner[]', [0 => 'No' , 1 => 'Yes' ], 0, ['class' => 'form-control ml-lg-3 col-5 col-md-9 character-notify-owner']) !!}
+                                    <div class="col character-gift-permissions"></div>
+                                </div>
+                            </div>
                             <div class="character-rewards hide">
                                 <h4>Character Rewards</h4>
                                 <table class="table table-sm">

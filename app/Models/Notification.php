@@ -179,4 +179,7 @@ class Notification extends Model {
     public const GALLERY_SUBMISSION_STAFF_COMMENTS = 513;
     public const GALLERY_SUBMISSION_EDITED         = 514;
     public const GALLERY_SUBMISSION_PARTICIPANT    = 515;
+    const GIFT_SUBMISSION_RECEIVED                 = 1002;
+    const GIFT_CLAIM_RECEIVED                      = 1003;
+    const GIFT_SUBMISSION_ALERT                    = 1004;
 }

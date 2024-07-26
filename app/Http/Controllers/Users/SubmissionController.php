@@ -168,6 +168,25 @@ class SubmissionController extends Controller {
     }
 
     /**
+     * Shows character gift art/writing permissions.
+     *
+     * @param  string  $slug
+     * @return \Illuminate\Contracts\Support\Renderable
+     */
+    public function getCharacterPermissions($slug)
+    {
+        $character = Character::visible()->where('slug', $slug)->first();
+        $allowArt = $character->is_gift_art_allowed;
+        $allowWriting = $character->is_gift_writing_allowed;
+
+        return view('home._character_gift_permissions', [
+            'character' => $character,
+            'allowArt' => $allowArt,
+            'allowWriting' => $allowWriting,
+        ]);
+    }
+
+    /**
      * Shows prompt information.
      *
      * @param int $id
@@ -197,7 +216,7 @@ class SubmissionController extends Controller {
     public function postNewSubmission(Request $request, SubmissionManager $service, $draft = false) {
         $request->validate(Submission::$createRules);
         if ($submission = $service->createSubmission($request->only(['url', 'prompt_id', 'comments', 'slug', 'character_rewardable_type', 'character_rewardable_id', 'character_rewardable_quantity', 'rewardable_type', 'rewardable_id', 'quantity', 'stack_id', 'stack_quantity', 'currency_id', 'currency_quantity',
-            'character_is_focus',
+            'character_is_focus', 'character_notify_owner',
         ]), Auth::user(), false, $draft)) {
             if ($submission->status == 'Draft') {
                 flash('Draft created successfully.')->success();
@@ -435,7 +454,7 @@ class SubmissionController extends Controller {
      */
     public function postNewClaim(Request $request, SubmissionManager $service, $draft = false) {
         $request->validate(Submission::$createRules);
-        if ($submission = $service->createSubmission($request->only(['url', 'comments', 'stack_id', 'stack_quantity', 'slug', 'character_rewardable_type', 'character_rewardable_id', 'character_rewardable_quantity', 'rewardable_type', 'rewardable_id', 'quantity', 'currency_id', 'currency_quantity']), Auth::user(), true, $draft)) {
+        if ($submission = $service->createSubmission($request->only(['url', 'comments', 'stack_id', 'stack_quantity', 'slug', 'character_rewardable_type', 'character_rewardable_id', 'character_rewardable_quantity', 'rewardable_type', 'rewardable_id', 'quantity', 'currency_id', 'currency_quantity', 'character_notify_owner']), Auth::user(), true, $draft)) {
             if ($submission->status == 'Draft') {
                 flash('Draft created successfully.')->success();
 

@@ -31,6 +31,17 @@
                         {!! Form::label('character_is_focus[' . ($character->character ? $character->character->id : $character->id) . ']', 'Focus Character?', ['class' => 'mr-2']) !!}
                         {!! Form::select('character_is_focus[' . ($character->character ? $character->character->id : $character->id) . ']', [0 => 'No', 1 => 'Yes'], $character->is_focus, ['class' => 'form-control character-is-focus']) !!}
                     </div>
+                    <div class="form-group gift-notifs">
+                        <h4>Notify Owner?</h4>
+                        <div class="row">
+                            {!! Form::select('character_notify_owner['.$character->character->id.']', [0 => 'No' , 1 => 'Yes' ], $character->notify_owner, ['class' => 'form-control ml-lg-3 col-5 col-md-9 character-notify-owner']) !!}
+                            <!-- character gift status badges -->
+                            <div class="col">
+                                <span class="btn {{ $character->character->is_gift_writing_allowed == 1 ? 'badge-success' : ($character->character->is_gift_writing_allowed == 2 ? 'badge-warning text-light' : 'badge-danger') }}" data-toggle="tooltip" data-placement="top" title="{{$character->character->is_gift_writing_allowed == 1 ? 'OPEN for gift writing.' : ($character->character->is_gift_writing_allowed == 2 ? 'PLEASE ASK before gift writing.' : 'CLOSED for gift writing.') }}"><i class="fas fa-file-alt"></i></span>
+                                <span class="btn {{ $character->character->is_gift_art_allowed == 1 ? 'badge-success' : ($character->character->is_gift_art_allowed == 2 ? 'badge-warning text-light' : 'badge-danger') }} ml-2" data-toggle="tooltip" data-placement="top" title="{{ $character->character->is_gift_art_allowed == 1 ? 'OPEN for gift art.' : ($character->character->is_gift_art_allowed == 2 ? 'PLEASE ASK before gift art.' : 'CLOSED for gift art.') }}"><i class="fas fa-pencil-ruler"></i></span>
+                            </div>
+                        </div>
+                    </div>
                 @endif
                 <div class="character-rewards">
                     <h4>Character Rewards</h4>
@@ -51,7 +62,7 @@
                                 <tr class="character-reward-row">
                                     @if ($expanded_rewards)
                                         <td>
-                                            {!! Form::select('character_rewardable_type[' . $character->character_id . '][]', ['Item' => 'Item', 'Currency' => 'Currency', 'LootTable' => 'Loot Table', 'Award' => ucfirst(__('awards.award'))], 'Exp' => 'Exp', 'Points' => 'Stat Points', 'Element' => 'Element'], $reward->rewardable_type, [
+                                            {!! Form::select('character_rewardable_type[' . $character->character_id . '][]', ['Item' => 'Item', 'Currency' => 'Currency', 'Pet' => 'Pet', 'LootTable' => 'Loot Table', 'Award' => ucfirst(__('awards.award'))], 'Exp' => 'Exp', 'Points' => 'Stat Points', 'Element' => 'Element'], $reward->rewardable_type, [
                                                 'class' => 'form-control character-rewardable-type',
                                                 'placeholder' => 'Select Reward Type',
                                             ]) !!}
@@ -62,6 +73,7 @@
                                                 'placeholder' => 'Select Currency',
                                             ]) !!}</div>
                                             <div class="character-items  {{ $reward->rewardable_type == 'Item' ? 'show' : 'hide' }}">{!! Form::select('character_rewardable_id[' . $character->character_id . '][]', $items, $reward->rewardable_type == 'Item' ? $reward->rewardable_id : null, ['class' => 'form-control character-item-id', 'placeholder' => 'Select Item']) !!}</div>
+                                            <div class="character-pets  {{ $reward->rewardable_type == 'Pet' ? 'show' : 'hide' }}">{!! Form::select('character_rewardable_id[' . $character->character_id . '][]', $pet, $reward->rewardable_type == 'Pet' ? $reward->rewardable_id : null, ['class' => 'form-control character-pet-id', 'placeholder' => 'Select Pet']) !!}</div>
                                             <div class="character-awards  {{ $reward->rewardable_type == 'Award' ? 'show' : 'hide'}}">{!! Form::select('character_rewardable_id['.$character->character_id.'][]', $items, ($reward->rewardable_type == 'Award' ? $reward->rewardable_id : null) , ['class' => 'form-control character-award-id', 'placeholder' => 'Select '.ucfirst(__('awards.award'))]) !!}</div>
                                             <div class="character-tables {{ $reward->rewardable_type == 'Loot Table' ? 'show' : 'hide' }}">{!! Form::select('character_rewardable_id[' . $character->character_id . '][]', $tables, $reward->rewardable_type == 'Loot Table' ? $reward->rewardable_id : null, [
                                                 'class' => 'form-control character-table-id',
