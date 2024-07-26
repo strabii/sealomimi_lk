@@ -17,6 +17,16 @@ return [
         'description' => 'The header banner displayed at the top of the page. PNG format, default height of 200px. Tiles in both directions.',
         'filename'    => 'header.png',
     ],
+    'headerdoll'      => [
+        'name'        => 'Headerdoll Image',
+        'description' => 'The headerdoll will be displayed in the banner at the top of the page. PNG format recommended.',
+        'filename'    => 'headerdoll.png',
+    ],
+    'pagedoll'        => [
+        'name'        => 'Pagedoll Image',
+        'description' => 'The pagedoll will be displayed stickied at the bottom of the page. PNG format recommended. Hides on small screens.',
+        'filename'    => 'pagedoll.png',
+    ],
     'characters'      => [
         'name'        => 'Characters Icon',
         'description' => 'The characters graphic on the front page. PNG format, default size of 200px x 200px (no restriction).',
