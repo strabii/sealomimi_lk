@@ -20,7 +20,7 @@ class Theme extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'hash', 'is_default', 'is_active', 'has_css', 'has_header', 'has_background', 'extension', 'extension_background', 'creators', 'prioritize_css', 'link_id', 'link_type', 'is_user_selectable', 'theme_type'
+        'name', 'hash', 'is_default', 'is_active', 'has_css', 'has_header', 'has_background', 'has_pagedoll', 'has_headerdoll', 'extension', 'extension_background', 'extension_headerdoll', 'extension_pagedoll', 'creators', 'prioritize_css', 'link_id', 'link_type', 'is_user_selectable', 'theme_type'
     ];
 
     /**
@@ -39,6 +39,8 @@ class Theme extends Model
         'name' => 'required|unique:themes|between:3,100',
         'header' => 'mimes:png,jpg,jpeg,gif,svg',
         'background' => 'mimes:png,jpg,jpeg',
+        'pagedoll' => 'mimes:png,jpg,jpeg,gif,svg',
+        'headerdoll' => 'mimes:png,jpg,jpeg,gif,svg',
         'active' => 'nullable|boolean',
         'default' => 'nullable|boolean',
     ];
@@ -52,6 +54,8 @@ class Theme extends Model
         'name' => 'required|between:3,100',
         'header' => 'mimes:png,jpg,jpeg,gif,svg',
         'background' => 'mimes:png,jpg,jpeg',
+        'pagedoll' => 'mimes:png,jpg,jpeg,gif,svg',
+        'headerdoll' => 'mimes:png,jpg,jpeg,gif,svg',
         'active' => 'nullable|boolean',
         'default' => 'nullable|boolean',
     ];
@@ -204,6 +208,26 @@ class Theme extends Model
     }
 
     /**
+     * Gets the file name of the model's pagedoll image.
+     *
+     * @return string
+     */
+    public function getPagedollImageFileNameAttribute()
+    {
+        return $this->id . '-pagedoll.'.$this->extension_pagedoll;
+    }
+
+    /**
+     * Gets the file name of the model's headerdoll image.
+     *
+     * @return string
+     */
+    public function getHeaderdollImageFileNameAttribute()
+    {
+        return $this->id . '-headerdoll.'.$this->extension_headerdoll;
+    }
+
+    /**
      * Gets the path to the file directory containing the model's image.
      *
      * @return string
@@ -233,6 +257,28 @@ class Theme extends Model
     {
         if (!$this->has_background && !$this->themeEditor?->background_image_url) return '';
         return $this->extension_background ? asset($this->imageDirectory . '/' . $this->backgroundImageFileName . '?' . $this->hash) : $this->themeEditor?->background_image_url;
+    }
+
+    /**
+     * Gets the URL of the model's pagedoll image.
+     *
+     * @return string
+     */
+    public function getPagedollImageUrlAttribute()
+    {
+        if (!$this->has_pagedoll && !$this->themeEditor?->pagedoll_image_url);
+        return $this->extension_pagedoll ? asset($this->imageDirectory . '/' . $this->pagedollImageFileName . '?' . $this->hash) : $this->themeEditor?->pagedoll_image_url;
+    }
+
+    /**
+     * Gets the URL of the model's headerdoll image.
+     *
+     * @return string
+     */
+    public function getHeaderdollImageUrlAttribute()
+    {
+        if (!$this->has_headerdoll && !$this->themeEditor?->headerdoll_image_url);
+        return $this->extension_headerdoll ? asset($this->imageDirectory . '/' . $this->headerdollImageFileName . '?' . $this->hash) : $this->themeEditor?->headerdoll_image_url;
     }
 
     /**

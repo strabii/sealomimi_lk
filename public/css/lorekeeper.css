@@ -49,6 +49,7 @@ body {
     font-family: Lato, sans-serif;
     min-height: 100vh;
     font-size: 80%;
+    position: relative;
 }
 
 /**************************************************************************************************
@@ -86,6 +87,7 @@ main {
     display: flex;
     flex-direction: column;
     word-wrap: break-word;
+    position: relative;
 }
 
 main > .row {
@@ -105,6 +107,25 @@ main > .row {
     /*background-color: #eee;*/
     background-repeat: repeat;
     min-height: 200px;
+}
+
+.site-pagedoll-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.site-pagedoll {
+    position: absolute;
+    right: 0;
+    left: inherit;
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.fixed-bottom {
+    bottom:0;
+    margin-bottom: 10em;
 }
 
 .clock-style{
@@ -214,6 +235,9 @@ main > .row {
 		top: 3.45rem;
         z-index: 4;
         width: 100%;
+    }
+    .site-pagedoll {
+        display: none;
     }
 
     #headerNav {

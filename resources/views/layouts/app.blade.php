@@ -124,14 +124,24 @@
 </head>
 
 <body>
+    @if( $decoratorTheme?->has_pagedoll ?? $conditionalTheme?->has_pagedoll ?? $theme?->has_pagedoll === 1 )
+        <div class="fixed-bottom">
+            <div class="site-pagedoll-sticky">  
+                <img class="img-fluid d-none d-lg-block site-pagedoll" src="{{ $decoratorTheme?->pagedollImageUrl ?? $conditionalTheme?->pagedollImageUrl ?? $theme?->pagedollImageUrl ?? asset('images/pagedoll.png') }}">
+            </div>
+        </div>
+    @endif
+        
     <div id="app">
         <div class="site-header-image" id="header" style="background-image: url('{{ $decoratorTheme?->headerImageUrl ?? $conditionalTheme?->headerImageUrl ?? $theme?->headerImageUrl ?? asset('images/header.png') }}');">
             
             <div class="clock-style bg-dark text-white" style="position: absolute; top: 160px; left: 1.5%;">
                 <i class="far fa-clock"></i> {!! LiveClock() !!}
             </div>
-            <img class="img-fluid d-none d-lg-block" style="max-width: 300px; position: absolute; top: 75px; right: 5%;" src="/files/Decoration/sealhearted.png">
-
+            @if( $decoratorTheme?->has_headerdoll ?? $conditionalTheme?->has_headerdoll ?? $theme?->has_headerdoll === 1 )
+                <img class="img-fluid d-none d-lg-block" style="max-width: 300px; position: absolute; top: 75px; right: 5%;" src="{{ $decoratorTheme?->headerdollImageUrl ?? $conditionalTheme?->headerdollImageUrl ?? $theme?->headerdollImageUrl ?? asset('images/headerdoll.png') }}">
+            @endif
+            
         </div>
         @include('layouts._nav')
         @if (View::hasSection('sidebar'))
@@ -139,6 +149,7 @@
         @endif
 
         <main class="container-fluid" id="main">
+
             <div class="row">
 
                 <div class="sidebar col-lg-2" id="sidebar">

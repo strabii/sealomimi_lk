@@ -44,8 +44,30 @@
     @if($titleColor) color: {{ $titleColor }} !important; @endif
 }
 
+.site-pagedoll-sticky {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.site-pagedoll {
+    position: absolute;
+    right: 0;
+    left: inherit;
+    max-width: 200px;
+    max-height: 200px;
+}
+
+.fixed-bottom {
+    bottom:0;
+    margin-bottom: 10em;
+}
+
 @media (max-width: 991px) {
     .site-header-image {
+        display: none;
+    }
+    .site-pagedoll {
         display: none;
     }
 }

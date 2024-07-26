@@ -134,7 +134,6 @@ Conditional Themes will be layered on top of a users base theme, and under a use
             @if($theme->has_header) <a href="{{ $theme->headerImageUrl }}"><i class="fas fa-link"></i></a> @endif
             {!! Form::label('Header Image') !!}
             <div>{!! Form::file('header') !!}</div>
-            <div class="text-muted">Header image.</div>
             @if($theme->has_header)
                 <div class="form-check">
                     {!! Form::checkbox('remove_header', 1, false, ['class' => 'form-check-input']) !!}
@@ -161,12 +160,11 @@ Conditional Themes will be layered on top of a users base theme, and under a use
 <p>The Background Image can be uploaded directly or specified by url. If you only specify a color there will be no background image.</p>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="form-group">
             @if($theme->has_background) <a href="{{ $theme->backgroundImageUrl }}"><i class="fas fa-link"></i></a> @endif
             {!! Form::label('Background Image') !!}
             <div>{!! Form::file('background') !!}</div>
-            <div class="text-muted">Background image.</div>
             @if($theme->has_background)
                 <div class="form-check">
                     {!! Form::checkbox('remove_background', 1, false, ['class' => 'form-check-input']) !!}
@@ -175,13 +173,13 @@ Conditional Themes will be layered on top of a users base theme, and under a use
             @endif
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="form-group">
             {!! Form::label('Background Image Url') !!}
             {!! Form::text('background_image_url', $theme->themeEditor->background_image_url ?? '', ['class' => 'form-control']) !!}
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <div class="form-group">
             {!! Form::label('Select background color') !!}
             <div class="input-group cp">
@@ -192,10 +190,54 @@ Conditional Themes will be layered on top of a users base theme, and under a use
             </div>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         {!! Form::label('Background Repeat') !!}{!! add_help('If this is turned on, your background image will repeat to fill the page. If turned off, your background image will cover the width of the screen.') !!}
         <div class="form-group">
             {!! Form::checkbox('background_size', 1, $theme->themeEditor ? $theme->themeEditor?->background_size == 'cover' : 1, ['class' => 'form-check-input form-control', 'data-toggle' => 'toggle']) !!}
+        </div>
+    </div>
+</div>
+
+<h5>Headerdoll and Pagedoll Images</h5>
+<p>The Headerdoll and Pagedoll Images can be specified by url or left blank.</p>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="form-group">
+        @if($theme->has_headerdoll) <a href="{{ $theme->headerdollImageUrl }}"><i class="fas fa-link"></i></a> @endif
+            {!! Form::label('Headerdoll Image Url') !!}  {!! add_help('Go to File Manager to upload images.') !!}
+            <div class="form-check">
+                @if(!$theme->has_headerdoll)
+                    {!! Form::checkbox('on_headerdoll', 0, false, ['class' => 'form-check-input']) !!}
+                    {!! Form::label('on_headerdoll', 'Turn on headerdoll', ['class' => 'form-check-label']) !!}
+                @endif
+                @if($theme->has_headerdoll)
+                    {!! Form::checkbox('remove_headerdoll', 1, false, ['class' => 'form-check-input']) !!}
+                    {!! Form::label('remove_headerdoll', 'Remove current headerdoll', ['class' => 'form-check-label']) !!}
+                @endif
+            </div>
+            <div class="form-group">
+                {!! Form::text('headerdoll_image_url', $theme->themeEditor->headerdoll_image_url ?? '', ['class' => 'form-control']) !!}
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            @if($theme->has_pagedoll) <a href="{{ $theme->pagedollImageUrl }}"><i class="fas fa-link"></i></a> @endif
+            {!! Form::label('Pagedoll Image Url') !!}  {!! add_help('Go to File Manager to upload images.') !!}
+            <div class="form-check">
+                @if(!$theme->has_pagedoll)
+                    {!! Form::checkbox('on_pagedoll', 0, false, ['class' => 'form-check-input']) !!}
+                    {!! Form::label('on_pagedoll', 'Turn on pagedoll', ['class' => 'form-check-label']) !!}
+                @endif
+                @if($theme->has_pagedoll)
+                    {!! Form::checkbox('remove_pagedoll', 1, false, ['class' => 'form-check-input']) !!}
+                    {!! Form::label('remove_pagedoll', 'Remove current pagedoll', ['class' => 'form-check-label']) !!}
+                @endif
+            </div>
+            <div class="form-group">
+                {!! Form::text('pagedoll_image_url', $theme->themeEditor->pagedoll_image_url ?? '', ['class' => 'form-control']) !!}
+            </div>
         </div>
     </div>
 </div>

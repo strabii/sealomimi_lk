@@ -52,6 +52,30 @@ class ThemeManager extends Service
             }
             else $data['has_background'] = 0;
 
+            $pagedoll = null;
+            if(isset($data['pagedoll']) && $data['pagedoll']) {
+                $data['has_pagedoll'] = 1;
+                $background = $data['pagedoll'];
+                unset($data['pagedoll']);
+            }
+            else $data['has_pagedoll'] = 0;
+            if(isset($data['on_pagedoll']))
+            {
+                $data['on_pagedoll'] = 1;
+            }
+
+            $headerdoll = null;
+            if(isset($data['headerdoll']) && $data['headerdoll']) {
+                $data['has_headerdoll'] = 1;
+                $background = $data['headerdoll'];
+                unset($data['headerdoll']);
+            }
+            else $data['has_headerdoll'] = 0;
+            if(isset($data['on_headerdoll']))
+            {
+                $data['has_headerdoll'] = 1;
+            }
+
             $css = null;
             if(isset($data['css']) && $data['css']) {
                 $data['has_css'] = 1;
@@ -74,6 +98,16 @@ class ThemeManager extends Service
                 $theme->extension_background = $background->getClientOriginalExtension();
                 $theme->update();
                 $this->handleImage($background, $theme->imagePath, $theme->backgroundImageFileName, null);
+            }
+            if ($pagedoll) {
+                $theme->extension_pagedoll = $pagedoll->getClientOriginalExtension();
+                $theme->update();
+                $this->handleImage($pagedoll, $theme->imagePath, $theme->pagedollImageFileName, null);
+            }
+            if ($headerdoll) {
+                $theme->extension_headerdoll = $headerdoll->getClientOriginalExtension();
+                $theme->update();
+                $this->handleImage($headerdoll, $theme->imagePath, $theme->headerdollImageFileName, null);
             }
 
             if ($css) $this->handleImage($css, $theme->imagePath, $theme->cssFileName, null);
@@ -121,6 +155,22 @@ class ThemeManager extends Service
                 $background = $data['background'];
                 unset($data['background']);
             }
+            $pagedoll = null;
+            if(isset($data['pagedoll']) && $data['pagedoll']) {
+                if (isset($theme->extension_pagedoll)) $old = $theme->pagedollImageFileName;
+                else $old = null;
+                $data['has_pagedoll'] = 1;
+                $background = $data['pagedoll'];
+                unset($data['pagedoll']);
+            }
+            $headerdoll = null;
+            if(isset($data['headerdoll']) && $data['headerdoll']) {
+                if (isset($theme->extension_headerdoll)) $old = $theme->headerdollImageFileName;
+                else $old = null;
+                $data['has_headerdoll'] = 1;
+                $background = $data['headerdoll'];
+                unset($data['headerdoll']);
+            }
 
             $css = null;
             if(isset($data['css']) && $data['css']) {
@@ -146,6 +196,16 @@ class ThemeManager extends Service
                 $theme->extension_background = $background->getClientOriginalExtension();
                 $theme->update();
                 $this->handleImage($background, $theme->imagePath, $theme->backgroundImageFileName, $old);
+            }
+            if ($pagedoll) {
+                $theme->extension_pagedoll = $pagedoll->getClientOriginalExtension();
+                $theme->update();
+                $this->handleImage($pagedoll, $theme->imagePath, $theme->pagedollImageFileName, $old);
+            }
+            if ($headerdoll) {
+                $theme->extension_headerdoll = $headerdoll->getClientOriginalExtension();
+                $theme->update();
+                $this->handleImage($headerdoll, $theme->imagePath, $theme->headerdollImageFileName, $old);
             }
 
             if($css) $this->handleImage($css, $theme->imagePath, $theme->cssFileName);
@@ -216,6 +276,40 @@ class ThemeManager extends Service
             $data['has_background'] = 0;
         }
 
+        // Remove Pagedoll
+        if(isset($data['remove_pagedoll']) && isset($theme->extension_pagedoll) && $data['remove_pagedoll'])
+        {
+            $data['extension_pagedoll'] = null;
+            $this->deleteImage($theme->imagePath, $theme->pagedollImageFileName);
+            unset($data['remove_image']);
+            $data['has_pagedoll'] = 0;
+        }
+        if(isset($data['remove_pagedoll']))
+        {
+            $data['has_pagedoll'] = 0;
+        }
+        if(isset($data['on_pagedoll']))
+        {
+            $data['has_pagedoll'] = 1;
+        }
+
+        // Remove Headerdoll
+        if(isset($data['remove_headerdoll']) && isset($theme->extension_headerdoll) && $data['remove_headerdoll'])
+        {
+            $data['extension_headerdoll'] = null;
+            $this->deleteImage($theme->imagePath, $theme->headerdollImageFileName);
+            unset($data['remove_image']);
+            $data['has_headerdoll'] = 0;
+        }
+        if(isset($data['remove_headerdoll']))
+        {
+            $data['has_headerdoll'] = 0;
+        }
+        if(isset($data['on_headerdoll']))
+        {
+            $data['has_headerdoll'] = 1;
+        }
+
         // Remove Css
         if(isset($data['remove_css']) && $data['remove_css'])
         {
@@ -253,6 +347,8 @@ class ThemeManager extends Service
 
             if($theme->has_header) $this->deleteImage($theme->imagePath, $theme->headerImageFileName);
             if($theme->has_background) $this->deleteImage($theme->imagePath, $theme->backgroundImageFileName);
+            if($theme->has_pagedoll) $this->deleteImage($theme->imagePath, $theme->pagedollImageFileName);
+            if($theme->has_headerdoll) $this->deleteImage($theme->imagePath, $theme->headerdollImageFileName);
             if($theme->has_css) $this->deleteImage($theme->imagePath, $theme->cssFileName);
             $theme->themeEditor->delete();
             $theme->delete();
