@@ -6,7 +6,9 @@
         ->orderBy('sort_character', 'DESC')
         ->pluck('name', 'id');
     $items = \App\Models\Item\Item::orderBy('name')->pluck('name', 'id');
-    $pets = \App\Models\Pet\Pet::orderBy('name')->pluck('name', 'id');
+    
+    $awards = \App\Models\Award\Award::orderBy('name')->pluck('name', 'id');
+
     $currencies = \App\Models\Currency\Currency::where('is_user_owned', 1)
         ->orderBy('name')
         ->pluck('name', 'id');
@@ -65,7 +67,7 @@
                             {!! Form::select('rewardable_id[]', $weapons, $loot->rewardable_id, ['class' => 'form-control weapon-select selectize', 'placeholder' => 'Select Weapon']) !!}
                         @elseif($loot->rewardable_type == 'Gear')
                             {!! Form::select('rewardable_id[]', $gears, $loot->rewardable_id, ['class' => 'form-control gear-select selectize', 'placeholder' => 'Select Gear']) !!}
-                        @elseif($loot->rewardable_type == 'Award')
+                            @elseif($loot->rewardable_type == 'Award')
                             {!! Form::select('rewardable_id[]', $awards, $loot->rewardable_id, ['class' => 'form-control award-select selectize', 'placeholder' => 'Select '.ucfirst(__('awards.award'))]) !!}
                         @elseif($showLootTables && $loot->rewardable_type == 'LootTable')
                             {!! Form::select('rewardable_id[]', $tables, $loot->rewardable_id, ['class' => 'form-control table-select selectize', 'placeholder' => 'Select Loot Table']) !!}

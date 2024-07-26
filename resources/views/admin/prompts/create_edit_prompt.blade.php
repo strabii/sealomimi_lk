@@ -49,6 +49,21 @@
         {!! Form::select('prompt_category_id', $categories, $prompt->prompt_category_id, ['class' => 'form-control']) !!}
     </div>
 
+    <div class="row">
+        <div class="col-md-8">
+            <div class="form-group">
+                {!! Form::label('Prompt Parent (Optional)') !!} {!! add_help('A parent prompt means the user will be required to have an approved submission from the parent before they can enter this prompt.') !!}
+                {!! Form::select('parent_id', $prompts, $prompt->parent_id, ['class' => 'form-control']) !!}
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="form-group">
+                {!! Form::label('Quantity') !!} {!! add_help('How many times they should have completed it.') !!}
+                {!! Form::number('parent_quantity', $prompt->parent_quantity ? $prompt->parent_quantity : 1, ['class' => 'form-control', 'min' => 1]) !!}
+            </div>
+        </div>
+    </div>
+
     <div class="form-group">
         {!! Form::label('Summary (Optional)') !!} {!! add_help('This is a short blurb that shows up on the consolidated prompts page. HTML cannot be used here.') !!}
         {!! Form::text('summary', $prompt->summary, ['class' => 'form-control', 'maxLength' => 250]) !!}
@@ -119,7 +134,7 @@
     <p>Rewards are credited on a per-user basis. Mods are able to modify the specific rewards granted at approval time.</p>
     <p>You can add loot tables containing any kind of currencies (both user- and character-attached), but be sure to keep track of which are being distributed! Character-only currencies cannot be given to users.</p>
     <p><b>Note that any EXP or Point rewards added here will be creditted directly to the user. If you want to reward EXP or Points to a specific character, you must add them during approval.</b></p>
-    @include('widgets._loot_select', ['loots' => $prompt->rewards, 'showLootTables' => true, 'showRaffles' => true])
+    @include('widgets._loot_select', ['awards' => $awards, 'loots' => $prompt->rewards, 'showLootTables' => true, 'showRaffles' => true])
 
     <hr class="w-70">
 
@@ -150,7 +165,7 @@
         <a href="#" class="remove-skill btn btn-danger mb-2">×</a>
     </div>
 
-    @include('widgets._loot_select_row', ['showLootTables' => true, 'showRaffles' => true])
+    @include('widgets._loot_select_row', ['items' => $items, 'currencies' => $currencies, 'awards' => $awards, 'tables' => $tables, 'raffles' => $raffles, 'showLootTables' => true, 'showRaffles' => true])
 
     @if ($prompt->id)
         <h3>Preview</h3>

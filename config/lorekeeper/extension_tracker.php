@@ -101,5 +101,14 @@ return [
         ]),
         'version' => '1.3.2',
     ],
+    'prompt_prerequisites' => [
+        'key' => 'prompt_prerequisites',
+        'wiki_key' => 'Prompt_Prerequisites',
+        'creators' => json_encode([
+            'Newt' => 'https://github.com/ne-wt/',
+            ]),
+            'version' => '1.0.0',
+        ],
+    
 
 ];

@@ -50,6 +50,7 @@ class SubmissionManager extends Service {
             // 1. check that the prompt can be submitted at this time
             // 2. check that the characters selected exist (are visible too)
             // 3. check that the currencies selected can be attached to characters
+            // 4. If there is a parent, check the user has completed the prompt
             if (!$isClaim && !Settings::get('is_prompts_open')) {
                 throw new \Exception('The prompt queue is closed for submissions.');
             } elseif ($isClaim && !Settings::get('is_claims_open')) {
@@ -63,7 +64,10 @@ class SubmissionManager extends Service {
                 if (!$prompt) {
                     throw new \Exception('Invalid prompt selected.');
                 }
-
+                if($prompt->parent_id) {
+                    $submission = Submission::where('user_id', $user->id)->where('prompt_id', $prompt->parent_id)->where('status', 'Approved')->count();    
+                    if($submission < $prompt->parent_quantity) throw new \Exception('Please complete the prerequisite.');
+                }
                 if ($prompt->staff_only && !$user->isStaff) {
                     throw new \Exception('This prompt may only be submitted to by staff members.');
                 }
@@ -77,6 +81,7 @@ class SubmissionManager extends Service {
             } else {
                 $prompt = null;
             }
+                
 
             // Create the submission itself.
             $submission = Submission::create([
@@ -445,7 +450,8 @@ class SubmissionManager extends Service {
                                 break;
                             case 'Element': $elementIds[] = $id;
                                 break;
-                            case 'Award': $awardIds[] = $id; break;
+                            case 'Award': $awardIds[] = $id;
+                                break;
                         }
                     }
                 } // Expanded character rewards

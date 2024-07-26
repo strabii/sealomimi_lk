@@ -166,6 +166,7 @@
             var $itemSelect = $('#lootRowData').find('.item-select');
             var $itemRaritySelect = $('#lootRowData').find('.item-rarity-select');
             var $petSelect = $('#lootRowData').find('.pet-select');
+            var $awardSelect = $('#lootRowData').find('.award-select');
             var $currencySelect = $('#lootRowData').find('.currency-select');
             var $tableSelect = $('#lootRowData').find('.table-select');
             var $categorySelect = $('#lootRowData').find('.category-select');
@@ -205,6 +206,7 @@
                 else if (val == 'ItemRarity') $clone = $itemRaritySelect.clone();
                 else if (val == 'Pet') $clone = $petSelect.clone();
                 else if (val == 'Currency') $clone = $currencySelect.clone();
+                else if (val == 'Award') $clone = $awardSelect.clone();
                 else if (val == 'ItemCategory') $clone = $categorySelect.clone();
                 else if (val == 'ItemCategoryRarity') $clone = $categoryRaritySelect.clone();
                 else if (val == 'LootTable') $clone = $tableSelect.clone();
@@ -231,6 +233,7 @@
                     else if (val == 'ItemCategory') $clone = $categorySelect.clone();
                     else if (val == 'ItemCategoryRarity') $clone = $categoryRaritySelect.clone();
                     else if (val == 'Pet') $clone = $petSelect.clone();
+                    else if (val == 'Award') $clone = $awardSelect.clone();
                     else if (val == 'Currency') $clone = $currencySelect.clone();
                     else if (val == 'LootTable') $clone = $tableSelect.clone();
                     else if (val == 'None') $clone = $noneSelect.clone();

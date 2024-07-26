@@ -39,7 +39,6 @@
             var $clone = null;
             if (val == 'Item') $clone = $itemSelect.clone();
             else if (val == 'Currency') $clone = $currencySelect.clone();
-            else if (val == 'Award') $clone = $awardSelect.clone();
             else if (val == 'Pet') $clone = $PetSelect.clone();
             else if (val == 'Weapon') $clone = $WeaponSelect.clone();
             else if (val == 'Gear') $clone = $GearSelect.clone();
@@ -69,11 +68,11 @@
                 if (val == 'Item') $clone = $itemSelect.clone();
                 else if (val == 'Pet') $clone = $PetSelect.clone();
                 else if (val == 'Currency') $clone = $currencySelect.clone();
-                else if (val == 'Pet') $clone = $PetSelect.clone();
                 else if (val == 'Weapon') $clone = $WeaponSelect.clone();
                 else if (val == 'Gear') $clone = $GearSelect.clone();
                 else if (val == 'Points') $clone = $statSelect.clone();
                 else if (val == 'Exp') $clone = $claymoreSelect.clone();
+                else if (val == 'Award') $clone = $awardSelect.clone();
                 @if ($showLootTables)
                     else if (val == 'LootTable') $clone = $tableSelect.clone();
                 @endif
