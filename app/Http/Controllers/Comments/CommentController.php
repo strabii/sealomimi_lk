@@ -12,7 +12,7 @@ use App\Models\Sales\Sales;
 use App\Models\SitePage;
 use App\Models\User\User;
 use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
+/*use Illuminate\Routing\Controller;*/
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
@@ -20,10 +20,16 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Honeypot\ProtectAgainstSpam;
 
-class CommentController extends Controller /*implements CommentControllerInterface*/
+use App\Http\Controllers\Controller;
+
+class CommentController extends Controller
 {
-    public function __construct()
-    {
+    
+    /**
+     * Create a new controller instance.
+     */
+    public function __construct() {
+        parent::__construct();
         $this->middleware('web');
 
         if (config('comments.guest_commenting') == true) {

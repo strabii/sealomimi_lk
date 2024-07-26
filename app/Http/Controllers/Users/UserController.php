@@ -8,6 +8,10 @@ use App\Models\Character\CharacterImage;
 use App\Models\Character\Sublist;
 use App\Models\Claymore\GearCategory;
 use App\Models\Claymore\WeaponCategory;
+use DB;
+/*use Auth;*/
+use Settings;
+
 use App\Models\Currency\Currency;
 use App\Models\Gallery\Gallery;
 use App\Models\Gallery\GalleryCharacter;
@@ -102,6 +106,8 @@ class UserController extends Controller {
             'aliases'    => $aliases->orderBy('is_primary_alias', 'DESC')->orderBy('site')->get(),
             'armours'    => $armours,
             'pets'       => $this->user->pets()->orderBy('user_pets.updated_at', 'DESC')->take(5)->get(),
+            'user_enabled' => Settings::get('WE_user_locations'),
+            'user_factions_enabled' => Settings::get('WE_user_factions')
         ]);
     }
 

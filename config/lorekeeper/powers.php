@@ -71,4 +71,14 @@ return [
         'name'        => 'Comment on Sales',
         'description' => 'Allow rank to comment on sales in preview mode.',
     ],
+    'manage_world' => [
+        'name' => 'Manage World',
+        'description' => 'Allow rank to edit world information related to the World Expansion extension.'
+    ],
+    'manage_reports' => [
+        'name' => 'Manage Reports',
+        'description' => 'Allow rank to view the reports queue.'
+    ]
+
+
 ];

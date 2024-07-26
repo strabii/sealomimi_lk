@@ -26,7 +26,7 @@
                     'sale_value_desc' => 'Highest Sale Value',
                     'sale_value_asc' => 'Lowest Sale Value',
                     'species_asc' =>  ucfirst(__('lorekeeper.species')),
-                    'species_desc' => 'ucfirst(__('lorekeeper.species')).' (Reverse)',
+                    'species_desc' => ucfirst(__('lorekeeper.species')).' (Reverse)',
                     'trade_asc' => 'Trade Status',
                     'trade_desc' => 'Trade Status (Reverse)',
                     'gift_art_asc' => 'Gift Art Status',
