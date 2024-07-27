@@ -107,8 +107,8 @@ class SubmissionController extends Controller {
             'currencies'          => Currency::where('is_user_owned', 1)->orderBy('name')->pluck('name', 'id'),
             'inventory'           => $inventory,
             'page'                => 'submission',
-            'awards' => Award::orderBy('name')->released()->where('is_user_owned',1)->pluck('name', 'id'),
-            'characterAwards' => Award::orderBy('name')->released()->where('is_character_owned',1)->pluck('name', 'id'),
+            'awards'              => Award::orderBy('name')->released()->where('is_user_owned',1)->pluck('name', 'id'),
+            'characterAwards'     => Award::orderBy('name')->released()->where('is_character_owned',1)->pluck('name', 'id'),
             'elements'            => Element::orderBy('name')->pluck('name', 'id'),
             'expanded_rewards'    => config('lorekeeper.extensions.character_reward_expansion.expanded'),
         ]));

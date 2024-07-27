@@ -6,9 +6,7 @@
         ->orderBy('sort_character', 'DESC')
         ->pluck('name', 'id');
     $items = \App\Models\Item\Item::orderBy('name')->pluck('name', 'id');
-
     $awards = \App\Models\Award\Award::orderBy('name')->pluck('name', 'id');
-
     $currencies = \App\Models\Currency\Currency::where('is_user_owned', 1)
         ->orderBy('name')
         ->pluck('name', 'id');
@@ -29,6 +27,10 @@
             ->orderBy('name')
             ->pluck('name', 'id');
     }
+    if ($showThemes) {
+        $themes = \App\Models\Theme::orderBy('name')->pluck('name', 'id')
+        ->where('is_active', 1);
+    }
 @endphp
 
 <div id="lootRowData" class="hide">
@@ -37,7 +39,7 @@
             <tr class="loot-row">
                 <td>{!! Form::select(
                     'rewardable_type[]',
-                    ['Item' => 'Item', 'Currency' => 'Currency', 'Pet' => 'Pet', 'Gear' => 'Gear', 'Weapon' => 'Weapon', 'Exp' => 'Exp', 'Award' => ucfirst(__('awards.award')), 'Points' => 'Stat Points',] +
+                    ['Item' => 'Item', 'Currency' => 'Currency', 'Pet' => 'Pet', 'Gear' => 'Gear', 'Weapon' => 'Weapon', 'Exp' => 'Exp', 'Award' => ucfirst(__('awards.award')), 'Points' => 'Stat Points'] +
                         ($showLootTables ? ['LootTable' => 'Loot Table'] : []) +
                         ($showRaffles ? ['Raffle' => 'Raffle Ticket'] : []) +
                         (isset($showThemes) && $showThemes ? ['Theme' => 'Theme'] : []),
