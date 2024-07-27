@@ -14,6 +14,12 @@ use App\Models\Character\CharacterCategory;
 use App\Models\Character\CharacterTransfer;
 use App\Models\Character\CharacterBookmark;
 
+use App\Models\Claymore\Gear;
+use App\Models\Claymore\GearLog;
+use App\Models\Claymore\Weapon;
+use App\Models\Claymore\WeaponLog;
+use App\Models\Claymore\Pet;
+use App\Models\Claymore\PetLog;
 use App\Models\Character\CharacterCurrency;
 use App\Models\Currency\Currency;
 use App\Models\Currency\CurrencyLog;

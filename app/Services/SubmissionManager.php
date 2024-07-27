@@ -742,9 +742,6 @@ class SubmissionManager extends Service {
                             $reward = $type;
                             break;
                         case 'Award':
-                            if (!$isStaff) {
-                                break;
-                            }
                             $reward = Award::find($data['rewardable_id'][$key]);
                             break;
                     }

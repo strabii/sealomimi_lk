@@ -37,12 +37,12 @@
             <tr class="loot-row">
                 <td>{!! Form::select(
                     'rewardable_type[]',
-                    ['Item' => 'Item', 'Currency' => 'Currency', 'Pet' => 'Pet', 'Gear' => 'Gear', 'Weapon' => 'Weapon', 'Exp' => 'Exp', 'Points' => 'Stat Points', 'Award' => ucfirst(__('awards.award'))] +
+                    ['Item' => 'Item', 'Currency' => 'Currency', 'Pet' => 'Pet', 'Gear' => 'Gear', 'Weapon' => 'Weapon', 'Exp' => 'Exp', 'Award' => ucfirst(__('awards.award')), 'Points' => 'Stat Points',] +
                         ($showLootTables ? ['LootTable' => 'Loot Table'] : []) +
                         ($showRaffles ? ['Raffle' => 'Raffle Ticket'] : []) +
                         (isset($showThemes) && $showThemes ? ['Theme' => 'Theme'] : []),
                     null,
-                    ['class' => 'form-control reward-type', 'placeholder' => 'Select Reward Type'],
+                    ['class' => 'form-control reward-type', 'placeholder' => (isset($progression) && $progression ? 'Select Progression Type' : 'Select Reward Type')]
                 ) !!}</td>
                 <td class="loot-row-select"></td>
                 <td>{!! Form::text('quantity[]', 1, ['class' => 'form-control']) !!}</td>
@@ -53,11 +53,11 @@
     {!! Form::select('rewardable_id[]', $items, null, ['class' => 'form-control item-select', 'placeholder' => 'Select Item']) !!}
     {!! Form::select('rewardable_id[]', $currencies, null, ['class' => 'form-control currency-select', 'placeholder' => 'Select Currency']) !!}
     {!! Form::select('rewardable_id[]', $pets, null, ['class' => 'form-control pet-select', 'placeholder' => 'Select Pet']) !!}
+    {!! Form::select('rewardable_id[]', $awards, null, ['class' => 'form-control award-select', 'placeholder' => 'Select '.ucfirst(__('awards.award'))]) !!}
     {!! Form::select('rewardable_id[]', $weapons, null, ['class' => 'form-control weapon-select', 'placeholder' => 'Select Weapon']) !!}
     {!! Form::select('rewardable_id[]', $gears, null, ['class' => 'form-control gear-select', 'placeholder' => 'Select Gear']) !!}
     {!! Form::select('rewardable_id[]', $stats, null, ['class' => 'form-control stat-select', 'placeholder' => 'Select Stat']) !!}
     {!! Form::select('rewardable_id[]', [0 => 1], 0, ['class' => 'form-control claymore-select hide', 'placeholder' => 'Enter Reward']) !!}
-    {!! Form::select('rewardable_id[]', $awards, null, ['class' => 'form-control award-select', 'placeholder' => 'Select '.ucfirst(__('awards.award'))]) !!}
     @if ($showLootTables)
         {!! Form::select('rewardable_id[]', $tables, null, ['class' => 'form-control table-select', 'placeholder' => 'Select Loot Table']) !!}
     @endif

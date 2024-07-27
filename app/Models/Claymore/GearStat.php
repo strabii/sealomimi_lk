@@ -4,6 +4,7 @@ namespace App\Models\Claymore;
 
 use App\Models\Model;
 use App\Models\Stat\Stat;
+use App\Models\Claymore\Gear;
 
 class GearStat extends Model {
     /**

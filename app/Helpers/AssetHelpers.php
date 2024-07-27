@@ -160,7 +160,7 @@ function getAssetModelString($type, $namespaced = true) {
 
         case 'user_awards':
             if($namespaced) return '\App\Models\User\UserAward';
-            else return 'UserAward';
+            else return 'UserAward'; 
             break;
 
         case 'characters':
@@ -178,6 +178,7 @@ function getAssetModelString($type, $namespaced = true) {
                 return 'CharacterItem';
             }
             break;
+
         case 'elements':
             if ($namespaced) {
                 return '\App\Models\Element\Element';
@@ -185,6 +186,7 @@ function getAssetModelString($type, $namespaced = true) {
                 return 'Element';
             }
             break;
+
             // these are special cases, as they do not specifically have a unique model
         case 'exp':
             return 'Exp';
@@ -468,9 +470,7 @@ function fillUserAssets($assets, $sender, $recipient, $logType, $data) {
         } elseif ($key == 'awards' && count($contents)) {
             $service = new \App\Services\AwardCaseManager;
             foreach($contents as $asset) {
-                if(!$service->creditAward($sender, $recipient, $logType, $data, $asset['asset'], $asset['quantity'])) {
-                    return false;
-                }
+                if(!$service->creditAward($sender, $recipient, $logType, $data, $asset['asset'], $asset['quantity'])) return false;
             }
         } elseif ($key == 'pets' && count($contents)) {
             $service = new App\Services\PetManager;
@@ -510,9 +510,7 @@ function fillUserAssets($assets, $sender, $recipient, $logType, $data) {
         } elseif ($key == 'user_awards' && count($contents)) {
             $service = new \App\Services\AwardCaseManager;
             foreach($contents as $asset) {
-                if(!$service->moveStack($sender, $recipient, $logType, $data, $asset['asset'])) {
-                    return false;
-                }
+                if(!$service->moveStack($sender, $recipient, $logType, $data, $asset['asset'])) return false;
             }
         } elseif ($key == 'characters' && count($contents)) {
             $service = new App\Services\CharacterManager;
@@ -532,12 +530,10 @@ function fillUserAssets($assets, $sender, $recipient, $logType, $data) {
             if (!$service->creditStat($sender, $recipient, $logType, $data['data'], 'none', $contents['quantity'])) {
                 return false;
             }
-        } else if ($key == 'themes' && count($contents)) {
+        } elseif ($key == 'themes' && count($contents)) {
             $service = new \App\Services\ThemeManager;
             foreach ($contents as $asset) {
-                if (!$service->creditTheme($recipient, $asset['asset'])) {
-                    return false;
-                }
+                if (!$service->creditTheme($recipient, $asset['asset'])) return false;
             }
         }
     }
@@ -605,9 +601,7 @@ function fillCharacterAssets($assets, $sender, $recipient, $logType, $data, $sub
             if (!$service->creditStat($sender, $recipient, $logType, $data['data'], $contents['quantity'])) {
                 return false;
             }
-        }
-        elseif($key == 'awards' && count($contents))
-        {
+        } elseif ($key == 'awards' && count($contents)) {
             $service = new \App\Services\AwardCaseManager;
             foreach($contents as $asset)
                 if(!$service->creditAward($sender, ( $asset['asset']->is_character_owned ? $recipient : $item_recipient), $logType, $data, $asset['asset'], $asset['quantity'])) return false;
@@ -663,6 +657,15 @@ function findReward($type, $id, $isCharacter = false) {
             break;
         case 'Pet':
             $reward = App\Models\Pet\Pet::find($id);
+            break;
+        case 'Award':
+            $reward = App\Models\Award\Award::find($id);
+            break;
+        case 'Gear':
+            $reward = App\Models\Claymore\Weapon::find($id);
+            break;
+        case 'Weapon':
+            $reward = App\Models\Claymore\Weapon::find($id);
             break;
         case 'LootTable':
             $reward = App\Models\Loot\LootTable::find($id);

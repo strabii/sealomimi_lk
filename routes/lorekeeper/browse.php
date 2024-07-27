@@ -16,7 +16,9 @@
 
 Route::get('items/{id}', 'Users\InventoryController@getStack');
 Route::get('pets/{id}', 'Users\PetController@getStack');
-Route::get('{type}/{id}', 'Users\ArmouryController@getStack')->where(['type' => 'gear|weapons']);
+Route::get('{type}/{id}', 'Users\ArmouryController@getStack')->where(['type' => 'gears|weapons']);
+/*Route::get('gears/{id}', 'Users\ArmouryController@getStack');
+Route::get('weapons/{id}', 'Users\ArmouryController@getStack');*/
 Route::get(__('awards.awardcase').'/{id}', 'Users\AwardCaseController@getStack');
 Route::get('items/character/{id}', 'Users\InventoryController@getCharacterStack');
 Route::get(__('awards.awards').'/character/{id}', 'Users\AwardCaseController@getCharacterStack');

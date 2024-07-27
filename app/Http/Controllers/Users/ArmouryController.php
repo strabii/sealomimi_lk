@@ -54,12 +54,14 @@ class ArmouryController extends Controller {
      * @return \Illuminate\Contracts\Support\Renderable
      */
     public function getStack(Request $request, $type, $id) {
-        if ($type == 'gear') {
-            $stack = UserGear::withTrashed()->where('id', $id)->with('gear')->first();
+        if ($type == 'gears') {
+            $stack = UserGear::withTrashed()->where('id', $id)->with('gears')->first();
         } else {
             $stack = UserWeapon::withTrashed()->where('id', $id)->with('weapon')->first();
         }
         $chara = Character::where('user_id', $stack->user_id)->pluck('slug', 'id');
+
+        
 
         $readOnly = $request->get('read_only') ?: ((Auth::check() && $stack && !$stack->deleted_at && ($stack->user_id == Auth::user()->id || Auth::user()->hasPower('edit_inventories'))) ? 0 : 1);
 

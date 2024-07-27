@@ -57,8 +57,8 @@
                         <td>{!! Form::select(
                             'rewardable_type[]',
                             Config::get('lorekeeper.extensions.item_entry_expansion.loot_tables.enable')
-                                ? ['Item' => 'Item', 'Pet' => 'Pet', 'ItemRarity' => 'Item Rarity', 'Currency' => 'Currency', 'LootTable' => 'Loot Table', 'ItemCategory' => 'Item Category', 'ItemCategoryRarity' => 'Item Category (Conditional)', 'None' => 'None']
-                                : ['Item' => 'Item', 'Pet' => 'Pet', 'Currency' => 'Currency', 'LootTable' => 'Loot Table', 'ItemCategory' => 'Item Category', 'None' => 'None'],
+                                ? ['Item' => 'Item', 'Pet' => 'Pet', 'Gear' => 'Gear', 'Weapon' => 'Weapon', 'Exp' => 'Exp', 'Points' => 'Stat Points', 'Award' => ucfirst(__('awards.award')), 'ItemRarity' => 'Item Rarity', 'Currency' => 'Currency', 'LootTable' => 'Loot Table', 'ItemCategory' => 'Item Category', 'ItemCategoryRarity' => 'Item Category (Conditional)', 'None' => 'None']
+                                : ['Item' => 'Item', 'Pet' => 'Pet', 'Gear' => 'Gear', 'Weapon' => 'Weapon', 'Award' => ucfirst(__('awards.award')), 'Currency' => 'Currency', 'LootTable' => 'Loot Table', 'ItemCategory' => 'Item Category', 'None' => 'None'],
                             $loot->rewardable_type,
                             ['class' => 'form-control reward-type', 'placeholder' => 'Select Reward Type'],
                         ) !!}</td>
@@ -73,7 +73,17 @@
                             @elseif($loot->rewardable_type == 'Currency')
                                 {!! Form::select('rewardable_id[]', $currencies, $loot->rewardable_id, ['class' => 'form-control currency-select selectize', 'placeholder' => 'Select Currency']) !!}
                             @elseif($loot->rewardable_type == 'Pet')
-                                {!! Form::select('rewardable_id[]', $pets, $loot->rewardable_id, ['class' => 'form-control currency-select selectize', 'placeholder' => 'Select Pet']) !!}
+                                {!! Form::select('rewardable_id[]', $pets, $loot->rewardable_id, ['class' => 'form-control pet-select selectize', 'placeholder' => 'Select Pet']) !!}
+                            @elseif($loot->rewardable_type == 'Award')
+                                {!! Form::select('rewardable_id[]', $awards, $loot->rewardable_id, ['class' => 'form-control award-select selectize', 'placeholder' => 'Select '.ucfirst(__('awards.award'))]) !!}
+                            @elseif($loot->rewardable_type == 'Weapon')
+                                {!! Form::select('rewardable_id[]', $weapons, null, ['class' => 'form-control weapon-select', 'placeholder' => 'Select Weapon']) !!}
+                            @elseif($loot->rewardable_type == 'Gear')
+                                {!! Form::select('rewardable_id[]', $gears, null, ['class' => 'form-control gear-select', 'placeholder' => 'Select Gear']) !!}
+                            @elseif($loot->rewardable_type == 'Exp')
+                                {!! Form::select('rewardable_id[]', $stats, null, ['class' => 'form-control stat-select', 'placeholder' => 'Select Stat']) !!}
+                            @elseif($loot->rewardable_type == 'Points')
+                                {!! Form::select('rewardable_id[]', [0 => 1], 0, ['class' => 'form-control claymore-select hide', 'placeholder' => 'Enter Reward']) !!}
                             @elseif($loot->rewardable_type == 'LootTable')
                                 {!! Form::select('rewardable_id[]', $tables, $loot->rewardable_id, ['class' => 'form-control table-select selectize', 'placeholder' => 'Select Loot Table']) !!}
                             @elseif($loot->rewardable_type == 'ItemCategoryRarity')
@@ -131,6 +141,11 @@
         </div>
         {!! Form::select('rewardable_id[]', $currencies, null, ['class' => 'form-control currency-select', 'placeholder' => 'Select Currency']) !!}
         {!! Form::select('rewardable_id[]', $pets, null, ['class' => 'form-control pet-select', 'placeholder' => 'Select Pet']) !!}
+        {!! Form::select('rewardable_id[]', $awards, null, ['class' => 'form-control award-select', 'placeholder' => 'Select '.ucfirst(__('awards.award'))]) !!}
+        {!! Form::select('rewardable_id[]', $weapons, null, ['class' => 'form-control weapon-select', 'placeholder' => 'Select Weapon']) !!}
+        {!! Form::select('rewardable_id[]', $gears, null, ['class' => 'form-control gear-select', 'placeholder' => 'Select Gear']) !!}
+        {!! Form::select('rewardable_id[]', $stats, null, ['class' => 'form-control stat-select', 'placeholder' => 'Select Stat']) !!}
+        {!! Form::select('rewardable_id[]', [0 => 1], 0, ['class' => 'form-control claymore-select hide', 'placeholder' => 'Enter Reward']) !!}
         {!! Form::select('rewardable_id[]', $tables, null, ['class' => 'form-control table-select', 'placeholder' => 'Select Loot Table']) !!}
         {!! Form::select('rewardable_id[]', $categories, null, ['class' => 'form-control category-select', 'placeholder' => 'Select Item Category']) !!}
         <div class="category-rarity-select d-flex">

@@ -61,5 +61,11 @@ return [
         'name' => 'Theme',
         'text_color' => "#ffffff",
         'background_color' => '#573f7e'
-    ]
+    ],
+    
+    'choicebox' => [
+        'name' => 'Choice Box',
+        'text_color' => '#ffffff',
+        'background_color' => '#56639E'
+    ],
 ];
