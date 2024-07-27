@@ -390,6 +390,12 @@ Route::group(['prefix' => 'data', 'namespace' => 'Data', 'middleware' => 'power:
     Route::post('elements/create', 'ElementController@postCreateEditElement');
     Route::post('elements/edit/{id?}', 'ElementController@postCreateEditElement');
     Route::post('elements/delete/{id}', 'ElementController@postDeleteElement');
+
+    // CAROUSEL
+    Route::get('carousel', 'CarouselController@getIndex');
+    Route::post('carousel/create', 'CarouselController@postUploadCarousel');
+    Route::get('carousel/delete/{id}', 'CarouselController@getDeleteCarousel');
+    Route::post('carousel/delete/{id}', 'CarouselController@postDeleteCarousel');
 });
 
 // PAGES
