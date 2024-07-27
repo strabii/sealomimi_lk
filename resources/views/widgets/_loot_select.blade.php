@@ -27,10 +27,7 @@
             ->orderBy('name')
             ->pluck('name', 'id');
     }
-    if ($showThemes) {
-        $themes = \App\Models\Theme::orderBy('name')->pluck('name', 'id')
-        ->where('is_active', 1);
-    }
+    $themes = \App\Models\Theme::orderBy('name')->pluck('name', 'id')->where('is_active', 1);
 @endphp
 
 <div class="text-right mb-3">

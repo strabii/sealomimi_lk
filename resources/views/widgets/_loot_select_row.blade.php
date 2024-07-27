@@ -10,9 +10,9 @@
     $currencies = \App\Models\Currency\Currency::where('is_user_owned', 1)
         ->orderBy('name')
         ->pluck('name', 'id');
-    $gears = \App\Models\Claymore\Gear::orderBy('name')->pluck('name', 'id');
-    $weapons = \App\Models\Claymore\Weapon::orderBy('name')->pluck('name', 'id');
     $pets = \App\Models\Pet\Pet::orderBy('name')->pluck('name', 'id');
+    $weapons = \App\Models\Claymore\Weapon::orderBy('name')->pluck('name', 'id');
+    $gears = \App\Models\Claymore\Gear::orderBy('name')->pluck('name', 'id');
     $stats =
         ['none' => 'General Point'] +
         \App\Models\Stat\Stat::orderBy('name')
@@ -27,10 +27,8 @@
             ->orderBy('name')
             ->pluck('name', 'id');
     }
-    if ($showThemes) {
-        $themes = \App\Models\Theme::orderBy('name')->pluck('name', 'id')
-        ->where('is_active', 1);
-    }
+    $themes = \App\Models\Theme::orderBy('name')->pluck('name', 'id')->where('is_active', 1);
+    
 @endphp
 
 <div id="lootRowData" class="hide">

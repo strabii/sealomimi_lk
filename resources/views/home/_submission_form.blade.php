@@ -73,9 +73,9 @@
             @endphp
         @endif
         @if ($isClaim)
-            @include('widgets._loot_select', ['loots' => $submission->id ? $submission->rewards : $loots ?? null, 'showLootTables' => false, 'showRaffles' => true])
+            @include('widgets._loot_select', ['loots' => $submission->id ? $submission->rewards : $loots ?? null, 'showLootTables' => false, 'showRaffles' => true, 'showThemes' => true])
         @else
-            @include('widgets._loot_select', ['loots' => $submission->id ? $submission->rewards : $loots ?? null, 'showLootTables' => false, 'showRaffles' => false])
+            @include('widgets._loot_select', ['loots' => $submission->id ? $submission->rewards : $loots ?? null, 'showLootTables' => false, 'showRaffles' => false, 'showThemes' => true])
         @endif
 
         @if (!$isClaim)
@@ -98,6 +98,8 @@
                 @include('widgets._character_select_entry', [
                     'characterCurrencies' => $characterCurrencies,
                     'items' => $items,
+                    'awards' => $awards,
+                    'pets' => $pets,
                     'tables' => [],
                     'showTables' => false,
                     'character' => $character,
@@ -158,7 +160,7 @@
 
 @include('widgets._character_select', ['characterCurrencies' => $characterCurrencies, 'showLootTables' => false])
 @if ($isClaim)
-    @include('widgets._loot_select_row', ['items' => $items, 'currencies' => $currencies, 'showLootTables' => false, 'showRaffles' => true])
+    @include('widgets._loot_select_row', ['items' => $items, 'currencies' => $currencies, 'awards' => $awards, 'showLootTables' => false, 'showRaffles' => true])
 @else
-    @include('widgets._loot_select_row', ['items' => $items, 'currencies' => $currencies, 'showLootTables' => false, 'showRaffles' => false])
+    @include('widgets._loot_select_row', ['items' => $items, 'currencies' => $currencies, 'awards' => $awards, 'showLootTables' => false, 'showRaffles' => false])
 @endif

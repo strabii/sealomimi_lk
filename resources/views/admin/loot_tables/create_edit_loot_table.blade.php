@@ -121,8 +121,8 @@
                     <td>{!! Form::select(
                         'rewardable_type[]',
                         Config::get('lorekeeper.extensions.item_entry_expansion.loot_tables.enable')
-                            ? ['Item' => 'Item', 'ItemRarity' => 'Item Rarity', 'Currency' => 'Currency', 'Pet' => 'Pet', 'LootTable' => 'Loot Table', 'ItemCategory' => 'Item Category', 'ItemCategoryRarity' => 'Item Category (Conditional)', 'None' => 'None']
-                            : ['Item' => 'Item', 'Currency' => 'Currency', 'Pet' => 'Pet', 'LootTable' => 'Loot Table', 'ItemCategory' => 'Item Category', 'None' => 'None'],
+                            ? ['Item' => 'Item', 'ItemRarity' => 'Item Rarity', 'Currency' => 'Currency', 'Pet' => 'Pet', 'Weapon' => 'Weapon', 'Gear' => 'Gear', 'LootTable' => 'Loot Table', 'ItemCategory' => 'Item Category', 'ItemCategoryRarity' => 'Item Category (Conditional)', 'None' => 'None']
+                            : ['Item' => 'Item', 'Currency' => 'Currency', 'Pet' => 'Pet', 'Weapon' => 'Weapon', 'Gear' => 'Gear', 'LootTable' => 'Loot Table', 'ItemCategory' => 'Item Category', 'None' => 'None'],
                         null,
                         ['class' => 'form-control reward-type', 'placeholder' => 'Select Reward Type'],
                     ) !!}</td>
@@ -181,6 +181,8 @@
             var $itemSelect = $('#lootRowData').find('.item-select');
             var $itemRaritySelect = $('#lootRowData').find('.item-rarity-select');
             var $petSelect = $('#lootRowData').find('.pet-select');
+            var $weaponSelect = $('#lootRowData').find('.weapon-select');
+            var $gearSelect = $('#lootRowData').find('.gear-select');
             var $awardSelect = $('#lootRowData').find('.award-select');
             var $currencySelect = $('#lootRowData').find('.currency-select');
             var $tableSelect = $('#lootRowData').find('.table-select');
@@ -222,6 +224,8 @@
                 else if (val == 'Pet') $clone = $petSelect.clone();
                 else if (val == 'Currency') $clone = $currencySelect.clone();
                 else if (val == 'Award') $clone = $awardSelect.clone();
+                else if (val == 'Weapon') $clone = $weaponSelect.clone();
+                else if (val == 'Gear') $clone = $gearSelect.clone();
                 else if (val == 'ItemCategory') $clone = $categorySelect.clone();
                 else if (val == 'ItemCategoryRarity') $clone = $categoryRaritySelect.clone();
                 else if (val == 'LootTable') $clone = $tableSelect.clone();
@@ -249,6 +253,8 @@
                     else if (val == 'ItemCategoryRarity') $clone = $categoryRaritySelect.clone();
                     else if (val == 'Pet') $clone = $petSelect.clone();
                     else if (val == 'Award') $clone = $awardSelect.clone();
+                    else if (val == 'Weapon') $clone = $weaponSelect.clone();
+                    else if (val == 'Gear') $clone = $gearSelect.clone();
                     else if (val == 'Currency') $clone = $currencySelect.clone();
                     else if (val == 'LootTable') $clone = $tableSelect.clone();
                     else if (val == 'None') $clone = $noneSelect.clone();
