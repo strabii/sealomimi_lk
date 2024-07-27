@@ -96,7 +96,7 @@
                         <p>Pets can be detached.</p>
                         <div class="form-group">
                             {!! Form::label('id', 'Slug') !!} {!! add_help('Insert your character\'s slug.') !!}
-                            {!! Form::select('id', $chara, null, ['class' => 'form-control']) !!}
+                            {!! Form::select('id', $chara->where('is_myo_slot', 0), null, ['class' => 'form-control']) !!}
                         </div>
                         <div class="text-right">
                             {!! Form::submit('Attach', ['class' => 'btn btn-primary']) !!}

@@ -92,7 +92,7 @@ Route::group(['prefix' => 'pets', 'namespace' => 'Users'], function () {
 
 Route::group(['prefix' => 'armoury', 'namespace' => 'Users'], function () {
     Route::get('/', 'ArmouryController@getArmoury');
-    Route::get('{type}/{id}', 'ArmouryController@getStack');
+    Route::get('{type}/{id}', 'ArmouryController@getStack')->where(['type' => 'gears|weapons']);
 
     Route::post('{type}/transfer/{id}', 'ArmouryController@postTransfer');
     Route::post('{type}/delete/{id}', 'ArmouryController@postDelete');

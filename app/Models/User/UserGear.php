@@ -16,7 +16,7 @@ class UserGear extends Model {
      * @var array
      */
     protected $fillable = [
-        'data', 'gear_id', 'user_id', 'attached_at', 'has_image',
+        'data', 'gear_id', 'user_id', 'attached_at', 'has_image', 'allow_transfer',
     ];
 
     /**
@@ -56,7 +56,7 @@ class UserGear extends Model {
     /**
      * Get the gear associated with this gear stack.
      */
-    public function gear() {
+    public function gears() {
         return $this->belongsTo(Gear::class);
     }
 
@@ -95,9 +95,11 @@ class UserGear extends Model {
      * @return array
      */
     public function getIsTransferrableAttribute() {
-        if (!isset($this->data['disallow_transfer']) && $this->gear->allow_transfer) {
+        if (!isset($this->data['disallow_transfer']) && isset($this->item) && $this->item->allow_transfer)
+        {
             return true;
         }
+        /*if (!isset($this->data['disallow_transfer']) && $this->gear->allow_transfer) */
 
         return false;
     }
