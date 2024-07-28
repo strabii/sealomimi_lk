@@ -116,6 +116,7 @@ Route::group(['prefix' => __('awards.awardcase'), 'namespace' => 'Users'], funct
 Route::group(['prefix' => 'characters', 'namespace' => 'Users'], function () {
     Route::get('/', 'CharacterController@getIndex');
     Route::post('sort', 'CharacterController@postSortCharacters');
+    Route::post('select-character', 'CharacterController@postSelectCharacter');
 
     Route::post('{slug}/pets/sort', 'CharacterController@postSortCharacterPets');
 

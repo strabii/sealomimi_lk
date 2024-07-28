@@ -13,6 +13,8 @@
     </div>
 </div>
 
+@include('widgets._selected_character', ['character' => Auth::user()->settings->selectedCharacter, 'user' => Auth::user(), 'fullImage' => true, 'limitHeight' => true])
+
 <div class="row justify-content-center">
     <div class="col-md-6">
         <div class="card mb-4">
