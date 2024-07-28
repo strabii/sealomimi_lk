@@ -242,6 +242,10 @@ return [
                 'name' => 'Carousel',
                 'url'  => 'admin/data/carousel',
             ],
+            [
+                'name' => 'Random Generators',
+                'url'  => 'admin/data/random',
+            ],
         ],
     ],
     'Claymores' => [

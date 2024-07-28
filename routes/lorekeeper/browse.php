@@ -280,3 +280,10 @@ Route::group(['prefix' => 'world', 'namespace' => 'WorldExpansion'], function() 
     Route::get('concept-categories/{id}', 'ConceptController@getConceptCategory');
 });
 
+/**************************************************************************************************
+    Generators
+**************************************************************************************************/
+Route::group(['prefix' => 'generators'], function () {
+    Route::get('/', 'GeneratorController@getGenerators');
+    Route::get('{id}', 'GeneratorController@getGenerator');
+});
