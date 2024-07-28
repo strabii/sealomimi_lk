@@ -83,9 +83,9 @@
                             <a class="dropdown-item" href="{{ url('trades/open') }}">
                                 Trades
                             </a>
-                            <a class="dropdown-item" href="{{ url('generators') }}">
+                            <!--<a class="dropdown-item" href="{{ url('generators') }}">
                                 Random Generators
-                            </a>
+                            </a>-->
                         </div>
                     </li>
                 @endif

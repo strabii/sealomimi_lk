@@ -5,7 +5,7 @@
 @endsection
 
 @section('content')
-    {!! breadcrumbs(['Home' => 'home', 'Generators' => 'generators', $generator->name => $generator->url]) !!}
+    {!! breadcrumbs(['Generators' => 'generators', $generator->name => $generator->url]) !!}
     <h1>{{ $generator->name }}</h1>
 
     <div class="text-center">
