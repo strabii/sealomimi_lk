@@ -60,6 +60,9 @@
                             <a class="dropdown-item" href="{{ url('redeem-code') }}">
                                 Redeem Code
                             </a>
+                            <a class="dropdown-item" href="{{ url('collection') }}">
+                                Collections
+                            </a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">

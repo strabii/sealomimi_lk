@@ -5,7 +5,7 @@
 @section('profile-content')
 {!! breadcrumbs(['Users' => 'users', $user->name => $user->url, ucfirst(__('awards.awardcase')) => $user->url . '/awardcase']) !!}
 
-<h1>
+<h1 class="mb-3">
     {!! $user->displayName !!}'s {{ ucfirst(__('awards.awardcase')) }}
     @if(Auth::check() && Auth::user()->hasPower('edit_inventories'))
         <a href="http://127.0.0.1:8000/admin/grants/awards" class="float-right btn btn-outline-info" id="grantButton"><i class="fas fa-cog"></i> Admin</a>

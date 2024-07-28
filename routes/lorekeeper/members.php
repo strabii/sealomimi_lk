@@ -307,3 +307,9 @@ Route::group(['prefix' => 'redeem-code', 'namespace' => 'Users'], function() {
     Route::get('/', 'PrizeCodeController@getIndex');
     Route::post('/redeem', 'PrizeCodeController@postRedeemPrize');
 });
+
+Route::group(['prefix' => 'collection', 'namespace' => 'Users'], function() {
+    Route::get('/', 'CollectionController@getIndex');
+    Route::get('complete/{id}', 'CollectionController@getCompleteCollection');
+    Route::post('complete/{id}', 'CollectionController@postCompleteCollection');
+});

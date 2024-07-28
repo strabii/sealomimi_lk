@@ -20,6 +20,7 @@
         <div class="sidebar-item"><a href="{{ url('comments/liked') }}" class="{{ set_active('comments/liked*') }}">Liked Comments</a></div>
         <div class="sidebar-item"><a href="{{ url('redeem-code') }}" class="{{ set_active('redeem-code*') }}">Redeem Code</a></div>
         <!--<div class="sidebar-item"><a href="{{ url('generators') }}" class="{{ set_active('generators*') }}">Random Generators</a></div>-->
+        <div class="sidebar-item"><a href="{{ url('collection') }}" class="{{ set_active('collection*') }}">Collections</a></div>
     </li>
     <li class="sidebar-section">
         <div class="sidebar-section-header">Reports</div>

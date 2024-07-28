@@ -328,6 +328,10 @@ return [
                 'name' => 'Codes',
                 'url' => 'admin/prizecodes'
             ],
+            [
+                'name' => 'Collections',
+                'url' => 'admin/data/collections'
+            ],
         ]
     ],
     'Raffles' => [
