@@ -40,6 +40,9 @@
                                 @if (!$item->is_released)
                                     <i class="fas fa-eye-slash mr-1"></i>
                                 @endif
+                                @if ($item->isLocked == 1)
+                                    <i class="fas fa-lock text-danger" data-toggle="tooltip" title="Locked to character after attachment"></i>
+                                @endif
                                 {!! $name !!}
                             </h1>
                             <div class="row">
