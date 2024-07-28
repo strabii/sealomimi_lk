@@ -443,6 +443,16 @@ Route::group(['prefix' => 'data', 'namespace' => 'Data', 'middleware' => 'power:
     Route::post('collections/collection-categories/edit/{id?}', 'CollectionController@postCreateEditCollectionCategory');
     Route::post('collections/collection-categories/delete/{id}', 'CollectionController@postDeleteCollectionCategory');
     Route::post('collections/collection-categories/sort', 'CollectionController@postSortCollectionCategory');
+    
+    # DAILIES
+    Route::get('dailies', 'DailyController@getIndex');
+    Route::get('dailies/create', 'DailyController@getCreateDaily');
+    Route::get('dailies/edit/{id}', 'DailyController@getEditDaily');
+    Route::get('dailies/delete/{id}', 'DailyController@getDeleteDaily');
+    Route::post('dailies/create', 'DailyController@postCreateEditDaily');
+    Route::post('dailies/edit/{id?}', 'DailyController@postCreateEditDaily');
+    Route::post('dailies/delete/{id}', 'DailyController@postDeleteDaily');
+    Route::post('dailies/sort', 'DailyController@postSortDaily'); 
 });
 
 // PAGES
