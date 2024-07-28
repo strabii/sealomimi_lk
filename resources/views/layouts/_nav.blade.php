@@ -57,6 +57,9 @@
                             <a class="dropdown-item" href="{{ url('comments/liked') }}">
                                 Liked Comments
                             </a>
+                            <a class="dropdown-item" href="{{ url('redeem-code') }}">
+                                Redeem Code
+                            </a>
                         </div>
                     </li>
                     <li class="nav-item dropdown">

@@ -324,6 +324,10 @@ return [
                 'name' => 'Concepts',
                 'url' => 'admin/world/concepts'
             ],
+            [
+                'name' => 'Codes',
+                'url' => 'admin/prizecodes'
+            ],
         ]
     ],
     'Raffles' => [

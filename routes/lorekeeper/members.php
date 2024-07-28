@@ -302,3 +302,8 @@ Route::group(['prefix' => 'comments', 'namespace' => 'Comments'], function () {
     Route::post('/{id}/like/{action}', 'CommentController@like')->name('comments.like');
     Route::get('/liked', 'CommentController@getLikedComments');
 });
+
+Route::group(['prefix' => 'redeem-code', 'namespace' => 'Users'], function() {
+    Route::get('/', 'PrizeCodeController@getIndex');
+    Route::post('/redeem', 'PrizeCodeController@postRedeemPrize');
+});
