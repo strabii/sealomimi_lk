@@ -64,6 +64,27 @@ class SubmissionManager extends Service {
                 if (!$prompt) {
                     throw new \Exception('Invalid prompt selected.');
                 }
+
+                //check that the prompt limit hasn't been hit
+                if($prompt->limit) {
+                    //check that the user hasn't hit the prompt submission limit
+                    //filter the submissions by hour/day/week/etc and count
+                    $count['all'] = Submission::submitted($prompt->id, $user->id)->count();
+                    $count['Hour'] = Submission::submitted($prompt->id, $user->id)->where('created_at', '>=', now()->startOfHour())->count();
+                    $count['Day'] = Submission::submitted($prompt->id, $user->id)->where('created_at', '>=', now()->startOfDay())->count();
+                    $count['Week'] = Submission::submitted($prompt->id, $user->id)->where('created_at', '>=', now()->startOfWeek())->count();
+                    $count['Month'] = Submission::submitted($prompt->id, $user->id)->where('created_at', '>=', now()->startOfMonth())->count();
+                    $count['Year'] = Submission::submitted($prompt->id, $user->id)->where('created_at', '>=', now()->startOfYear())->count();
+
+                    //if limit by character is on... multiply by # of chars. otherwise, don't
+                    if($prompt->limit_character) {
+                        $limit = $prompt->limit * Character::visible()->where('is_myo_slot', 0)->where('user_id', $user->id)->count();
+                    } else { $limit = $prompt->limit; }
+                    //if limit by time period is on
+                    if($prompt->limit_period) {
+                        if($count[$prompt->limit_period] >= $limit) throw new \Exception("You have already submitted to this prompt the maximum number of times.");
+                    } else if($count['all'] >= $limit) throw new \Exception("You have already submitted to this prompt the maximum number of times.");
+                }
                 if($prompt->parent_id) {
                     $submission = Submission::where('user_id', $user->id)->where('prompt_id', $prompt->parent_id)->where('status', 'Approved')->count();    
                     if($submission < $prompt->parent_quantity) throw new \Exception('Please complete the prerequisite.');
@@ -82,6 +103,29 @@ class SubmissionManager extends Service {
                 $prompt = null;
             }
                 
+            //----------prompt-limits additions//
+            // The character identification comes in both the slug field and as character IDs
+            // that key the reward ID/quantity arrays. 
+            // We'll need to match characters to the rewards for them.
+            // First, check if the characters are accessible to begin with.
+            if(isset($data['slug'])) {
+                $characters = Character::myo(0)->visible()->whereIn('slug', $data['slug'])->get();
+                if(count($characters) != count($data['slug'])) throw new \Exception("One or more of the selected characters do not exist.");
+            }
+            else $characters = [];
+
+            // Get a list of rewards, then create the submission itself
+            $promptRewards = createAssetsArray();
+            if(!$isClaim) 
+            {
+                foreach($prompt->rewards as $reward) 
+                {
+                    addAsset($promptRewards, $reward->reward, $reward->quantity);
+                }
+            }
+            $promptRewards = mergeAssetsArrays($promptRewards, $this->processRewards($data, false));
+            //----------prompt-limits additions end//
+
 
             // Create the submission itself.
             $submission = Submission::create([
@@ -89,10 +133,38 @@ class SubmissionManager extends Service {
                 'url'       => $data['url'] ?? null,
                 'status'    => $isDraft ? 'Draft' : 'Pending',
                 'comments'  => $data['comments'],
-                'data'      => null,
+                'data'      => json_encode(getDataReadyAssets($promptRewards)), // list of rewards, non-prompt limit variable: null
             ] + ($isClaim ? [] : [
                 'prompt_id' => $prompt->id,
             ]));
+
+            //----------prompt-limits additions//
+            // Retrieve all currency IDs for characters
+            $currencyIds = [];
+            if(isset($data['character_currency_id'])) {
+                foreach($data['character_currency_id'] as $c)
+                {
+                    foreach($c as $currencyId) $currencyIds[] = $currencyId;
+                }
+            }
+            array_unique($currencyIds);
+            $currencies = Currency::whereIn('id', $currencyIds)->where('is_character_owned', 1)->get()->keyBy('id');
+
+            // Attach characters
+            foreach($characters as $c) 
+            {
+                // Users might not pass in clean arrays (may contain redundant data) so we need to clean that up
+                $assets = $this->processRewards($data + ['character_id' => $c->id, 'currencies' => $currencies], true);
+
+                // Now we have a clean set of assets (redundant data is gone, duplicate entries are merged)
+                // so we can attach the character to the submission
+                SubmissionCharacter::create([
+                    'character_id' => $c->id,
+                    'submission_id' => $submission->id,
+                    'data' => json_encode(getDataReadyAssets($assets))
+                ]);
+            }
+            //----------prompt-limits additions end//
 
             // Set items that have been attached.
             $assets = $this->createUserAttachments($submission, $data, $user);
@@ -100,7 +172,7 @@ class SubmissionManager extends Service {
             $promptRewards = $assets['promptRewards'];
 
             $submission->update([
-                'data' => json_encode([
+                    'data' => json_encode([
                     'user'    => Arr::only(getDataReadyAssets($userAssets), ['user_items', 'currencies']),
                     'rewards' => getDataReadyAssets($promptRewards),
                 ]), // list of rewards and addons

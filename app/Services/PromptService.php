@@ -208,7 +208,7 @@ class PromptService extends Service {
             }
 
             $prompt = Prompt::create(Arr::only($data, ['prompt_category_id', 'name', 'summary', 'description', 'parsed_description', 'is_active', 'start_at', 'end_at', 'hide_before_start', 'hide_after_end', 'has_image', 'prefix', 'hide_submissions',
-            'staff_only', 'hash', 'level_req', 'parent_id', 'parent_quantity']));
+            'limit', 'limit_period', 'limit_character', 'staff_only', 'hash', 'level_req', 'parent_id', 'parent_quantity']));
 
             if ($image) {
                 $this->handleImage($image, $prompt->imagePath, $prompt->imageFileName);
@@ -273,7 +273,7 @@ class PromptService extends Service {
             }
 
             $prompt->update(Arr::only($data, ['prompt_category_id', 'name', 'summary', 'description', 'parsed_description', 'is_active', 'start_at', 'end_at', 'hide_before_start', 'hide_after_end', 'has_image', 'prefix', 'hide_submissions',
-            'staff_only', 'hash', 'level_req', 'parent_id', 'parent_quantity']));
+            'limit', 'limit_period', 'limit_character', 'staff_only', 'hash', 'level_req', 'parent_id', 'parent_quantity']));
 
             if ($prompt) {
                 $this->handleImage($image, $prompt->imagePath, $prompt->imageFileName);
@@ -377,6 +377,9 @@ class PromptService extends Service {
         }
         if (!isset($data['level_check'])) {
             $data['level_req'] = null;
+        }
+        if (!isset($data['limit_character'])) {
+            $data['limit_character'] = null;
         }
 
         if (isset($data['remove_image'])) {
