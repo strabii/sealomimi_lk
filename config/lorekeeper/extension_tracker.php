@@ -61,6 +61,7 @@ return [
         ]),
         'version' => '2.0.0',
     ],
+    
     'character_titles' => [
         'key' => 'character_titles',
         'wiki_key' => 'Character_Titles',
@@ -69,6 +70,7 @@ return [
         ]),
         'version' => '1.1.6',
     ],
+
     'awards' => [
         'key' => 'awards',
         'wiki_key' => 'Awards',
@@ -79,7 +81,6 @@ return [
         ]),
         'version' => '2.0.0',
     ],
-
 
     'theme_manager' => [
         'key' => 'theme_manager',
@@ -101,14 +102,16 @@ return [
         ]),
         'version' => '1.3.2',
     ],
+
     'prompt_prerequisites' => [
         'key' => 'prompt_prerequisites',
         'wiki_key' => 'Prompt_Prerequisites',
         'creators' => json_encode([
             'Newt' => 'https://github.com/ne-wt/',
-            ]),
-            'version' => '1.0.0',
-        ],
+        ]),
+        'version' => '1.0.0',
+    ],
+
     'gift_art_notifications' => [
         'key' => 'gift_art_notifications',
         'wiki_key' => 'Gift_Art_Notifications',
@@ -118,7 +121,6 @@ return [
         'version' => '1.0.0',
     ],
     
-
     'choice_box_tag' => [
         'key' => 'Choice_Box_Tag',
         'wiki_key' => 'Choice_Box_Tag',
@@ -127,4 +129,14 @@ return [
         ]),
         'version' => '1.0.0',
     ],
+
+    'news_widget' => [
+        'key' => 'news_widget',
+        'wiki_key' => 'News_Widget',
+        'creators' => json_encode([
+            'Min' => 'https://github.com/liwoyadan/',
+        ]),
+        'version' => '1.0.0',
+    ],
+
 ];

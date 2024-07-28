@@ -5,6 +5,8 @@
     </div>
 </div>
 
+@include('widgets._news', ['textPreview' => true])
+
 <div class="row">
     <div class="col-md-12">
         @include('widgets._carousel')
