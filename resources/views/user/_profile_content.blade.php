@@ -261,13 +261,13 @@
 <div class="text-right"><a href="{{ $user->url . '/characters' }}">[view all]</a></div>-->
 <hr class="mb-5" />
 
-<div class="row">
-    <div class="col-12">
+<!-- <div class="row">
+    <div class="col-12"> -->
 
         @comments(['model' => $user->profile, 'perPage' => 5])
 
-    </div>
-    <div class="col-12">
+    <!-- </div>
+    <div class="col-12"> -->
         <div class="card mb-4">
             <div class="card-header">
             <a href="#mentionspoiler" data-toggle="collapse"><h5>Mention This User<i class="fas fa-caret-down ml-2"></i></h5></a>
@@ -307,8 +307,8 @@
             @endif
             </div>
         </div>
-    </div>
-</div>
+    <!-- </div>
+</div> -->
 
 @if ($deactivated)
     </div>
