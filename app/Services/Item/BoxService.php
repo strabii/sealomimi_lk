@@ -15,6 +15,7 @@ use App\Models\Theme;
 use App\Models\Pet\Pet;
 use App\Models\Claymore\Weapon;
 use App\Models\Claymore\Gear;
+use App\Models\Recipe\Recipe;
 
 class BoxService extends Service {
     /*
@@ -35,15 +36,16 @@ class BoxService extends Service {
     {
         return [
             'characterCurrencies' => Currency::where('is_character_owned', 1)->orderBy('sort_character', 'DESC')->pluck('name', 'id'),
-            'items' => Item::orderBy('name')->pluck('name', 'id'),
-            'currencies' => Currency::where('is_user_owned', 1)->orderBy('name')->pluck('name', 'id'),
-            'awards' => Award::orderBy('name')->pluck('name', 'id'),
-            'tables' => LootTable::orderBy('name')->pluck('name', 'id'),
-            'pets'       => Pet::orderBy('name')->pluck('name', 'id'),
-            'gears'       => Gear::orderBy('name')->pluck('name', 'id'),
-            'weapons'       => Weapon::orderBy('name')->pluck('name', 'id'),
-            'raffles' => Raffle::where('rolled_at', null)->where('is_active', 1)->orderBy('name')->pluck('name', 'id'),
-            'themes' => Theme::orderBy('name')->where('is_user_selectable', 0)->pluck('name', 'id'),
+            'items'               => Item::orderBy('name')->pluck('name', 'id'),
+            'currencies'          => Currency::where('is_user_owned', 1)->orderBy('name')->pluck('name', 'id'),
+            'awards'              => Award::orderBy('name')->pluck('name', 'id'),
+            'tables'              => LootTable::orderBy('name')->pluck('name', 'id'),
+            'pets'                => Pet::orderBy('name')->pluck('name', 'id'),
+            'gears'               => Gear::orderBy('name')->pluck('name', 'id'),
+            'weapons'             => Weapon::orderBy('name')->pluck('name', 'id'),
+            'raffles'             => Raffle::where('rolled_at', null)->where('is_active', 1)->orderBy('name')->pluck('name', 'id'),
+            'themes'              => Theme::orderBy('name')->where('is_user_selectable', 0)->pluck('name', 'id'),
+            'recipes'             => Recipe::orderBy('name')->pluck('name', 'id'),
         ];
     }
 
@@ -121,6 +123,9 @@ class BoxService extends Service {
                         break;
                     case 'Theme':
                         $type = 'App\Models\Theme';
+                        break;
+                    case 'Recipe':
+                        $type = 'App\Models\Recipe\Recipe';
                         break;
                 }
                 $asset = $type::find($data['rewardable_id'][$key]);

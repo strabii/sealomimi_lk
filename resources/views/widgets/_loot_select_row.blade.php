@@ -27,7 +27,12 @@
             ->orderBy('name')
             ->pluck('name', 'id');
     }
-    $themes = \App\Models\Theme::orderBy('name')->pluck('name', 'id')->where('is_active', 1);
+    if (isset($showRecipes) && $showRecipes) {
+        $recipes = \App\Models\Recipe\Recipe::orderBy('name')->pluck('name', 'id');
+    }
+    if (isset($showThemes) && $showThemes) {
+        $themes = \App\Models\Theme::orderBy('name')->pluck('name', 'id')->where('is_active', 1);
+    }
     
 @endphp
 
@@ -40,7 +45,8 @@
                     ['Item' => 'Item', 'Currency' => 'Currency', 'Pet' => 'Pet', 'Gear' => 'Gear', 'Weapon' => 'Weapon', 'Exp' => 'Exp', 'Award' => ucfirst(__('awards.award')), 'Points' => 'Stat Points'] +
                         ($showLootTables ? ['LootTable' => 'Loot Table'] : []) +
                         ($showRaffles ? ['Raffle' => 'Raffle Ticket'] : []) +
-                        (isset($showThemes) && $showThemes ? ['Theme' => 'Theme'] : []),
+                        (isset($showThemes) && $showThemes ? ['Theme' => 'Theme'] : []) +
+                        (isset($showRecipes) && $showRecipes ? ['Recipe' => 'Recipe'] : []),
                     null,
                     ['class' => 'form-control reward-type', 'placeholder' => (isset($progression) && $progression ? 'Select Progression Type' : 'Select Reward Type')]
                 ) !!}</td>
@@ -64,7 +70,10 @@
     @if ($showRaffles)
         {!! Form::select('rewardable_id[]', $raffles, null, ['class' => 'form-control raffle-select', 'placeholder' => 'Select Raffle']) !!}
     @endif
-    @if(isset($showThemes) && $showThemes)
+    @if (isset($showThemes) && $showThemes)
         {!! Form::select('rewardable_id[]', $themes, null, ['class' => 'form-control theme-select', 'placeholder' => 'Select Theme']) !!}
+    @endif
+    @if (isset($showRecipes) && $showRecipes)
+        {!! Form::select('rewardable_id[]', $recipes, null, ['class' => 'form-control recipe-select', 'placeholder' => 'Select Recipe']) !!}
     @endif
 </div>

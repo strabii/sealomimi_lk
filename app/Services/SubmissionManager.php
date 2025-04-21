@@ -19,6 +19,7 @@ use App\Models\Submission\SubmissionCharacter;
 use App\Models\User\User;
 use App\Models\User\UserItem;
 use App\Models\User\UserAward;
+use App\Models\Recipe\Recipe;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -759,6 +760,7 @@ class SubmissionManager extends Service {
                         case 'Award': if ($data['character_rewardable_quantity'][$data['character_id']][$key]) {
                             addAsset($assets, $data['awards'][$reward], $data['character_rewardable_quantity'][$data['character_id']][$key]);
                         } break;
+                        
                     }
                 }
             }
@@ -815,6 +817,13 @@ class SubmissionManager extends Service {
                             break;
                         case 'Award':
                             $reward = Award::find($data['rewardable_id'][$key]);
+                            break;
+                        case 'Recipe':
+                            if (!$isStaff) {
+                                break;
+                            }
+                            $reward = Recipe::find($data['rewardable_id'][$key]);
+                            if(!$reward->needs_unlocking) throw new \Exception("Invalid recipe selected.");
                             break;
                     }
                     if (!$reward) {

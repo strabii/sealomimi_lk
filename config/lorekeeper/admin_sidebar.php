@@ -140,6 +140,10 @@ return [
                 'name' => 'Medal Grants',
                 'url' => 'admin/grants/awards'
             ],
+            [
+                'name' => 'Recipe Grants',
+                'url' => 'admin/grants/recipes'
+            ],
         ],
     ],
     'Masterlist' => [
@@ -335,6 +339,10 @@ return [
             [
                 'name' => 'Collections',
                 'url' => 'admin/data/collections'
+            ],
+            [
+                'name' => 'Recipes',
+                'url' => 'admin/data/recipes'
             ],
         ]
     ],

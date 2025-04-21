@@ -24,6 +24,8 @@ use App\Models\Award\AwardCategory;
 use App\Models\Claymore\Gear;
 use App\Models\Claymore\Weapon;
 use App\Models\Stat\Stat;
+use App\Models\Recipe\Recipe;
+use App\Models\Theme;
 use App\Services\SubmissionManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -122,6 +124,7 @@ class SubmissionController extends Controller {
             'elements'            => Element::orderBy('name')->pluck('name', 'id'),
             'expanded_rewards'    => config('lorekeeper.extensions.character_reward_expansion.expanded'),
             'tables'              => LootTable::orderBy('name')->pluck('name', 'id'),
+            'recipes'             => Recipe::orderBy('name')->pluck('name', 'id'),
         ]));
     }
 
@@ -163,6 +166,7 @@ class SubmissionController extends Controller {
             'selectedInventory'   => isset($submission->data['user']) ? parseAssetData($submission->data['user']) : null,
             'count'               => Submission::where('prompt_id', $submission->prompt_id)->where('status', 'Approved')->where('user_id', $submission->user_id)->count(),
             'tables'              => LootTable::orderBy('name')->pluck('name', 'id'),
+            'recipes'             => Recipe::orderBy('name')->pluck('name', 'id'),
         ]));
     }
 
@@ -437,6 +441,7 @@ class SubmissionController extends Controller {
             'page'                => 'submission',
             'expanded_rewards'    => config('lorekeeper.extensions.character_reward_expansion.expanded'),
             'tables'              => LootTable::orderBy('name')->pluck('name', 'id'),
+            'recipes'             => Recipe::orderBy('name')->pluck('name', 'id'),
         ]));
     }
 
@@ -475,7 +480,8 @@ class SubmissionController extends Controller {
             'page'                  => 'submission',
             'expanded_rewards'      => config('lorekeeper.extensions.character_reward_expansion.expanded'),
             'selectedInventory'     => isset($submission->data['user']) ? parseAssetData($submission->data['user']) : null,
-            'tables'     => LootTable::orderBy('name')->pluck('name', 'id'),
+            'tables'                => LootTable::orderBy('name')->pluck('name', 'id'),
+            'recipes'               => Recipe::orderBy('name')->pluck('name', 'id'),
         ]));
     }
 

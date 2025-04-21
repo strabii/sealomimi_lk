@@ -72,7 +72,8 @@ function calculateGroupCurrency($data) {
  */
 function getAssetKeys($isCharacter = false) {
     if (!$isCharacter) {
-        return ['items', 'awards', 'currencies', 'pets', 'weapons', 'gears', 'raffle_tickets', 'loot_tables', 'user_items', 'user_awards', 'characters', 'exp', 'points', 'themes'];
+        return ['items', 'awards', 'currencies', 'pets', 'weapons', 'gears', 'raffle_tickets', 'loot_tables',
+                'user_items', 'user_awards', 'characters', 'exp', 'points', 'themes', 'recipes'];
     } else {
         return ['currencies', 'items', 'character_items', 'loot_tables', 'elements', 'exp', 'points', 'awards'];
     }
@@ -168,6 +169,14 @@ function getAssetModelString($type, $namespaced = true) {
                 return '\App\Models\Character\Character';
             } else {
                 return 'Character';
+            }
+            break;
+
+        case 'recipes':
+            if ($namespaced) {
+                return '\App\Models\Recipe\Recipe';
+            } else {
+                return 'Recipe';
             }
             break;
 
@@ -535,6 +544,11 @@ function fillUserAssets($assets, $sender, $recipient, $logType, $data) {
             foreach ($contents as $asset) {
                 if (!$service->creditTheme($recipient, $asset['asset'])) return false;
             }
+        } elseif($key == 'recipes' && count($contents)) {
+            $service = new \App\Services\RecipeService;
+            foreach($contents as $asset) {
+                if(!$service->creditRecipe($sender, $recipient, null, $logType, $data, $asset['asset'])) return false;
+            }
         }
     }
 
@@ -672,6 +686,9 @@ function findReward($type, $id, $isCharacter = false) {
             break;
         case 'Raffle':
             $reward = App\Models\Raffle\Raffle::find($id);
+            break;
+        case 'Recipe':
+            $reward = App\Models\Recipe\Recipe::find($id);
             break;
     }
 

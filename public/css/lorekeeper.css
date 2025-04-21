@@ -795,6 +795,11 @@ tr.accountbound {
     .comment_replies { padding-left:1rem;}
 }
 
+/* RECIPES ***************************************************************************************/
+.recipe-image {
+    width: 150px;
+}
+
 /*
     Credit to Preimpression for all of this code. You can find their github here:
     https://github.com/preimpression

@@ -157,7 +157,7 @@
     <p>Rewards are credited on a per-user basis. Mods are able to modify the specific rewards granted at approval time.</p>
     <p>You can add loot tables containing any kind of currencies (both user- and character-attached), but be sure to keep track of which are being distributed! Character-only currencies cannot be given to users.</p>
     <p><b>Note that any EXP or Point rewards added here will be creditted directly to the user. If you want to reward EXP or Points to a specific character, you must add them during approval.</b></p>
-    @include('widgets._loot_select', ['awards' => $awards, 'loots' => $prompt->rewards, 'showLootTables' => true, 'showRaffles' => true])
+    @include('widgets._loot_select', ['awards' => $awards, 'loots' => $prompt->rewards, 'showLootTables' => true, 'showRaffles' => true, 'showRecipes' => true])
 
     <hr class="w-70">
 
@@ -188,7 +188,7 @@
         <a href="#" class="remove-skill btn btn-danger mb-2">×</a>
     </div>
 
-    @include('widgets._loot_select_row', ['items' => $items, 'currencies' => $currencies, 'awards' => $awards, 'tables' => $tables, 'raffles' => $raffles, 'showLootTables' => true, 'showRaffles' => true, 'showThemes' => true])
+    @include('widgets._loot_select_row', ['items' => $items, 'currencies' => $currencies, 'awards' => $awards, 'tables' => $tables, 'raffles' => $raffles, 'recipes' => $recipes, 'showLootTables' => true, 'showRaffles' => true, 'showThemes' => true, 'showRecipes' => true])
 
     @if ($prompt->id)
         <h3>Preview</h3>
@@ -202,7 +202,7 @@
 
 @section('scripts')
     @parent
-    @include('js._loot_js', ['showLootTables' => true, 'showRaffles' => true])
+    @include('js._loot_js', ['showLootTables' => true, 'showRaffles' => true, 'showRecipes' => true])
     @include('widgets._datetimepicker_js')
     <script>
         $(document).ready(function() {
