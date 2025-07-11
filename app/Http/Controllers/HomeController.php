@@ -44,14 +44,14 @@ class HomeController extends Controller {
         if(Auth::check() && Auth::user()->id) {
             $usernamequote = Auth::user()->name;
             if(Auth::user()->settings->selectedCharacter) {
-                $hasSelectedCharacter = Auth::user()->settings->selectedCharacter;
+                $hasSelectedCharacter = Auth::user()->settings->selectedCharacter->id;
             } else {
-                null;
+                $hasSelectedCharacter = false;
             }
         }
         else {
             $usernamequote = null;
-            $hasSelectedCharacter = null;
+            $hasSelectedCharacter = false;
         }
 
         $quoteinput = array(

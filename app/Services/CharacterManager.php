@@ -1190,13 +1190,29 @@ class CharacterManager extends Service {
         try {
             // Ensure the character is present and visible to be selected,
             // and belongs to the user
-            $character = Character::visible()->where('id', $data['character_id'])->first();
-            if(!$character) throw new \Exception('Invalid character selected.');
-            if($character->user_id != $user->id) throw new \Exception('You can\'t select a character that doesn\'t belong to you.');
+            // allow deselection
 
-            $user->settings->update([
-                'selected_character_id' => $character->id,
-            ]);
+            if ($data['character_id'] !== null) {
+                $character = Character::visible()->where('id', $data['character_id'])->first();
+
+                if (!$character) {
+                    throw new \Exception('Invalid character selected.');
+                }
+
+                if ($character->user_id != $user->id) {
+                    throw new \Exception('You can\'t select a character that doesn\'t belong to you.');
+                }
+
+                $user->settings->update(['selected_character_id' => $character->id]);
+            } else {
+                // If character_id is null, it means the user is deselecting a character
+                $user->settings->update(['selected_character_id' => null]);
+            }
+
+            //$character = Character::visible()->where('id', $data['character_id'])->first();
+            //if(!$character) throw new \Exception('Invalid character selected.');
+            //if($character->user_id != $user->id) throw new \Exception('You can\'t select a character that doesn\'t belong to you.');
+            //$user->settings->update(['selected_character_id' => $character->id,]);
 
             return $this->commitReturn(true);
         } catch(\Exception $e) {
