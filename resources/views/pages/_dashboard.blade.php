@@ -13,7 +13,18 @@
     </div>
 </div>
 
-@include('widgets._selected_character', ['character' => Auth::user()->settings->selectedCharacter, 'user' => Auth::user(), 'fullImage' => true, 'limitHeight' => true])
+<div class="row justify-content-center">
+    <div class="col-12">
+        <div class="card mb-4">
+            <div class="card-body text-center">
+                @include('widgets._selected_character', ['character' => Auth::user()->settings->selectedCharacter, 'user' => Auth::user(), 'fullImage' => true, 'limitHeight' => true])
+                @if($hasSelectedCharacter)
+                    <p>"{!! $quote !!}"</p>
+                @endif
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="row justify-content-center">
     <div class="col-md-6">
