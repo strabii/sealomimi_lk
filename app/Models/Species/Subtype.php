@@ -29,7 +29,7 @@ class Subtype extends Model {
     protected $appends = [
         'name_with_species',
     ];
-    
+
     /**
      * Validation rules for creation.
      *
@@ -102,7 +102,7 @@ class Subtype extends Model {
      * @return string
      */
     public function getNameWithSpeciesAttribute() {
-        return $this->name.' [' . $this->species->name . ' ' . ucfirst(__('lorekeeper.subtype')) . ']';
+        return $this->name.' ['.$this->species->name.' '.ucfirst(__('lorekeeper.subtype')).']';
     }
 
     /**

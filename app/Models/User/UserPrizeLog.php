@@ -2,20 +2,17 @@
 
 namespace App\Models\User;
 
-use Config;
-use DB;
-use Carbon\Carbon;
 use App\Models\Model;
+use Carbon\Carbon;
 
-class UserPrizeLog extends Model
-{
+class UserPrizeLog extends Model {
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'prize_id', 'user_id', 'claimed_at'
+        'prize_id', 'user_id', 'claimed_at',
     ];
 
     /**
@@ -43,16 +40,14 @@ class UserPrizeLog extends Model
     /**
      * Get the participating user.
      */
-    public function user()
-    {
+    public function user() {
         return $this->belongsTo('App\Models\User\User', 'user_id');
     }
 
     /**
      * Get the advent calendar being participated in.
      */
-    public function prize()
-    {
+    public function prize() {
         return $this->belongsTo('App\Models\PrizeCode', 'prize_id');
     }
 
@@ -65,9 +60,7 @@ class UserPrizeLog extends Model
      *
      * @return string
      */
-    public function getItemDataAttribute()
-    {
-        return $this->user->displayName.'Redeemed '.$this->prize->name. '.';
+    public function getItemDataAttribute() {
+        return $this->user->displayName.'Redeemed '.$this->prize->name.'.';
     }
-
 }

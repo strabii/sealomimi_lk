@@ -1,18 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
 
-class AddAssociationsToSomeTables extends Migration
-{
+class AddAssociationsToSomeTables extends Migration {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::create('event_prompts', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id')->unsigned();
@@ -41,16 +37,12 @@ class AddAssociationsToSomeTables extends Migration
         Schema::table('floras', function (Blueprint $table) {
             $table->string('scientific_name')->nullable();
         });
-
     }
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('location_prompts');
         Schema::dropIfExists('event_newses');
         Schema::dropIfExists('event_prompts');

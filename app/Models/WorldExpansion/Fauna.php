@@ -2,20 +2,12 @@
 
 namespace App\Models\WorldExpansion;
 
-use DB;
 use Auth;
-use Config;
-
+use DB;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-use App\Models\User\User;
-use App\Models\WorldExpansion\FaunaCategory;
-use App\Models\WorldExpansion\Location;
-use App\Models\Item\Item;
-
-class Fauna extends Model
-{
+class Fauna extends Model {
     use SoftDeletes;
 
     /**
@@ -24,11 +16,10 @@ class Fauna extends Model
      * @var array
      */
     protected $fillable = [
-        'name','description', 'summary', 'parsed_description', 'sort', 'image_extension', 'thumb_extension',
-        'category_id', 'is_active', 'scientific_name'
+        'name', 'description', 'summary', 'parsed_description', 'sort', 'image_extension', 'thumb_extension',
+        'category_id', 'is_active', 'scientific_name',
 
     ];
-
 
     /**
      * The table associated with the model.
@@ -45,11 +36,11 @@ class Fauna extends Model
      * @var array
      */
     public static $createRules = [
-        'name' => 'required|unique:faunas|between:3,25',
+        'name'        => 'required|unique:faunas|between:3,25',
         'description' => 'nullable',
-        'summary' => 'nullable|max:300',
-        'image' => 'mimes:png,gif,jpg,jpeg',
-        'image_th' => 'mimes:png,gif,jpg,jpeg',
+        'summary'     => 'nullable|max:300',
+        'image'       => 'mimes:png,gif,jpg,jpeg',
+        'image_th'    => 'mimes:png,gif,jpg,jpeg',
     ];
 
     /**
@@ -58,13 +49,12 @@ class Fauna extends Model
      * @var array
      */
     public static $updateRules = [
-        'name' => 'required|between:3,25',
+        'name'        => 'required|between:3,25',
         'description' => 'nullable',
-        'summary' => 'nullable|max:300',
-        'image' => 'mimes:png,gif,jpg,jpeg',
-        'image_th' => 'mimes:png,gif,jpg,jpeg',
+        'summary'     => 'nullable|max:300',
+        'image'       => 'mimes:png,gif,jpg,jpeg',
+        'image_th'    => 'mimes:png,gif,jpg,jpeg',
     ];
-
 
     /**********************************************************************************************
 
@@ -75,26 +65,22 @@ class Fauna extends Model
     /**
      * Get the location attached to this location.
      */
-    public function category()
-    {
+    public function category() {
         return $this->belongsTo('App\Models\WorldExpansion\FaunaCategory', 'category_id');
     }
 
     /**
      * Get the attacher attached to the model.
      */
-    public function attachments()
-    {
-        return $this->hasMany('App\Models\WorldExpansion\WorldAttachment', 'attacher_id')->where('attacher_type',class_basename($this));
+    public function attachments() {
+        return $this->hasMany('App\Models\WorldExpansion\WorldAttachment', 'attacher_id')->where('attacher_type', class_basename($this));
     }
-
 
     /**
      * Get the attacher attached to the model.
      */
-    public function attachers()
-    {
-        return $this->hasMany('App\Models\WorldExpansion\WorldAttachment', 'attachment_id')->where('attachment_type',class_basename($this));
+    public function attachers() {
+        return $this->hasMany('App\Models\WorldExpansion\WorldAttachment', 'attachment_id')->where('attachment_type', class_basename($this));
     }
 
     /**********************************************************************************************
@@ -106,15 +92,17 @@ class Fauna extends Model
     /**
      * Scope a query to only include visible posts.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeVisible($query)
-    {
-        if(!Auth::check() || !(Auth::check() && Auth::user()->isStaff)) return $query->where('is_active', 1);
-        else return $query;
+    public function scopeVisible($query) {
+        if (!Auth::check() || !(Auth::check() && Auth::user()->isStaff)) {
+            return $query->where('is_active', 1);
+        } else {
+            return $query;
+        }
     }
-
 
     /**********************************************************************************************
 
@@ -127,10 +115,12 @@ class Fauna extends Model
      *
      * @return string
      */
-    public function getDisplayNameAttribute()
-    {
-        if($this->is_active) {return '<a href="'.$this->url.'" class="display-location">'.$this->name.'</a>';}
-        else {return '<s><a href="'.$this->url.'" class="display-location text-muted">'.$this->name.'</a></s>';}
+    public function getDisplayNameAttribute() {
+        if ($this->is_active) {
+            return '<a href="'.$this->url.'" class="display-location">'.$this->name.'</a>';
+        } else {
+            return '<s><a href="'.$this->url.'" class="display-location text-muted">'.$this->name.'</a></s>';
+        }
     }
 
     /**
@@ -138,22 +128,25 @@ class Fauna extends Model
      *
      * @return string
      */
-    public function getFullDisplayNameAttribute()
-    {
-        if($this->is_active) {return '<a href="'.$this->url.'" class="display-location">'.$this->style.'</a>';}
-        else {return '<s><a href="'.$this->url.'" class="display-location text-muted">'.$this->style.'</a></s>';}
+    public function getFullDisplayNameAttribute() {
+        if ($this->is_active) {
+            return '<a href="'.$this->url.'" class="display-location">'.$this->style.'</a>';
+        } else {
+            return '<s><a href="'.$this->url.'" class="display-location text-muted">'.$this->style.'</a></s>';
+        }
     }
-
 
     /**
      * Displays the location's name, linked to its purchase page.
      *
      * @return string
      */
-    public function getFullDisplayNameUCAttribute()
-    {
-        if($this->is_active) {return '<a href="'.$this->url.'" class="display-location">'.ucfirst($this->style).'</a>';}
-        else {return '<s><a href="'.$this->url.'" class="display-location text-muted">'.ucfirst($this->style).'</a></s>';}
+    public function getFullDisplayNameUCAttribute() {
+        if ($this->is_active) {
+            return '<a href="'.$this->url.'" class="display-location">'.ucfirst($this->style).'</a>';
+        } else {
+            return '<s><a href="'.$this->url.'" class="display-location text-muted">'.ucfirst($this->style).'</a></s>';
+        }
     }
 
     /**
@@ -161,8 +154,7 @@ class Fauna extends Model
      *
      * @return string
      */
-    public function getImageDirectoryAttribute()
-    {
+    public function getImageDirectoryAttribute() {
         return 'images/data/fauna';
     }
 
@@ -171,8 +163,7 @@ class Fauna extends Model
      *
      * @return string
      */
-    public function getImagePathAttribute()
-    {
+    public function getImagePathAttribute() {
         return public_path($this->imageDirectory);
     }
 
@@ -181,20 +172,17 @@ class Fauna extends Model
      *
      * @return string
      */
-    public function getImageFileNameAttribute()
-    {
-        return $this->id . '-image.' . $this->image_extension;
+    public function getImageFileNameAttribute() {
+        return $this->id.'-image.'.$this->image_extension;
     }
-
 
     /**
      * Gets the file name of the model's thumbnail image.
      *
      * @return string
      */
-    public function getThumbFileNameAttribute()
-    {
-        return $this->id . '-th.'. $this->thumb_extension;
+    public function getThumbFileNameAttribute() {
+        return $this->id.'-th.'.$this->thumb_extension;
     }
 
     /**
@@ -202,10 +190,12 @@ class Fauna extends Model
      *
      * @return string
      */
-    public function getImageUrlAttribute()
-    {
-        if (!$this->image_extension) return null;
-        return asset($this->imageDirectory . '/' . $this->imageFileName);
+    public function getImageUrlAttribute() {
+        if (!$this->image_extension) {
+            return null;
+        }
+
+        return asset($this->imageDirectory.'/'.$this->imageFileName);
     }
 
     /**
@@ -213,10 +203,12 @@ class Fauna extends Model
      *
      * @return string
      */
-    public function getThumbUrlAttribute()
-    {
-        if (!$this->thumb_extension) return null;
-        return asset($this->imageDirectory . '/' . $this->thumbFileName);
+    public function getThumbUrlAttribute() {
+        if (!$this->thumb_extension) {
+            return null;
+        }
+
+        return asset($this->imageDirectory.'/'.$this->thumbFileName);
     }
 
     /**
@@ -224,12 +216,9 @@ class Fauna extends Model
      *
      * @return string
      */
-    public function getUrlAttribute()
-    {
+    public function getUrlAttribute() {
         return url('world/faunas/'.$this->id);
     }
-
-
 
     /**********************************************************************************************
 
@@ -237,63 +226,61 @@ class Fauna extends Model
 
     **********************************************************************************************/
 
-
-
     /**
      * Scope a query to sort items in category order.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeSortCategory($query)
-    {
+    public function scopeSortCategory($query) {
         $ids = FaunaCategory::orderBy('sort', 'DESC')->pluck('id')->toArray();
+
         return count($ids) ? $query->orderByRaw(DB::raw('FIELD(category_id, '.implode(',', $ids).')')) : $query;
     }
+
     /**
      * Scope a query to sort items in alphabetical order.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
-     * @param  bool                                   $reverse
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     * @param bool                                  $reverse
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeSortAlphabetical($query, $reverse = false)
-    {
+    public function scopeSortAlphabetical($query, $reverse = false) {
         return $query->orderBy('name', $reverse ? 'DESC' : 'ASC');
     }
 
     /**
      * Scope a query to sort items by newest first.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeSortNewest($query)
-    {
+    public function scopeSortNewest($query) {
         return $query->orderBy('id', 'DESC');
     }
 
     /**
      * Scope a query to sort features oldest first.
      *
-     * @param  \Illuminate\Database\Eloquent\Builder  $query
+     * @param \Illuminate\Database\Eloquent\Builder $query
+     *
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeSortOldest($query)
-    {
+    public function scopeSortOldest($query) {
         return $query->orderBy('id');
     }
 
-
-    public static function getFaunasByCategory()
-    {
+    public static function getFaunasByCategory() {
         $sorted_fauna_categories = collect(FaunaCategory::all()->sortBy('name')->pluck('name')->toArray());
         $grouped = self::select('name', 'id', 'category_id')->with('category')->orderBy('name')->get()->keyBy('id')->groupBy('category.name', $preserveKeys = true)->toArray();
         if (isset($grouped[''])) {
             if (!$sorted_fauna_categories->contains('Miscellaneous')) {
                 $sorted_fauna_categories->push('Miscellaneous');
             }
-            $grouped['Miscellaneous'] = $grouped['Miscellaneous'] ?? [] + $grouped[''];
+            $grouped['Miscellaneous'] ??= [] + $grouped[''];
         }
         $sorted_fauna_categories = $sorted_fauna_categories->filter(function ($value, $key) use ($grouped) {
             return in_array($value, array_keys($grouped), true);
@@ -311,6 +298,4 @@ class Fauna extends Model
 
         return $grouped;
     }
-
-
 }

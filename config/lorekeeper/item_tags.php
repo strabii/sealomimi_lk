@@ -58,20 +58,20 @@ return [
     ],
 
     'theme' => [
-        'name' => 'Theme',
-        'text_color' => "#ffffff",
-        'background_color' => '#573f7e'
+        'name'             => 'Theme',
+        'text_color'       => '#ffffff',
+        'background_color' => '#573f7e',
     ],
-    
+
     'choicebox' => [
-        'name' => 'Choice Box',
-        'text_color' => '#ffffff',
-        'background_color' => '#56639E'
+        'name'             => 'Choice Box',
+        'text_color'       => '#ffffff',
+        'background_color' => '#56639E',
     ],
 
     'recipe' => [
-        'name' => 'Recipe',
-        'text_color' => '#ffffff',
-        'background_color' => '#6D18A7'
+        'name'             => 'Recipe',
+        'text_color'       => '#ffffff',
+        'background_color' => '#6D18A7',
     ],
 ];

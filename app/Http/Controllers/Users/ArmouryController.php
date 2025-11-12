@@ -60,7 +60,6 @@ class ArmouryController extends Controller {
             $stack = UserWeapon::withTrashed()->where('id', $id)->with('weapon')->first();
         }
         $chara = Character::myo()->where('user_id', $stack->user_id)->pluck('slug', 'id');
-        
 
         $readOnly = $request->get('read_only') ?: ((Auth::check() && $stack && !$stack->deleted_at && ($stack->user_id == Auth::user()->id || Auth::user()->hasPower('edit_inventories'))) ? 0 : 1);
 

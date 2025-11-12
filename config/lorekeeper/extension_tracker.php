@@ -12,23 +12,23 @@ return [
     //     ]),
     //     'version' => '1.0.0',
     // ],
-    
+
     'dailies' => [
-        'key' => 'dailies',
+        'key'      => 'dailies',
         'wiki_key' => 'Dailies',
         'creators' => json_encode([
             'Cylunny' => 'https://toyhou.se/cylunny',
         ]),
-        'version' => '2.0.1', 
+        'version' => '2.0.1',
     ],
-    
+
     'crafting_system' => [
-        'key' => 'crafting_system',
+        'key'      => 'crafting_system',
         'wiki_key' => 'Crafting_System',
         'creators' => json_encode([
             'Draginraptor' => 'https://github.com/Draginraptor',
-            'Uri' => 'https://github.com/preimpression/',
-            'Newt' => 'https://github.com/Ne-wt'
+            'Uri'          => 'https://github.com/preimpression/',
+            'Newt'         => 'https://github.com/Ne-wt',
         ]),
         'version' => '1.0.0',
     ],
@@ -81,9 +81,9 @@ return [
         ]),
         'version' => '2.0.0',
     ],
-    
+
     'character_titles' => [
-        'key' => 'character_titles',
+        'key'      => 'character_titles',
         'wiki_key' => 'Character_Titles',
         'creators' => json_encode([
             'Mercury' => 'https://github.com/itinerare/',
@@ -92,39 +92,39 @@ return [
     ],
 
     'awards' => [
-        'key' => 'awards',
+        'key'      => 'awards',
         'wiki_key' => 'Awards',
         'creators' => json_encode([
-            'Uri'  => 'https://github.com/preimpression/',
-            'TGI'  => 'https://github.com/tjgallaha/',
+            'Uri'   => 'https://github.com/preimpression/',
+            'TGI'   => 'https://github.com/tjgallaha/',
             'Ne-wt' => 'https://github.com/ne-wt/',
         ]),
         'version' => '2.0.0',
     ],
 
     'theme_manager' => [
-        'key' => 'theme_manager',
+        'key'      => 'theme_manager',
         'wiki_key' => 'Theme Manager',
         'creators' => json_encode([
-            'Uri' => 'https://github.com/preimpression/',
+            'Uri'     => 'https://github.com/preimpression/',
             'Cylunny' => 'https://toyhou.se/cylunny',
-            'moif' => 'https://toyhou.se/moif'
+            'moif'    => 'https://toyhou.se/moif',
         ]),
         'version' => '2.0.0', // Big update with Cylunny's Theme manager + Moif's work merging the two!
     ],
 
     'world_expansion' => [
-        'key' => 'world_expansion',
+        'key'      => 'world_expansion',
         'wiki_key' => 'World_Expansion',
         'creators' => json_encode([
-            'Uri' => 'https://github.com/preimpression/',
+            'Uri'     => 'https://github.com/preimpression/',
             'Mercury' => 'https://github.com/itinerare/',
         ]),
         'version' => '1.3.2',
     ],
 
     'prompt_prerequisites' => [
-        'key' => 'prompt_prerequisites',
+        'key'      => 'prompt_prerequisites',
         'wiki_key' => 'Prompt_Prerequisites',
         'creators' => json_encode([
             'Newt' => 'https://github.com/ne-wt/',
@@ -133,16 +133,16 @@ return [
     ],
 
     'gift_art_notifications' => [
-        'key' => 'gift_art_notifications',
+        'key'      => 'gift_art_notifications',
         'wiki_key' => 'Gift_Art_Notifications',
-            'creators' => json_encode([
+        'creators' => json_encode([
             'AnimatedCritter' => 'https://github.com/animatedcritter/',
         ]),
         'version' => '1.0.0',
     ],
-    
+
     'choice_box_tag' => [
-        'key' => 'Choice_Box_Tag',
+        'key'      => 'Choice_Box_Tag',
         'wiki_key' => 'Choice_Box_Tag',
         'creators' => json_encode([
             'Mercury' => 'https://github.com/itinerare/',
@@ -151,7 +151,7 @@ return [
     ],
 
     'news_widget' => [
-        'key' => 'news_widget',
+        'key'      => 'news_widget',
         'wiki_key' => 'News_Widget',
         'creators' => json_encode([
             'Min' => 'https://github.com/liwoyadan/',
@@ -160,7 +160,7 @@ return [
     ],
 
     'selected_character' => [
-        'key' => 'selected_character',
+        'key'      => 'selected_character',
         'wiki_key' => 'Selected_Character',
         'creators' => json_encode([
             'Mercury' => 'https://github.com/itinerare/',
@@ -169,7 +169,7 @@ return [
     ],
 
     'scavenger_hunts' => [
-        'key' => 'scavenger_hunts',
+        'key'      => 'scavenger_hunts',
         'wiki_key' => 'Scavenger_Hunts',
         'creators' => json_encode([
             'Mercury' => 'https://github.com/itinerare/',

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Characters;
 use App\Http\Controllers\Controller;
 use App\Models\Character\Character;
 use App\Models\Character\CharacterDesignUpdate;
+use App\Models\Character\CharacterTitle;
 use App\Models\Feature\Feature;
 use App\Models\Item\Item;
 use App\Models\Item\ItemCategory;
@@ -15,11 +16,8 @@ use App\Models\User\User;
 use App\Models\User\UserItem;
 use App\Services\DesignUpdateManager;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-
 // Titles extension additions //
-use App\Models\Character\CharacterTitle;
-use App\Services\CharacterManager;
+use Illuminate\Support\Facades\Auth;
 
 class DesignController extends Controller {
     /**
@@ -225,12 +223,12 @@ class DesignController extends Controller {
         }
 
         return view('character.design.features', [
-            'request' => $r,
+            'request'   => $r,
             'specieses' => ['0' => 'Select '.ucfirst('lorekeeper.species')] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'subtypes' => ['0' => 'No '.__('lorekeeper.subtype')] + Subtype::where('species_id','=',$r->species_id)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'rarities' => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'titles' => ['0' => 'Select Title', 'custom' => 'Custom Title'] + CharacterTitle::orderBy('sort', 'DESC')->pluck('title', 'id')->toArray(),
-            'features' => Feature::orderBy('name')->pluck('name', 'id')->toArray()
+            'subtypes'  => ['0' => 'No '.__('lorekeeper.subtype')] + Subtype::where('species_id', '=', $r->species_id)->orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'rarities'  => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'titles'    => ['0' => 'Select Title', 'custom' => 'Custom Title'] + CharacterTitle::orderBy('sort', 'DESC')->pluck('title', 'id')->toArray(),
+            'features'  => Feature::orderBy('name')->pluck('name', 'id')->toArray(),
         ]);
     }
 

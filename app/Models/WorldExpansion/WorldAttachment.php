@@ -4,24 +4,14 @@ namespace App\Models\WorldExpansion;
 
 use Illuminate\Database\Eloquent\Model;
 
-use App\Models\WorldExpansion\Figure;
-use App\Models\WorldExpansion\Fauna;
-use App\Models\WorldExpansion\Flora;
-use App\Models\WorldExpansion\Faction;
-use App\Models\WorldExpansion\Location;
-use App\Models\WorldExpansion\Concept;
-use App\Models\Item\Item;
-
-class WorldAttachment extends Model
-{
-
+class WorldAttachment extends Model {
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'attacher_id', 'attacher_type', 'attachment_id', 'attachment_type', 'data'
+        'attacher_id', 'attacher_type', 'attachment_id', 'attachment_type', 'data',
     ];
 
     /**
@@ -42,10 +32,8 @@ class WorldAttachment extends Model
     /**
      * Get the attachments.
      */
-    public function attachment()
-    {
-        switch ($this->attachment_type)
-        {
+    public function attachment() {
+        switch ($this->attachment_type) {
             case 'Figure':
                 return $this->belongsTo('App\Models\WorldExpansion\Figure', 'attachment_id');
             case 'Fauna':
@@ -70,15 +58,15 @@ class WorldAttachment extends Model
                 // Laravel requires a relationship instance to be returned (cannot return null), so returning one that doesn't exist here.
                 return $this->belongsTo('App\Models\Loot\Loot', 'attachment_id', 'loot_table_id')->whereNull('loot_table_id');
         }
+
         return null;
     }
+
     /**
      * Get the attachers.
      */
-    public function attacher()
-    {
-        switch ($this->attacher_type)
-        {
+    public function attacher() {
+        switch ($this->attacher_type) {
             case 'Figure':
                 return $this->belongsTo('App\Models\WorldExpansion\Figure', 'attacher_id');
             case 'Fauna':
@@ -103,11 +91,12 @@ class WorldAttachment extends Model
                 // Laravel requires a relationship instance to be returned (cannot return null), so returning one that doesn't exist here.
                 return $this->belongsTo('App\Models\Loot\Loot', 'attacher_id', 'loot_table_id')->whereNull('loot_table_id');
         }
+
         return null;
     }
 
     public function figures() {
-        return $this->attachments()->where('attachment_type','Figure');
+        return $this->attachments()->where('attachment_type', 'Figure');
     }
 
     /**********************************************************************************************
@@ -115,6 +104,4 @@ class WorldAttachment extends Model
         ACCESSORS
 
     **********************************************************************************************/
-
-
 }

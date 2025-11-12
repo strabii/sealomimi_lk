@@ -4,22 +4,19 @@ namespace App\Services;
 
 use App\Facades\Notifications;
 use App\Facades\Settings;
-use Config;
-use Image;
+use App\Models\Award\Award;
 use App\Models\Character\Character;
 use App\Models\Currency\Currency;
 use App\Models\Element\Element;
 use App\Models\Item\Item;
-use App\Models\Award\Award;
 use App\Models\Loot\LootTable;
 use App\Models\Prompt\Prompt;
 use App\Models\Raffle\Raffle;
+use App\Models\Recipe\Recipe;
 use App\Models\Submission\Submission;
 use App\Models\Submission\SubmissionCharacter;
 use App\Models\User\User;
 use App\Models\User\UserItem;
-use App\Models\User\UserAward;
-use App\Models\Recipe\Recipe;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -67,7 +64,7 @@ class SubmissionManager extends Service {
                 }
 
                 //check that the prompt limit hasn't been hit
-                if($prompt->limit) {
+                if ($prompt->limit) {
                     //check that the user hasn't hit the prompt submission limit
                     //filter the submissions by hour/day/week/etc and count
                     $count['all'] = Submission::submitted($prompt->id, $user->id)->count();
@@ -78,17 +75,25 @@ class SubmissionManager extends Service {
                     $count['Year'] = Submission::submitted($prompt->id, $user->id)->where('created_at', '>=', now()->startOfYear())->count();
 
                     //if limit by character is on... multiply by # of chars. otherwise, don't
-                    if($prompt->limit_character) {
+                    if ($prompt->limit_character) {
                         $limit = $prompt->limit * Character::visible()->where('is_myo_slot', 0)->where('user_id', $user->id)->count();
-                    } else { $limit = $prompt->limit; }
+                    } else {
+                        $limit = $prompt->limit;
+                    }
                     //if limit by time period is on
-                    if($prompt->limit_period) {
-                        if($count[$prompt->limit_period] >= $limit) throw new \Exception("You have already submitted to this prompt the maximum number of times.");
-                    } else if($count['all'] >= $limit) throw new \Exception("You have already submitted to this prompt the maximum number of times.");
+                    if ($prompt->limit_period) {
+                        if ($count[$prompt->limit_period] >= $limit) {
+                            throw new \Exception('You have already submitted to this prompt the maximum number of times.');
+                        }
+                    } elseif ($count['all'] >= $limit) {
+                        throw new \Exception('You have already submitted to this prompt the maximum number of times.');
+                    }
                 }
-                if($prompt->parent_id) {
-                    $submission = Submission::where('user_id', $user->id)->where('prompt_id', $prompt->parent_id)->where('status', 'Approved')->count();    
-                    if($submission < $prompt->parent_quantity) throw new \Exception('Please complete the prerequisite.');
+                if ($prompt->parent_id) {
+                    $submission = Submission::where('user_id', $user->id)->where('prompt_id', $prompt->parent_id)->where('status', 'Approved')->count();
+                    if ($submission < $prompt->parent_quantity) {
+                        throw new \Exception('Please complete the prerequisite.');
+                    }
                 }
                 if ($prompt->staff_only && !$user->isStaff) {
                     throw new \Exception('This prompt may only be submitted to by staff members.');
@@ -103,30 +108,30 @@ class SubmissionManager extends Service {
             } else {
                 $prompt = null;
             }
-                
+
             //----------prompt-limits additions//
             // The character identification comes in both the slug field and as character IDs
-            // that key the reward ID/quantity arrays. 
+            // that key the reward ID/quantity arrays.
             // We'll need to match characters to the rewards for them.
             // First, check if the characters are accessible to begin with.
-            if(isset($data['slug'])) {
+            if (isset($data['slug'])) {
                 $characters = Character::myo(0)->visible()->whereIn('slug', $data['slug'])->get();
-                if(count($characters) != count($data['slug'])) throw new \Exception("One or more of the selected characters do not exist.");
+                if (count($characters) != count($data['slug'])) {
+                    throw new \Exception('One or more of the selected characters do not exist.');
+                }
+            } else {
+                $characters = [];
             }
-            else $characters = [];
 
             // Get a list of rewards, then create the submission itself
             $promptRewards = createAssetsArray();
-            if(!$isClaim) 
-            {
-                foreach($prompt->rewards as $reward) 
-                {
+            if (!$isClaim) {
+                foreach ($prompt->rewards as $reward) {
                     addAsset($promptRewards, $reward->reward, $reward->quantity);
                 }
             }
             $promptRewards = mergeAssetsArrays($promptRewards, $this->processRewards($data, false));
             //----------prompt-limits additions end//
-
 
             // Create the submission itself.
             $submission = Submission::create([
@@ -142,27 +147,27 @@ class SubmissionManager extends Service {
             //----------prompt-limits additions//
             // Retrieve all currency IDs for characters
             $currencyIds = [];
-            if(isset($data['character_currency_id'])) {
-                foreach($data['character_currency_id'] as $c)
-                {
-                    foreach($c as $currencyId) $currencyIds[] = $currencyId;
+            if (isset($data['character_currency_id'])) {
+                foreach ($data['character_currency_id'] as $c) {
+                    foreach ($c as $currencyId) {
+                        $currencyIds[] = $currencyId;
+                    }
                 }
             }
             array_unique($currencyIds);
             $currencies = Currency::whereIn('id', $currencyIds)->where('is_character_owned', 1)->get()->keyBy('id');
 
             // Attach characters
-            foreach($characters as $c) 
-            {
+            foreach ($characters as $c) {
                 // Users might not pass in clean arrays (may contain redundant data) so we need to clean that up
                 $assets = $this->processRewards($data + ['character_id' => $c->id, 'currencies' => $currencies], true);
 
                 // Now we have a clean set of assets (redundant data is gone, duplicate entries are merged)
                 // so we can attach the character to the submission
                 SubmissionCharacter::create([
-                    'character_id' => $c->id,
+                    'character_id'  => $c->id,
                     'submission_id' => $submission->id,
-                    'data' => json_encode(getDataReadyAssets($assets))
+                    'data'          => json_encode(getDataReadyAssets($assets)),
                 ]);
             }
             //----------prompt-limits additions end//
@@ -173,7 +178,7 @@ class SubmissionManager extends Service {
             $promptRewards = $assets['promptRewards'];
 
             $submission->update([
-                    'data' => json_encode([
+                'data' => json_encode([
                     'user'    => Arr::only(getDataReadyAssets($userAssets), ['user_items', 'currencies']),
                     'rewards' => getDataReadyAssets($promptRewards),
                 ]), // list of rewards and addons
@@ -486,7 +491,6 @@ class SubmissionManager extends Service {
             // Get the updated set of rewards
             $rewards = $this->processRewards($data, false, true);
 
-
             // Logging data
             $promptLogType = $submission->prompt_id ? 'Prompt Rewards' : 'Claim Rewards';
             $promptData = [
@@ -635,16 +639,16 @@ class SubmissionManager extends Service {
             // Get included characters that are set to notify
             $notifiableCharacter = $submission->characters->where('notify_owner', true);
 
-            if($notifiableCharacter->count()) {
+            if ($notifiableCharacter->count()) {
                 // Send a notification to included characters' owners now that the submission is accepted
                 // but not for the submitting user's own characters
-                foreach($notifiableCharacter as $character) {
-                    if($character->character->user->id != $submission->user->id) {
+                foreach ($notifiableCharacter as $character) {
+                    if ($character->character->user->id != $submission->user->id) {
                         Notifications::create($submission->prompt_id ? 'GIFT_SUBMISSION_RECEIVED' : 'GIFT_CLAIM_RECEIVED', $character->character->user, [
-                            'sender' => $submission->user->name,
-                            'sender_url' => $submission->user->url,
+                            'sender'        => $submission->user->name,
+                            'sender_url'    => $submission->user->url,
                             'character_url' => $character->character->url,
-                            'character' => isset($character->character->name) ? $character->character->fullName : $character->character->slug,
+                            'character'     => isset($character->character->name) ? $character->character->fullName : $character->character->slug,
                             'submission_id' => $submission->id,
                         ]);
                     }
@@ -754,13 +758,12 @@ class SubmissionManager extends Service {
                         case 'Points': if ($data['character_rewardable_quantity'][$data['character_id']][$key]) {
                             addAsset($assets, 'Points', $data['character_rewardable_quantity'][$data['character_id']][$key]);
                         } break;
-                        case 'Element': /* we don't check for quanity here*/ {
+                        case 'Element': /* we don't check for quanity here*/
                             addAsset($assets, $data['elements'][$reward], 1);
-                        } break;
+                            break;
                         case 'Award': if ($data['character_rewardable_quantity'][$data['character_id']][$key]) {
                             addAsset($assets, $data['awards'][$reward], $data['character_rewardable_quantity'][$data['character_id']][$key]);
                         } break;
-                        
                     }
                 }
             }
@@ -823,7 +826,9 @@ class SubmissionManager extends Service {
                                 break;
                             }
                             $reward = Recipe::find($data['rewardable_id'][$key]);
-                            if(!$reward->needs_unlocking) throw new \Exception("Invalid recipe selected.");
+                            if (!$reward->needs_unlocking) {
+                                throw new \Exception('Invalid recipe selected.');
+                            }
                             break;
                     }
                     if (!$reward) {

@@ -42,7 +42,7 @@ class ConvertLevelTables extends Command {
         $this->call('migrate');
 
         foreach ($characterLevels as $characterLevel) {
-            $userLevel = new \App\Models\Level\Level();
+            $userLevel = new \App\Models\Level\Level;
             $userLevel->level = $characterLevel->level;
             $userLevel->exp_required = $characterLevel->exp_required;
             $userLevel->stat_points = $characterLevel->stat_points;

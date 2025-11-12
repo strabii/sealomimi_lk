@@ -4,33 +4,25 @@ namespace App\Http\Controllers\Users;
 
 use App\Facades\Settings;
 use App\Http\Controllers\Controller;
-use DB;
-use Carbon\Carbon;
-
+use App\Models\Award\Award;
 use App\Models\Character\Character;
+use App\Models\Claymore\Gear;
+use App\Models\Claymore\Weapon;
 use App\Models\Currency\Currency;
 use App\Models\Element\Element;
 use App\Models\Item\Item;
 use App\Models\Item\ItemCategory;
+use App\Models\Loot\LootTable;
 use App\Models\Prompt\Prompt;
 use App\Models\Raffle\Raffle;
-use App\Models\Submission\Submission;
-use App\Models\Submission\SubmissionCharacter;
-use App\Models\User\User;
-use App\Models\User\UserItem;
-use App\Models\User\UserAward;
-use App\Models\Award\Award;
-use App\Models\Award\AwardCategory;
-use App\Models\Claymore\Gear;
-use App\Models\Claymore\Weapon;
-use App\Models\Stat\Stat;
 use App\Models\Recipe\Recipe;
-use App\Models\Theme;
+use App\Models\Submission\Submission;
+use App\Models\User\User;
+use App\Models\User\UserAward;
+use App\Models\User\UserItem;
 use App\Services\SubmissionManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use App\Services\LootService;
-use App\Models\Loot\LootTable;
 
 class SubmissionController extends Controller {
     /*
@@ -117,10 +109,10 @@ class SubmissionController extends Controller {
             'currencies'          => Currency::where('is_user_owned', 1)->orderBy('name')->pluck('name', 'id'),
             'inventory'           => $inventory,
             'page'                => 'submission',
-            'awards'              => Award::orderBy('name')->released()->where('is_user_owned',1)->pluck('name', 'id'),
+            'awards'              => Award::orderBy('name')->released()->where('is_user_owned', 1)->pluck('name', 'id'),
             'weapons'             => Weapon::orderBy('name')->pluck('name', 'id'),
             'gears'               => Gear::orderBy('name')->pluck('name', 'id'),
-            'characterAwards'     => Award::orderBy('name')->released()->where('is_character_owned',1)->pluck('name', 'id'),
+            'characterAwards'     => Award::orderBy('name')->released()->where('is_character_owned', 1)->pluck('name', 'id'),
             'elements'            => Element::orderBy('name')->pluck('name', 'id'),
             'expanded_rewards'    => config('lorekeeper.extensions.character_reward_expansion.expanded'),
             'tables'              => LootTable::orderBy('name')->pluck('name', 'id'),
@@ -157,8 +149,8 @@ class SubmissionController extends Controller {
             'currencies'          => Currency::where('is_user_owned', 1)->orderBy('name')->pluck('name', 'id'),
             'inventory'           => $inventory,
             'page'                => 'submission',
-            'awards'              => Award::orderBy('name')->released()->where('is_user_owned',1)->pluck('name', 'id'),
-            'characterAwards'     => Award::orderBy('name')->released()->where('is_character_owned',1)->pluck('name', 'id'),
+            'awards'              => Award::orderBy('name')->released()->where('is_user_owned', 1)->pluck('name', 'id'),
+            'characterAwards'     => Award::orderBy('name')->released()->where('is_character_owned', 1)->pluck('name', 'id'),
             'weapons'             => Weapon::orderBy('name')->pluck('name', 'id'),
             'gears'               => Gear::orderBy('name')->pluck('name', 'id'),
             'elements'            => Element::orderBy('name')->pluck('name', 'id'),
@@ -188,18 +180,18 @@ class SubmissionController extends Controller {
     /**
      * Shows character gift art/writing permissions.
      *
-     * @param  string  $slug
+     * @param string $slug
+     *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function getCharacterPermissions($slug)
-    {
+    public function getCharacterPermissions($slug) {
         $character = Character::visible()->where('slug', $slug)->first();
         $allowArt = $character->is_gift_art_allowed;
         $allowWriting = $character->is_gift_writing_allowed;
 
         return view('home._character_gift_permissions', [
-            'character' => $character,
-            'allowArt' => $allowArt,
+            'character'    => $character,
+            'allowArt'     => $allowArt,
             'allowWriting' => $allowWriting,
         ]);
     }
@@ -224,7 +216,7 @@ class SubmissionController extends Controller {
         $count['Month'] = Submission::submitted($id, Auth::user()->id)->where('created_at', '>=', now()->startOfMonth())->count();
         $count['Year'] = Submission::submitted($id, Auth::user()->id)->where('created_at', '>=', now()->startOfYear())->count();
 
-        if($prompt->limit_character) {
+        if ($prompt->limit_character) {
             $limit = $prompt->limit * Character::visible()->where('is_myo_slot', 0)->where('user_id', Auth::user()->id)->count();
         } else {
             $limit = $prompt->limit;
@@ -234,7 +226,7 @@ class SubmissionController extends Controller {
             'prompt' => $prompt,
             /*'count'  => Submission::where('prompt_id', $id)->where('status', 'Approved')->where('user_id', Auth::user()->id)->count(), //non-promptlimits variable */
             'count' => $count, //prompt-limits variable
-            'limit' => $limit
+            'limit' => $limit,
         ]);
     }
 
@@ -434,8 +426,8 @@ class SubmissionController extends Controller {
             'items'               => Item::orderBy('name')->released()->pluck('name', 'id'),
             'currencies'          => Currency::where('is_user_owned', 1)->orderBy('name')->pluck('name', 'id'),
             'raffles'             => Raffle::where('rolled_at', null)->where('is_active', 1)->orderBy('name')->pluck('name', 'id'),
-            'awards'              => Award::orderBy('name')->released()->where('is_user_owned',1)->pluck('name', 'id'),
-            'characterAwards'     => Award::orderBy('name')->released()->where('is_character_owned',1)->pluck('name', 'id'),
+            'awards'              => Award::orderBy('name')->released()->where('is_user_owned', 1)->pluck('name', 'id'),
+            'characterAwards'     => Award::orderBy('name')->released()->where('is_character_owned', 1)->pluck('name', 'id'),
             'weapons'             => Weapon::orderBy('name')->pluck('name', 'id'),
             'gears'               => Gear::orderBy('name')->pluck('name', 'id'),
             'page'                => 'submission',
@@ -472,8 +464,8 @@ class SubmissionController extends Controller {
             'item_filter'           => Item::orderBy('name')->released()->get()->keyBy('id'),
             'items'                 => Item::orderBy('name')->released()->pluck('name', 'id'),
             'inventory'             => $inventory,
-            'awards'                => Award::orderBy('name')->released()->where('is_user_owned',1)->pluck('name', 'id'),
-            'characterAwards'       => Award::orderBy('name')->released()->where('is_character_owned',1)->pluck('name', 'id'),
+            'awards'                => Award::orderBy('name')->released()->where('is_user_owned', 1)->pluck('name', 'id'),
+            'characterAwards'       => Award::orderBy('name')->released()->where('is_character_owned', 1)->pluck('name', 'id'),
             'weapons'               => Weapon::orderBy('name')->pluck('name', 'id'),
             'gears'                 => Gear::orderBy('name')->pluck('name', 'id'),
             'raffles'               => Raffle::where('rolled_at', null)->where('is_active', 1)->orderBy('name')->pluck('name', 'id'),

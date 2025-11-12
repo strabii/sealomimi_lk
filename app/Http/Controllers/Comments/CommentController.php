@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Comments;
 
 use App\Facades\Notifications;
 use App\Facades\Settings;
+use App\Http\Controllers\Controller;
 use App\Models\Comment\Comment;
 use App\Models\Gallery\GallerySubmission;
 use App\Models\News;
@@ -11,8 +12,8 @@ use App\Models\Report\Report;
 use App\Models\Sales\Sales;
 use App\Models\SitePage;
 use App\Models\User\User;
-use Illuminate\Http\Request;
 /*use Illuminate\Routing\Controller;*/
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Redirect;
@@ -20,11 +21,7 @@ use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 use Spatie\Honeypot\ProtectAgainstSpam;
 
-use App\Http\Controllers\Controller;
-
-class CommentController extends Controller
-{
-    
+class CommentController extends Controller {
     /**
      * Create a new controller instance.
      */

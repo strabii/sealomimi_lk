@@ -10,7 +10,6 @@ use App\Models\Gallery\GallerySubmission;
 use App\Models\Prompt\Prompt;
 use App\Models\User\User;
 use App\Models\WorldExpansion\Location;
-
 use App\Services\GalleryManager;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -74,7 +73,7 @@ class GalleryController extends Controller {
         if ($request->get('prompt_id')) {
             $query->where('prompt_id', $request->get('prompt_id'));
         }
-        if($request->get('location_id')) {
+        if ($request->get('location_id')) {
             $query->where('location_id', $request->get('location_id'));
         }
 

@@ -2,19 +2,14 @@
 
 namespace App\Models;
 
-use App;
-use Config;
-use App\Models\Model;
-
-class PrizeCodeReward extends Model
-{
+class PrizeCodeReward extends Model {
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'prize_code_id', 'rewardable_type', 'rewardable_id', 'quantity'
+        'prize_code_id', 'rewardable_type', 'rewardable_id', 'quantity',
     ];
 
     /**
@@ -23,7 +18,7 @@ class PrizeCodeReward extends Model
      * @var string
      */
     protected $table = 'prize_code_rewards';
-    
+
     /**
      * Validation rules for creation.
      *
@@ -31,10 +26,10 @@ class PrizeCodeReward extends Model
      */
     public static $createRules = [
         'rewardable_type' => 'required',
-        'rewardable_id' => 'required',
-        'quantity' => 'required|integer|min:1'
+        'rewardable_id'   => 'required',
+        'quantity'        => 'required|integer|min:1',
     ];
-    
+
     /**
      * Validation rules for updating.
      *
@@ -42,22 +37,20 @@ class PrizeCodeReward extends Model
      */
     public static $updateRules = [
         'rewardable_type' => 'required',
-        'rewardable_id' => 'required',
-        'quantity' => 'required|integer|min:1'
+        'rewardable_id'   => 'required',
+        'quantity'        => 'required|integer|min:1',
     ];
 
     /**********************************************************************************************
-    
+
         RELATIONS
     **********************************************************************************************/
-    
+
     /**
      * Get the reward attached to the loot entry.
      */
-    public function reward() 
-    {
-        switch ($this->rewardable_type)
-        {
+    public function reward() {
+        switch ($this->rewardable_type) {
             case 'Item':
                 return $this->belongsTo('App\Models\Item\Item', 'rewardable_id');
             case 'Currency':
@@ -68,6 +61,7 @@ class PrizeCodeReward extends Model
                 // Laravel requires a relationship instance to be returned (cannot return null), so returning one that doesn't exist here.
                 return $this->belongsTo('App\Models\PrizeCodeRewards', 'rewardable_id', 'prize_code_id')->whereNull('prize_code_id');
         }
+
         return null;
     }
 }

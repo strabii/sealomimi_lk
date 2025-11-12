@@ -6,7 +6,6 @@ use App\Models\Currency\Currency;
 use App\Models\Model;
 use App\Models\User\User;
 use App\Models\User\UserGear;
-use App\Models\Claymore\Gear;
 
 class Gear extends Model {
     /**

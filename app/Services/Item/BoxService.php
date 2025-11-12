@@ -2,20 +2,20 @@
 
 namespace App\Services\Item;
 
+use App\Models\Award\Award;
+use App\Models\Claymore\Gear;
+use App\Models\Claymore\Weapon;
+use App\Models\Currency\Currency;
+/*use Illuminate\Support\Facades\DB;*/
 use App\Models\Item\Item;
+use App\Models\Loot\LootTable;
+use App\Models\Pet\Pet;
+use App\Models\Raffle\Raffle;
+use App\Models\Recipe\Recipe;
+use App\Models\Theme;
 use App\Services\InventoryManager;
 use App\Services\Service;
 use DB;
-/*use Illuminate\Support\Facades\DB;*/
-use App\Models\Currency\Currency;
-use App\Models\Award\Award;
-use App\Models\Loot\LootTable;
-use App\Models\Raffle\Raffle;
-use App\Models\Theme;
-use App\Models\Pet\Pet;
-use App\Models\Claymore\Weapon;
-use App\Models\Claymore\Gear;
-use App\Models\Recipe\Recipe;
 
 class BoxService extends Service {
     /*
@@ -32,8 +32,7 @@ class BoxService extends Service {
      *
      * @return array
      */
-    public function getEditData()
-    {
+    public function getEditData() {
         return [
             'characterCurrencies' => Currency::where('is_character_owned', 1)->orderBy('sort_character', 'DESC')->pluck('name', 'id'),
             'items'               => Item::orderBy('name')->pluck('name', 'id'),

@@ -412,12 +412,11 @@ class Item extends Model {
     }
 
     /**
-     * Check if item is character-locked
+     * Check if item is character-locked.
      *
      * @return bool
      */
-    public function getIsLockedAttribute()
-    {
+    public function getIsLockedAttribute() {
         if ($this->category && $this->category->is_character_locked) {
             return 1;
         } elseif (!$this->category) {

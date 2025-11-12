@@ -52,8 +52,8 @@ class SlotService extends Service {
         $characterData['description'] = isset($tag->data['description']) && $tag->data['description'] ? $tag->data['description'] : null;
         $characterData['parsed_description'] = parse($characterData['description']);
         $characterData['sale_value'] = $tag->data['sale_value'] ?? 0;
-        $characterData['design_name'] = isset($data['design_name']) ? $data['design_name'] : null;
-        $characterData['obtained_by'] = isset($data['obtained_by']) ? $data['obtained_by'] : null;
+        $characterData['design_name'] = $data['design_name'] ?? null;
+        $characterData['obtained_by'] = $data['obtained_by'] ?? null;
         //the switches hate true/false, need to convert boolean to binary
         if (isset($tag->data['is_sellable']) && $tag->data['is_sellable'] == 'true') {
             $characterData['is_sellable'] = 1;
@@ -96,8 +96,8 @@ class SlotService extends Service {
         $characterData['description'] = isset($data['description']) && $data['description'] ? $data['description'] : null;
         $characterData['parsed_description'] = parse($characterData['description']);
         $characterData['sale_value'] = $data['sale_value'] ?? 0;
-        $characterData['design_name'] = isset($data['design_name']) ? $data['design_name'] : null;
-        $characterData['obtained_by'] = isset($data['obtained_by']) ? $data['obtained_by'] : null;
+        $characterData['design_name'] = $data['design_name'] ?? null;
+        $characterData['obtained_by'] = $data['obtained_by'] ?? null;
         //if the switch was toggled, set true, if null, set false
         $characterData['is_sellable'] = isset($data['is_sellable']);
         $characterData['is_tradeable'] = isset($data['is_tradeable']);

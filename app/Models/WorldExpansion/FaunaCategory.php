@@ -1,29 +1,18 @@
 <?php
+
 namespace App\Models\WorldExpansion;
 
-use Config;
-use DB;
-
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
-use App\Models\User\User;
-use App\Models\WorldExpansion\Fauna;
-use App\Models\WorldExpansion\FaunaCategory;
-use App\Models\WorldExpansion\Location;
-
-class FaunaCategory extends Model
-{
-
+class FaunaCategory extends Model {
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name',  'description', 'summary', 'parsed_description', 'sort', 'image_extension', 'thumb_extension'
+        'name',  'description', 'summary', 'parsed_description', 'sort', 'image_extension', 'thumb_extension',
     ];
-
 
     /**
      * The table associated with the model.
@@ -40,11 +29,11 @@ class FaunaCategory extends Model
      * @var array
      */
     public static $createRules = [
-        'name' => 'required|unique:fauna_categories|between:3,25',
+        'name'        => 'required|unique:fauna_categories|between:3,25',
         'description' => 'nullable',
-        'summary' => 'nullable|max:300',
-        'image' => 'mimes:png,gif,jpg,jpeg',
-        'image_th' => 'mimes:png,gif,jpg,jpeg',
+        'summary'     => 'nullable|max:300',
+        'image'       => 'mimes:png,gif,jpg,jpeg',
+        'image_th'    => 'mimes:png,gif,jpg,jpeg',
     ];
 
     /**
@@ -53,13 +42,12 @@ class FaunaCategory extends Model
      * @var array
      */
     public static $updateRules = [
-        'name' => 'required|between:3,25',
+        'name'        => 'required|between:3,25',
         'description' => 'nullable',
-        'summary' => 'nullable|max:300',
-        'image' => 'mimes:png,gif,jpg,jpeg',
-        'image_th' => 'mimes:png,gif,jpg,jpeg',
+        'summary'     => 'nullable|max:300',
+        'image'       => 'mimes:png,gif,jpg,jpeg',
+        'image_th'    => 'mimes:png,gif,jpg,jpeg',
     ];
-
 
     /**********************************************************************************************
 
@@ -69,13 +57,9 @@ class FaunaCategory extends Model
     /**
      * Get the location attached to this type.
      */
-    public function faunas()
-    {
+    public function faunas() {
         return $this->hasMany('App\Models\WorldExpansion\Fauna', 'category_id')->visible();
     }
-
-
-
 
     /**********************************************************************************************
 
@@ -87,8 +71,7 @@ class FaunaCategory extends Model
      *
      * @return string
      */
-    public function getDisplayNameAttribute()
-    {
+    public function getDisplayNameAttribute() {
         return '<a href="'.$this->url.'" class="display-type">'.$this->name.'</a>';
     }
 
@@ -97,8 +80,7 @@ class FaunaCategory extends Model
      *
      * @return string
      */
-    public function getImageDirectoryAttribute()
-    {
+    public function getImageDirectoryAttribute() {
         return 'images/data/fauna_categories';
     }
 
@@ -107,31 +89,26 @@ class FaunaCategory extends Model
      *
      * @return string
      */
-    public function getImagePathAttribute()
-    {
+    public function getImagePathAttribute() {
         return public_path($this->imageDirectory);
     }
-
 
     /**
      * Gets the file name of the model's image.
      *
      * @return string
      */
-    public function getImageFileNameAttribute()
-    {
-        return $this->id . '-image.' . $this->image_extension;
+    public function getImageFileNameAttribute() {
+        return $this->id.'-image.'.$this->image_extension;
     }
-
 
     /**
      * Gets the file name of the model's thumbnail image.
      *
      * @return string
      */
-    public function getThumbFileNameAttribute()
-    {
-        return $this->id . '-th.'. $this->thumb_extension;
+    public function getThumbFileNameAttribute() {
+        return $this->id.'-th.'.$this->thumb_extension;
     }
 
     /**
@@ -139,10 +116,12 @@ class FaunaCategory extends Model
      *
      * @return string
      */
-    public function getImageUrlAttribute()
-    {
-        if (!$this->image_extension) return null;
-        return asset($this->imageDirectory . '/' . $this->imageFileName);
+    public function getImageUrlAttribute() {
+        if (!$this->image_extension) {
+            return null;
+        }
+
+        return asset($this->imageDirectory.'/'.$this->imageFileName);
     }
 
     /**
@@ -150,20 +129,20 @@ class FaunaCategory extends Model
      *
      * @return string
      */
-    public function getThumbUrlAttribute()
-    {
-        if (!$this->thumb_extension) return null;
-        return asset($this->imageDirectory . '/' . $this->thumbFileName);
-    }
+    public function getThumbUrlAttribute() {
+        if (!$this->thumb_extension) {
+            return null;
+        }
 
+        return asset($this->imageDirectory.'/'.$this->thumbFileName);
+    }
 
     /**
      * Gets the URL of the model's encyclopedia page.
      *
      * @return string
      */
-    public function getUrlAttribute()
-    {
+    public function getUrlAttribute() {
         return url('world/fauna-categories/'.$this->id);
     }
 
@@ -172,10 +151,7 @@ class FaunaCategory extends Model
      *
      * @return string
      */
-    public function getSearchUrlAttribute()
-    {
+    public function getSearchUrlAttribute() {
         return url('world/faunas?category_id='.$this->id.'&sort=category');
     }
-
-
 }

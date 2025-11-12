@@ -25,7 +25,7 @@ class CharacterDesignUpdate extends Model {
         'hash', 'species_id', 'subtype_id', 'rarity_id',
         'has_comments', 'has_image', 'has_addons', 'has_features',
         'submitted_at', 'update_type', 'fullsize_hash',
-        'approval_votes', 'rejection_votes', 'title_id', 'title_data'
+        'approval_votes', 'rejection_votes', 'title_id', 'title_data',
     ];
 
     /**
@@ -114,8 +114,7 @@ class CharacterDesignUpdate extends Model {
     /**
      * Get the title of the design update.
      */
-    public function title()
-    {
+    public function title() {
         return $this->belongsTo('App\Models\Character\CharacterTitle', 'title_id');
     }
 
@@ -360,8 +359,7 @@ class CharacterDesignUpdate extends Model {
      *
      * @return array
      */
-    public function getTitleDataAttribute()
-    {
+    public function getTitleDataAttribute() {
         return json_decode($this->attributes['title_data'], true);
     }
 

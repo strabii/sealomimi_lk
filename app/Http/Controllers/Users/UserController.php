@@ -3,29 +3,23 @@
 namespace App\Http\Controllers\Users;
 
 use App\Http\Controllers\Controller;
+use App\Models\Award\Award;
+use App\Models\Award\AwardCategory;
 use App\Models\Character\Character;
 use App\Models\Character\CharacterImage;
 use App\Models\Character\Sublist;
+/*use Auth;*/
 use App\Models\Claymore\GearCategory;
 use App\Models\Claymore\WeaponCategory;
-use DB;
-/*use Auth;*/
-use Settings;
-
+use App\Models\Collection\CollectionCategory;
 use App\Models\Currency\Currency;
 use App\Models\Gallery\Gallery;
 use App\Models\Gallery\GalleryCharacter;
-use App\Models\Gallery\GalleryFavorite;
 use App\Models\Gallery\GallerySubmission;
 use App\Models\Item\Item;
 use App\Models\Item\ItemCategory;
-use App\Models\Item\ItemLog;
 use App\Models\Pet\Pet;
 use App\Models\Pet\PetCategory;
-use App\Models\User\UserAward;
-use App\Models\Award\Award;
-use App\Models\Award\AwardCategory;
-use App\Models\Award\AwardLog;
 use App\Models\User\User;
 use App\Models\User\UserCurrency;
 use App\Models\User\UserPet;
@@ -33,10 +27,8 @@ use App\Models\User\UserUpdateLog;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
-use App\Models\Character\CharacterCategory;
-use App\Models\User\UserPrizeLog;
 use Route;
-use App\Models\Collection\CollectionCategory;
+use Settings;
 
 class UserController extends Controller {
     /*
@@ -100,18 +92,18 @@ class UserController extends Controller {
         }
 
         return view('user.profile', [
-            'user'       => $this->user,
-            'name'       => $name,
-            'items'      => $this->user->items()->where('count', '>', 0)->orderBy('user_items.updated_at', 'DESC')->take(4)->get(),
-            'collections' => $this->user->collections()->orderBy('user_collections.updated_at', 'DESC')->take(4)->get(),
-            'awards'     => $this->user->awards()->orderBy('user_awards.updated_at', 'DESC')->whereNull('deleted_at')->where('count','>',0)->take(4)->get(),
-            'sublists'   => Sublist::orderBy('sort', 'DESC')->get(),
-            'characters' => $characters,
-            'aliases'    => $aliases->orderBy('is_primary_alias', 'DESC')->orderBy('site')->get(),
-            'armours'    => $armours,
-            'pets'       => $this->user->pets()->orderBy('user_pets.updated_at', 'DESC')->take(5)->get(),
-            'user_enabled' => Settings::get('WE_user_locations'),
-            'user_factions_enabled' => Settings::get('WE_user_factions')
+            'user'                  => $this->user,
+            'name'                  => $name,
+            'items'                 => $this->user->items()->where('count', '>', 0)->orderBy('user_items.updated_at', 'DESC')->take(4)->get(),
+            'collections'           => $this->user->collections()->orderBy('user_collections.updated_at', 'DESC')->take(4)->get(),
+            'awards'                => $this->user->awards()->orderBy('user_awards.updated_at', 'DESC')->whereNull('deleted_at')->where('count', '>', 0)->take(4)->get(),
+            'sublists'              => Sublist::orderBy('sort', 'DESC')->get(),
+            'characters'            => $characters,
+            'aliases'               => $aliases->orderBy('is_primary_alias', 'DESC')->orderBy('site')->get(),
+            'armours'               => $armours,
+            'pets'                  => $this->user->pets()->orderBy('user_pets.updated_at', 'DESC')->take(5)->get(),
+            'user_enabled'          => Settings::get('WE_user_locations'),
+            'user_factions_enabled' => Settings::get('WE_user_factions'),
         ]);
     }
 
@@ -304,11 +296,11 @@ class UserController extends Controller {
     /**
      * Shows a user's awardcase.
      *
-     * @param  string  $name
+     * @param string $name
+     *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function getUserAwardCase($name)
-    {
+    public function getUserAwardCase($name) {
         $categories = AwardCategory::orderBy('sort', 'DESC')->get();
         $awards = count($categories) ?
             $this->user->awards()
@@ -324,14 +316,15 @@ class UserController extends Controller {
                 ->orderBy('updated_at')
                 ->get()
                 ->groupBy(['award_category_id', 'id']);
+
         return view('user.awardcase', [
-            'user' => $this->user,
-            'categories' => $categories->keyBy('id'),
-            'awards' => $awards,
+            'user'        => $this->user,
+            'categories'  => $categories->keyBy('id'),
+            'awards'      => $awards,
             'userOptions' => User::where('id', '!=', $this->user->id)->orderBy('name')->pluck('name', 'id')->toArray(),
-            'user' => $this->user,
-            'logs' => $this->user->getAwardLogs(),
-            'sublists' => Sublist::orderBy('sort', 'DESC')->get()
+            'user'        => $this->user,
+            'logs'        => $this->user->getAwardLogs(),
+            'sublists'    => Sublist::orderBy('sort', 'DESC')->get(),
         ]);
     }
 
@@ -529,15 +522,16 @@ class UserController extends Controller {
     /**
      * Shows a user's award logs.
      *
-     * @param  string  $name
+     * @param string $name
+     *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function getUserAwardLogs($name)
-    {
+    public function getUserAwardLogs($name) {
         $user = $this->user;
+
         return view('user.award_logs', [
             'user' => $this->user,
-            'logs' => $this->user->getAwardLogs(0)
+            'logs' => $this->user->getAwardLogs(0),
         ]);
     }
 
@@ -572,16 +566,17 @@ class UserController extends Controller {
     /**
      * Shows a user's recipe logs.
      *
-     * @param  string  $name
+     * @param string $name
+     *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function getUserRecipeLogs($name)
-    {
+    public function getUserRecipeLogs($name) {
         $user = $this->user;
+
         return view('user.recipe_logs', [
-            'user' => $this->user,
-            'logs' => $this->user->getRecipeLogs(0),
-            'sublists' => Sublist::orderBy('sort', 'DESC')->get()
+            'user'     => $this->user,
+            'logs'     => $this->user->getRecipeLogs(0),
+            'sublists' => Sublist::orderBy('sort', 'DESC')->get(),
         ]);
     }
 
@@ -633,30 +628,31 @@ class UserController extends Controller {
         ]);
     }
 
-        /**
+    /**
      * Shows a user's redeem logs.
      *
-     * @param  string  $name
+     * @param string $name
+     *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function getUserRedeemLogs($name)
-    {
+    public function getUserRedeemLogs($name) {
         $user = $this->user;
+
         return view('home._redeem_logs', [
-            'user' => $this->user,
-            'logs' => $this->user->getRedeemLogs(0),
-            'sublists' => Sublist::orderBy('sort', 'DESC')->get()
+            'user'     => $this->user,
+            'logs'     => $this->user->getRedeemLogs(0),
+            'sublists' => Sublist::orderBy('sort', 'DESC')->get(),
         ]);
     }
 
     /**
      * Shows a user's collection logs.
      *
-     * @param  string  $name
+     * @param string $name
+     *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function getUserCollectionLogs($name)
-    {
+    public function getUserCollectionLogs($name) {
         $user = $this->user;
         $categories = CollectionCategory::orderBy('sort', 'DESC')->get();
         $collections = count($categories) ?
@@ -671,13 +667,13 @@ class UserController extends Controller {
             ->orderBy('updated_at')
             ->get()
             ->groupBy(['collection_category_id', 'id']);
+
         return view('user.collection_logs', [
-            'user' => $this->user,
-            'logs' => $this->user->getCollectionLogs(0),
-            'categories' => $categories->keyBy('id'),
+            'user'        => $this->user,
+            'logs'        => $this->user->getCollectionLogs(0),
+            'categories'  => $categories->keyBy('id'),
             'collections' => $collections,
-            'sublists' => Sublist::orderBy('sort', 'DESC')->get()
+            'sublists'    => Sublist::orderBy('sort', 'DESC')->get(),
         ]);
     }
-
 }

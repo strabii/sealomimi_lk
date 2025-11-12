@@ -105,7 +105,7 @@ Route::group(['prefix' => 'armoury', 'namespace' => 'Users'], function () {
     Route::get('{type}/selector', 'ArmouryController@getSelector');
 });
 
-Route::group(['prefix' => __('awards.awardcase'), 'namespace' => 'Users'], function() {
+Route::group(['prefix' => __('awards.awardcase'), 'namespace' => 'Users'], function () {
     Route::get('/', 'AwardCaseController@getIndex');
     Route::post('edit', 'AwardCaseController@postEdit');
     Route::post('claim/{id}', 'AwardCaseController@postClaimAward');
@@ -157,7 +157,7 @@ Route::group(['prefix' => 'trades', 'namespace' => 'Users'], function () {
     Route::post('{id}/cancel-trade', 'TradeController@postCancelTrade');
 });
 
-Route::group(['prefix' => 'crafting', 'namespace' => 'Users'], function() {
+Route::group(['prefix' => 'crafting', 'namespace' => 'Users'], function () {
     Route::get('/', 'CraftingController@getIndex');
     Route::get('craft/{id}', 'CraftingController@getCraftRecipe');
     Route::post('craft/{id}', 'CraftingController@postCraftRecipe');
@@ -295,24 +295,22 @@ Route::group(['prefix' => 'shops'], function () {
     Route::get('history', 'ShopController@getPurchaseHistory');
 });
 
-
 /**************************************************************************************************
     Dailies
 **************************************************************************************************/
 
-Route::group(['prefix' => __('dailies.dailies')], function() {
+Route::group(['prefix' => __('dailies.dailies')], function () {
     // throttle requests to 1 per ~10 seconds
     Route::middleware('throttle:1,0.16')->group(function () {
         Route::post('{id}', 'DailyController@postRoll');
     });
 });
 
-
 /**************************************************************************************************
     Scavenger Hunts
 **************************************************************************************************/
 
-Route::group(['prefix' => 'hunts'], function() {
+Route::group(['prefix' => 'hunts'], function () {
     Route::get('{id}', 'HuntController@getHunt');
     Route::get('targets/{pageId}', 'HuntController@getTarget');
     Route::post('targets/claim', 'HuntController@postClaimTarget');
@@ -332,12 +330,12 @@ Route::group(['prefix' => 'comments', 'namespace' => 'Comments'], function () {
     Route::get('/liked', 'CommentController@getLikedComments');
 });
 
-Route::group(['prefix' => 'redeem-code', 'namespace' => 'Users'], function() {
+Route::group(['prefix' => 'redeem-code', 'namespace' => 'Users'], function () {
     Route::get('/', 'PrizeCodeController@getIndex');
     Route::post('/redeem', 'PrizeCodeController@postRedeemPrize');
 });
 
-Route::group(['prefix' => 'collection', 'namespace' => 'Users'], function() {
+Route::group(['prefix' => 'collection', 'namespace' => 'Users'], function () {
     Route::get('/', 'CollectionController@getIndex');
     Route::get('complete/{id}', 'CollectionController@getCompleteCollection');
     Route::post('complete/{id}', 'CollectionController@postCompleteCollection');

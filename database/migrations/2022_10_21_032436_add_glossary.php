@@ -4,15 +4,11 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddGlossary extends Migration
-{
+class AddGlossary extends Migration {
     /**
      * Run the migrations.
-     *
-     * @return void
      */
-    public function up()
-    {
+    public function up() {
         Schema::create('glossary', function (Blueprint $table) {
             $table->engine = 'InnoDB';
             $table->increments('id');
@@ -28,11 +24,8 @@ class AddGlossary extends Migration
 
     /**
      * Reverse the migrations.
-     *
-     * @return void
      */
-    public function down()
-    {
+    public function down() {
         Schema::dropIfExists('glossary');
     }
 }

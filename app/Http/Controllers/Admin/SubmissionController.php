@@ -2,27 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
-use Carbon\Carbon;
-
-use App\Models\Prompt\Prompt;
 use App\Http\Controllers\Controller;
+use App\Models\Award\Award;
 use App\Models\Character\Character;
 use App\Models\Currency\Currency;
 use App\Models\Element\Element;
 use App\Models\Item\Item;
 use App\Models\Loot\LootTable;
+use App\Models\Prompt\Prompt;
 use App\Models\Prompt\PromptCategory;
 use App\Models\Raffle\Raffle;
 use App\Models\Recipe\Recipe;
 use App\Models\Skill\Skill;
 use App\Models\Submission\Submission;
 use App\Services\SubmissionManager;
-use App\Models\Award\Award;
-use App\Models\Award\AwardCategory;
-use App\Models\Item\ItemCategory;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Config;
 
 class SubmissionController extends Controller {
     /**
@@ -82,7 +77,7 @@ class SubmissionController extends Controller {
         $count['Month'] = Submission::submitted($prompt->id, $submission->user_id)->where('created_at', '>=', now()->startOfMonth())->count();
         $count['Year'] = Submission::submitted($prompt->id, $submission->user_id)->where('created_at', '>=', now()->startOfYear())->count();
 
-        if($prompt->limit_character) {
+        if ($prompt->limit_character) {
             $limit = $prompt->limit * Character::visible()->where('is_myo_slot', 0)->where('user_id', $submission->user_id)->count();
         } else {
             $limit = $prompt->limit;
@@ -101,8 +96,8 @@ class SubmissionController extends Controller {
         ] + ($submission->status == 'Pending' ? [
             'characterCurrencies' => Currency::where('is_character_owned', 1)->orderBy('sort_character', 'DESC')->pluck('name', 'id'),
             'items'               => Item::orderBy('name')->pluck('name', 'id'),
-            'awards'              => Award::orderBy('name')->released()->where('is_user_owned',1)->pluck('name', 'id'),
-            'characterAwards'     => Award::orderBy('name')->released()->where('is_character_owned',1)->pluck('name', 'id'),
+            'awards'              => Award::orderBy('name')->released()->where('is_user_owned', 1)->pluck('name', 'id'),
+            'characterAwards'     => Award::orderBy('name')->released()->where('is_character_owned', 1)->pluck('name', 'id'),
             'currencies'          => Currency::where('is_user_owned', 1)->orderBy('name')->pluck('name', 'id'),
             'tables'              => LootTable::orderBy('name')->pluck('name', 'id'),
             'raffles'             => Raffle::where('rolled_at', null)->where('is_active', 1)->orderBy('name')->pluck('name', 'id'),
@@ -169,8 +164,8 @@ class SubmissionController extends Controller {
         ] + ($submission->status == 'Pending' ? [
             'characterCurrencies' => Currency::where('is_character_owned', 1)->orderBy('sort_character', 'DESC')->pluck('name', 'id'),
             'items'               => Item::orderBy('name')->pluck('name', 'id'),
-            'awards'              => Award::orderBy('name')->released()->where('is_user_owned',1)->pluck('name', 'id'),
-            'characterAwards'     => Award::orderBy('name')->released()->where('is_character_owned',1)->pluck('name', 'id'),
+            'awards'              => Award::orderBy('name')->released()->where('is_user_owned', 1)->pluck('name', 'id'),
+            'characterAwards'     => Award::orderBy('name')->released()->where('is_character_owned', 1)->pluck('name', 'id'),
             'currencies'          => Currency::where('is_user_owned', 1)->orderBy('name')->pluck('name', 'id'),
             'tables'              => LootTable::orderBy('name')->pluck('name', 'id'),
             'raffles'             => Raffle::where('rolled_at', null)->where('is_active', 1)->orderBy('name')->pluck('name', 'id'),

@@ -74,19 +74,20 @@ class AddSiteSettings extends Command {
         $this->addSiteSetting('group_currency', 1, 'ID of the group currency to award from gallery submissions (if enabled).');
 
         $this->addSiteSetting('claymore_cooldown', 0, 'Number of days to add to the cooldown timer when a pet/weapon/gear is attached.');
-        
-        if(!DB::table('site_settings')->where('key', 'character_title_display')->exists()) {
+
+        if (!DB::table('site_settings')->where('key', 'character_title_display')->exists()) {
             DB::table('site_settings')->insert([
                 [
-                    'key' => 'character_title_display',
-                    'value' => 1,
-                    'description' => '0: Characters\' titles only display in their image info. 1: Characters\'s titles display alongside their category, species, rarity.'
-                ]
+                    'key'         => 'character_title_display',
+                    'value'       => 1,
+                    'description' => '0: Characters\' titles only display in their image info. 1: Characters\'s titles display alongside their category, species, rarity.',
+                ],
 
             ]);
-            $this->info("Added:   character_title_display / Default: 0");
+            $this->info('Added:   character_title_display / Default: 0');
+        } else {
+            $this->line('Skipped: character_title_display');
         }
-        else $this->line("Skipped: character_title_display");
         $this->addSiteSetting('default_theme', 0, 'ID of the default theme users should see. 0: Disabled, shows default lorekeeper. This setting is overwritten by the users theme setting.');
 
         $this->line("\nSite settings up to date!");
@@ -108,7 +109,7 @@ class AddSiteSettings extends Command {
         $this->addSiteSetting('coupon_settings', 0, '0: Percentage is taken from total (e.g 20% from 2 items costing a total of 100 = 80), 1: Percentage is taken from item (e.g 20% from 2 items costing a total of 100 = 90)');
 
         $this->addSiteSetting('limited_stock_coupon_settings', 0, '0: Does not allow coupons to be used on limited stock items, 1: Allows coupons to be used on limited stock items');
-        
+
         $this->addSiteSetting('carousel_speed', 20000, 'Speed of the carousel in milliseconds.');
 
         $this->line("\nSite settings up to date!");

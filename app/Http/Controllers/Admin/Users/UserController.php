@@ -4,21 +4,17 @@ namespace App\Http\Controllers\Admin\Users;
 
 use App\Http\Controllers\Controller;
 use App\Models\Rank\Rank;
-use DB;
 /*use Auth;*/
-use Config;
-use Settings;
-
 use App\Models\User\User;
 use App\Models\User\UserAlias;
 use App\Models\User\UserUpdateLog;
-use App\Models\WorldExpansion\Location;
 use App\Models\WorldExpansion\Faction;
-
+use App\Models\WorldExpansion\Location;
 use App\Services\UserService;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Settings;
 
 class UserController extends Controller {
     /**
@@ -80,16 +76,15 @@ class UserController extends Controller {
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function getUser($name)
-    {
-        $interval = array(
+    public function getUser($name) {
+        $interval = [
             0 => 'whenever',
             1 => 'yearly',
             2 => 'quarterly',
             3 => 'monthly',
             4 => 'weekly',
-            5 => 'daily'
-        );
+            5 => 'daily',
+        ];
 
         $user = User::where('name', $name)->first();
 
@@ -98,15 +93,15 @@ class UserController extends Controller {
         }
 
         return view('admin.users.user', [
-            'user' => $user,
-            'ranks' => Rank::orderBy('ranks.sort')->pluck('name', 'id')->toArray(),
-            'locations' => Location::all()->where('is_user_home')->pluck('style','id')->toArray(),
-            'factions' => Faction::all()->where('is_user_faction')->pluck('style','id')->toArray(),
-            'user_enabled' => Settings::get('WE_user_locations'),
+            'user'                 => $user,
+            'ranks'                => Rank::orderBy('ranks.sort')->pluck('name', 'id')->toArray(),
+            'locations'            => Location::all()->where('is_user_home')->pluck('style', 'id')->toArray(),
+            'factions'             => Faction::all()->where('is_user_faction')->pluck('style', 'id')->toArray(),
+            'user_enabled'         => Settings::get('WE_user_locations'),
             'user_faction_enabled' => Settings::get('WE_user_factions'),
-            'char_enabled' => Settings::get('WE_character_locations'),
+            'char_enabled'         => Settings::get('WE_character_locations'),
             'char_faction_enabled' => Settings::get('WE_character_factions'),
-            'location_interval' => $interval[Settings::get('WE_change_timelimit')],
+            'location_interval'    => $interval[Settings::get('WE_change_timelimit')],
         ]);
     }
 
@@ -140,45 +135,45 @@ class UserController extends Controller {
         return redirect()->to($user->adminUrl);
     }
 
-    public function postUserLocation(Request $request, $name)
-    {
+    public function postUserLocation(Request $request, $name) {
         $user = User::where('name', $name)->first();
         $service = new UserService;
 
-        if(!$user) flash('Invalid user.')->error();
-        else if (!Auth::user()->canEditRank($user->rank)) {
+        if (!$user) {
+            flash('Invalid user.')->error();
+        } elseif (!Auth::user()->canEditRank($user->rank)) {
             flash('You cannot edit the information of a user that has a higher rank than yourself.')->error();
-        }
-        else if($service->updateLocation($request->input('location'), $user)) {
+        } elseif ($service->updateLocation($request->input('location'), $user)) {
             flash('Location updated successfully.')->success();
+        } else {
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash($error)->error();
+            }
         }
-        else {
-            foreach($service->errors()->getMessages()['error'] as $error) flash($error)->error();
-        }
+
         return redirect()->back();
     }
 
-    public function postUserFaction(Request $request, $name)
-    {
+    public function postUserFaction(Request $request, $name) {
         $user = User::where('name', $name)->first();
         $service = new UserService;
-        
-        if(!$user) flash('Invalid user.')->error();
-        else if (!Auth::user()->canEditRank($user->rank)) {
+
+        if (!$user) {
+            flash('Invalid user.')->error();
+        } elseif (!Auth::user()->canEditRank($user->rank)) {
             flash('You cannot edit the information of a user that has a higher rank than yourself.')->error();
-        }
-        else if($service->updateFaction($request->input('faction'), $user)) {
+        } elseif ($service->updateFaction($request->input('faction'), $user)) {
             flash('Faction updated successfully.')->success();
+        } else {
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash($error)->error();
+            }
         }
-        else {
-            foreach($service->errors()->getMessages()['error'] as $error) flash($error)->error();
-        }
+
         return redirect()->back();
     }
 
-
-    public function postUserAlias(Request $request, $name, $id)
-    {
+    public function postUserAlias(Request $request, $name, $id) {
         $user = User::where('name', $name)->first();
         $alias = UserAlias::find($id);
 

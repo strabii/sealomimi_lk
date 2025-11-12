@@ -2,18 +2,16 @@
 
 namespace App\Models\Daily;
 
-use Config;
 use App\Models\Model;
 
-class DailyReward extends Model
-{
+class DailyReward extends Model {
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'daily_id', 'rewardable_type', 'rewardable_id', 'quantity', 'step'
+        'daily_id', 'rewardable_type', 'rewardable_id', 'quantity', 'step',
     ];
 
     /**
@@ -22,7 +20,7 @@ class DailyReward extends Model
      * @var string
      */
     protected $table = 'daily_rewards';
-    
+
     /**
      * Validation rules for creation.
      *
@@ -30,10 +28,10 @@ class DailyReward extends Model
      */
     public static $createRules = [
         'rewardable_type' => 'required',
-        'rewardable_id' => 'required',
-        'quantity' => 'required|integer|min:1',
+        'rewardable_id'   => 'required',
+        'quantity'        => 'required|integer|min:1',
     ];
-    
+
     /**
      * Validation rules for updating.
      *
@@ -41,23 +39,21 @@ class DailyReward extends Model
      */
     public static $updateRules = [
         'rewardable_type' => 'required',
-        'rewardable_id' => 'required',
-        'quantity' => 'required|integer|min:1',
+        'rewardable_id'   => 'required',
+        'quantity'        => 'required|integer|min:1',
     ];
 
     /**********************************************************************************************
-    
+
         RELATIONS
 
     **********************************************************************************************/
-    
+
     /**
      * Get the reward attached to the daily reward.
      */
-    public function reward() 
-    {
-        switch ($this->rewardable_type)
-        {
+    public function reward() {
+        switch ($this->rewardable_type) {
             case 'Item':
                 return $this->belongsTo('App\Models\Item\Item', 'rewardable_id');
                 break;
@@ -83,6 +79,7 @@ class DailyReward extends Model
                 return $this->belongsTo('App\Models\Loot\Loot', 'rewardable_id', 'loot_table_id')->whereNull('loot_table_id');
                 break;
         }
+
         return null;
     }
 
@@ -90,34 +87,33 @@ class DailyReward extends Model
      * Gets the display image for the reward.
      */
     public function getRewardImageAttribute() {
-        switch ($this->rewardable_type)
-        {
+        switch ($this->rewardable_type) {
             case 'Item':
                 return (isset($this->reward()->first()->imageUrl)) ? $this->reward()->first()->imageUrl : '/images/inventory.png';
                 break;
             case 'Currency':
                 return (isset($this->reward()->first()->currencyImageUrl)) ? $this->reward()->first()->currencyImageUrl : '/images/currency.png';
-            /**case 'Award':
-                return $this->belongsTo('App\Models\Award\Award', 'rewardable_id');
-                break;**/
+                /**case 'Award':
+                    return $this->belongsTo('App\Models\Award\Award', 'rewardable_id');
+                    break;**/
             case 'LootTable':
                 return '/images/loot.png';
                 break;
-            /**case 'Pet':
-                return $this->belongsTo('App\Models\Pet\Pet', 'rewardable_id');
-                break;**/
+                /**case 'Pet':
+                    return $this->belongsTo('App\Models\Pet\Pet', 'rewardable_id');
+                    break;**/
             case 'Raffle':
                 return '/images/raffle.png';
                 break;
-            /**case 'Points':
-                return $this->belongsTo(Stat::class, 'rewardable_id');
-                break;
-            case 'Exp':
-                // Laravel requires a relationship instance to be returned (cannot return null), so returning one that doesn't exist here.
-                return $this->belongsTo('App\Models\Loot\Loot', 'rewardable_id', 'loot_table_id')->whereNull('loot_table_id');
-                break;**/
+                /**case 'Points':
+                    return $this->belongsTo(Stat::class, 'rewardable_id');
+                    break;
+                case 'Exp':
+                    // Laravel requires a relationship instance to be returned (cannot return null), so returning one that doesn't exist here.
+                    return $this->belongsTo('App\Models\Loot\Loot', 'rewardable_id', 'loot_table_id')->whereNull('loot_table_id');
+                    break;**/
         }
+
         return null;
     }
-
 }

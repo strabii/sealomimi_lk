@@ -629,8 +629,8 @@ class DesignUpdateManager extends Service {
             $request->character->is_tradeable = isset($data['is_tradeable']);
             $request->character->is_giftable = isset($data['is_giftable']);
             $request->character->sale_value = $data['sale_value'] ?? 0;
-            $request->character->design_name = isset($data['design_name']) ? $data['design_name'] : null;
-            $request->character->obtained_by = isset($data['obtained_by']) ? $data['obtained_by'] : null;
+            $request->character->design_name = $data['design_name'] ?? null;
+            $request->character->obtained_by = $data['obtained_by'] ?? null;
 
             // Invalidate old image if desired
             if (isset($data['invalidate_old'])) {

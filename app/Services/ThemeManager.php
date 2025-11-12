@@ -1,16 +1,13 @@
-<?php namespace App\Services;
+<?php
 
-use App\Services\Service;
-
-use DB;
-use Config;
+namespace App\Services;
 
 use App\Models\Theme;
 use App\Models\User\User;
 use App\Models\User\UserTheme;
+use DB;
 
-class ThemeManager extends Service
-{
+class ThemeManager extends Service {
     /*
     |--------------------------------------------------------------------------
     | Theme Service
@@ -23,69 +20,73 @@ class ThemeManager extends Service
     /**
      * Creates a new theme.
      *
-     * @param  array                  $data
-     * @param  \App\Models\User\User  $user
-     * @return bool|\App\Models\Theme\Theme
+     * @param array $data
+     * @param User  $user
+     *
+     * @return bool|Theme\Theme
      */
-    public function createTheme($data, $user)
-    {
+    public function createTheme($data, $user) {
         DB::beginTransaction();
 
         try {
-
             $data['id'] = 0;
             $data = $this->populateData($data);
 
             $header = null;
-            if(isset($data['header']) && $data['header']) {
+            if (isset($data['header']) && $data['header']) {
                 $data['has_header'] = 1;
                 $header = $data['header'];
                 unset($data['header']);
+            } else {
+                $data['has_header'] = 0;
             }
-            else $data['has_header'] = 0;
 
             $background = null;
-            if(isset($data['background']) && $data['background']) {
+            if (isset($data['background']) && $data['background']) {
                 $data['has_background'] = 1;
                 $background = $data['background'];
                 unset($data['background']);
+            } else {
+                $data['has_background'] = 0;
             }
-            else $data['has_background'] = 0;
 
             $pagedoll = null;
-            if(isset($data['pagedoll']) && $data['pagedoll']) {
+            if (isset($data['pagedoll']) && $data['pagedoll']) {
                 $data['has_pagedoll'] = 1;
                 $background = $data['pagedoll'];
                 unset($data['pagedoll']);
+            } else {
+                $data['has_pagedoll'] = 0;
             }
-            else $data['has_pagedoll'] = 0;
-            if(isset($data['on_pagedoll']))
-            {
+            if (isset($data['on_pagedoll'])) {
                 $data['on_pagedoll'] = 1;
             }
 
             $headerdoll = null;
-            if(isset($data['headerdoll']) && $data['headerdoll']) {
+            if (isset($data['headerdoll']) && $data['headerdoll']) {
                 $data['has_headerdoll'] = 1;
                 $background = $data['headerdoll'];
                 unset($data['headerdoll']);
+            } else {
+                $data['has_headerdoll'] = 0;
             }
-            else $data['has_headerdoll'] = 0;
-            if(isset($data['on_headerdoll']))
-            {
+            if (isset($data['on_headerdoll'])) {
                 $data['has_headerdoll'] = 1;
             }
 
             $css = null;
-            if(isset($data['css']) && $data['css']) {
+            if (isset($data['css']) && $data['css']) {
                 $data['has_css'] = 1;
                 $css = $data['css'];
                 unset($data['css']);
+            } else {
+                $data['has_css'] = 0;
             }
-            else $data['has_css'] = 0;
 
             $theme = Theme::create($data);
-            if (!$themeEditor = (new ThemeEditorManager)->createTheme($data, $user)) throw new \Exception('Failed to create Theme Editor');
+            if (!$themeEditor = (new ThemeEditorManager)->createTheme($data, $user)) {
+                throw new \Exception('Failed to create Theme Editor');
+            }
             $themeEditor->theme_id = $theme->id;
             $themeEditor->save();
 
@@ -110,70 +111,86 @@ class ThemeManager extends Service
                 $this->handleImage($headerdoll, $theme->imagePath, $theme->headerdollImageFileName, null);
             }
 
-            if ($css) $this->handleImage($css, $theme->imagePath, $theme->cssFileName, null);
+            if ($css) {
+                $this->handleImage($css, $theme->imagePath, $theme->cssFileName, null);
+            }
 
             return $this->commitReturn($theme);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->setError('error', $e->getMessage());
         }
+
         return $this->rollbackReturn(false);
     }
 
     /**
      * Updates an theme.
      *
-     * @param  \App\Models\Theme\Theme  $theme
-     * @param  array                  $data
-     * @param  \App\Models\User\User  $user
-     * @return bool|\App\Models\Theme\Theme
+     * @param Theme\Theme $theme
+     * @param array       $data
+     * @param User        $user
+     *
+     * @return bool|Theme\Theme
      */
-    public function updateTheme($theme, $data, $user)
-    {
+    public function updateTheme($theme, $data, $user) {
         DB::beginTransaction();
 
         try {
-
             // More specific validation
-            if(Theme::where('name', $data['name'])->where('id', '!=', $theme->id)->exists()) throw new \Exception("The name has already been taken.");
+            if (Theme::where('name', $data['name'])->where('id', '!=', $theme->id)->exists()) {
+                throw new \Exception('The name has already been taken.');
+            }
 
             $data['id'] = $theme->id;
             $data = $this->populateData($data, $theme);
 
             $header = null;
-            if(isset($data['header']) && $data['header']) {
-                if (isset($theme->extension)) $old = $theme->headerImageFileName;
-                else $old = null;
+            if (isset($data['header']) && $data['header']) {
+                if (isset($theme->extension)) {
+                    $old = $theme->headerImageFileName;
+                } else {
+                    $old = null;
+                }
                 $data['has_header'] = 1;
                 $header = $data['header'];
                 unset($data['header']);
             }
             $background = null;
-            if(isset($data['background']) && $data['background']) {
-                if (isset($theme->extension_background)) $old = $theme->backgroundImageFileName;
-                else $old = null;
+            if (isset($data['background']) && $data['background']) {
+                if (isset($theme->extension_background)) {
+                    $old = $theme->backgroundImageFileName;
+                } else {
+                    $old = null;
+                }
                 $data['has_background'] = 1;
                 $background = $data['background'];
                 unset($data['background']);
             }
             $pagedoll = null;
-            if(isset($data['pagedoll']) && $data['pagedoll']) {
-                if (isset($theme->extension_pagedoll)) $old = $theme->pagedollImageFileName;
-                else $old = null;
+            if (isset($data['pagedoll']) && $data['pagedoll']) {
+                if (isset($theme->extension_pagedoll)) {
+                    $old = $theme->pagedollImageFileName;
+                } else {
+                    $old = null;
+                }
                 $data['has_pagedoll'] = 1;
                 $background = $data['pagedoll'];
                 unset($data['pagedoll']);
             }
             $headerdoll = null;
-            if(isset($data['headerdoll']) && $data['headerdoll']) {
-                if (isset($theme->extension_headerdoll)) $old = $theme->headerdollImageFileName;
-                else $old = null;
+            if (isset($data['headerdoll']) && $data['headerdoll']) {
+                if (isset($theme->extension_headerdoll)) {
+                    $old = $theme->headerdollImageFileName;
+                } else {
+                    $old = null;
+                }
                 $data['has_headerdoll'] = 1;
                 $background = $data['headerdoll'];
                 unset($data['headerdoll']);
             }
 
             $css = null;
-            if(isset($data['css']) && $data['css']) {
+            if (isset($data['css']) && $data['css']) {
                 $data['has_css'] = 1;
                 $css = $data['css'];
                 unset($data['css']);
@@ -182,11 +199,13 @@ class ThemeManager extends Service
             if ($theme->themeEditor) {
                 $themeEditor = (new ThemeEditorManager)->updateTheme($theme->themeEditor, $data, $user);
             } else {
-                if (!$themeEditor = (new ThemeEditorManager)->createTheme($data, $user)) throw new \Exception('Failed to create Theme Editor');
+                if (!$themeEditor = (new ThemeEditorManager)->createTheme($data, $user)) {
+                    throw new \Exception('Failed to create Theme Editor');
+                }
                 $themeEditor->theme_id = $theme->id;
                 $themeEditor->save();
             }
-                
+
             if ($header) {
                 $theme->extension = $header->getClientOriginalExtension();
                 $theme->update();
@@ -208,178 +227,78 @@ class ThemeManager extends Service
                 $this->handleImage($headerdoll, $theme->imagePath, $theme->headerdollImageFileName, $old);
             }
 
-            if($css) $this->handleImage($css, $theme->imagePath, $theme->cssFileName);
+            if ($css) {
+                $this->handleImage($css, $theme->imagePath, $theme->cssFileName);
+            }
 
             return $this->commitReturn($theme);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->setError('error', $e->getMessage());
         }
+
         return $this->rollbackReturn(false);
-    }
-
-    /**
-     * Processes user input for creating/updating an theme.
-     *
-     * @param  array                  $data
-     * @param  \App\Models\Theme\Theme  $theme
-     * @return array
-     */
-    private function populateData($data, $theme = null)
-    {
-        if(isset($data['description']) && $data['description']) $data['parsed_description'] = parse($data['description']);
-        else $data['parsed_description'] = null;
-
-        $data['prioritize_css'] = (isset($data['prioritize_css'])) ? 1 : 0;
-        
-        $data['hash'] = randomString(10);
-
-        $names = explode(',',$data['creator_name']);
-        $urls = explode(',',$data['creator_url']);
-        $creators = [];
-
-        if (count($names) != count($urls)) throw new \Exception("Creator name to creator url count mismatch.");
-        foreach($names as $key => $creator)
-        {
-            $creators[trim($creator)] = trim($urls[$key]);
-        }
-
-        unset($data['creator_name']); unset($data['creator_url']);
-        $data['creators'] = json_encode($creators);
-
-        if(!isset($data['is_active'])) $data['is_active'] = 0;
-
-        // Unset Default
-        if(isset($data['is_default']))
-        {
-            DB::table('themes')
-            ->where('id', '!=', $data['id'])
-            ->where('is_default', 1)
-            ->update(['is_default' => 0]);
-        }
-        else $data['is_default'] = 0;
-
-        // Remove Header
-        if(isset($data['remove_header']) && isset($theme->extension) && $data['remove_header'])
-        {
-            $data['extension'] = null;
-            $this->deleteImage($theme->imagePath, $theme->headerImageFileName);
-            unset($data['remove_image']);
-            $data['has_header'] = 0;
-        }
-
-        // Remove Background
-        if(isset($data['remove_background']) && isset($theme->extension_background) && $data['remove_background'])
-        {
-            $data['extension_background'] = null;
-            $this->deleteImage($theme->imagePath, $theme->backgroundImageFileName);
-            unset($data['remove_image']);
-            $data['has_background'] = 0;
-        }
-
-        // Remove Pagedoll
-        if(isset($data['remove_pagedoll']) && isset($theme->extension_pagedoll) && $data['remove_pagedoll'])
-        {
-            $data['extension_pagedoll'] = null;
-            $this->deleteImage($theme->imagePath, $theme->pagedollImageFileName);
-            unset($data['remove_image']);
-            $data['has_pagedoll'] = 0;
-        }
-        if(isset($data['remove_pagedoll']))
-        {
-            $data['has_pagedoll'] = 0;
-        }
-        if(isset($data['on_pagedoll']))
-        {
-            $data['has_pagedoll'] = 1;
-        }
-
-        // Remove Headerdoll
-        if(isset($data['remove_headerdoll']) && isset($theme->extension_headerdoll) && $data['remove_headerdoll'])
-        {
-            $data['extension_headerdoll'] = null;
-            $this->deleteImage($theme->imagePath, $theme->headerdollImageFileName);
-            unset($data['remove_image']);
-            $data['has_headerdoll'] = 0;
-        }
-        if(isset($data['remove_headerdoll']))
-        {
-            $data['has_headerdoll'] = 0;
-        }
-        if(isset($data['on_headerdoll']))
-        {
-            $data['has_headerdoll'] = 1;
-        }
-
-        // Remove Css
-        if(isset($data['remove_css']) && $data['remove_css'])
-        {
-            $this->deleteImage($theme->imagePath, $theme->cssFileName);
-            unset($data['remove_css']);
-            $data['has_css'] = 0;
-        }
-
-        if (isset($data['season_link_id'])) {
-            $data['link_id'] = $data['season_link_id'];
-            $data['link_type'] = 'season';
-        } else if (isset($data['weather_link_id'])) {
-            $data['link_id'] = $data['weather_link_id'];
-            $data['link_type'] = 'weather';
-        } 
-
-        return $data;
     }
 
     /**
      * Deletes an theme.
      *
-     * @param  \App\Models\Theme\Theme  $theme
+     * @param Theme\Theme $theme
+     *
      * @return bool
      */
-    public function deleteTheme($theme)
-    {
+    public function deleteTheme($theme) {
         DB::beginTransaction();
 
         try {
-            foreach(User::where('theme_id',$theme->id) as $user)
-            {
+            foreach (User::where('theme_id', $theme->id) as $user) {
                 $user->update(['theme_id' => null]);
             }
 
-            if($theme->has_header) $this->deleteImage($theme->imagePath, $theme->headerImageFileName);
-            if($theme->has_background) $this->deleteImage($theme->imagePath, $theme->backgroundImageFileName);
-            if($theme->has_pagedoll) $this->deleteImage($theme->imagePath, $theme->pagedollImageFileName);
-            if($theme->has_headerdoll) $this->deleteImage($theme->imagePath, $theme->headerdollImageFileName);
-            if($theme->has_css) $this->deleteImage($theme->imagePath, $theme->cssFileName);
+            if ($theme->has_header) {
+                $this->deleteImage($theme->imagePath, $theme->headerImageFileName);
+            }
+            if ($theme->has_background) {
+                $this->deleteImage($theme->imagePath, $theme->backgroundImageFileName);
+            }
+            if ($theme->has_pagedoll) {
+                $this->deleteImage($theme->imagePath, $theme->pagedollImageFileName);
+            }
+            if ($theme->has_headerdoll) {
+                $this->deleteImage($theme->imagePath, $theme->headerdollImageFileName);
+            }
+            if ($theme->has_css) {
+                $this->deleteImage($theme->imagePath, $theme->cssFileName);
+            }
             $theme->themeEditor->delete();
             $theme->delete();
 
             return $this->commitReturn(true);
-        } catch(\Exception $e) {
+        } catch (\Exception $e) {
             $this->setError('error', $e->getMessage());
         }
+
         return $this->rollbackReturn(false);
     }
 
     /**
      * Credits theme to a user or character.
      *
-     * @param  \App\Models\User\User                        $sender
-     * @param  \App\Models\User\User                        $recipient
-     * @param  \App\Models\Character\Character              $character
-     * @param  string                                       $type 
-     * @param  string                                       $data
-     * @param  \App\Models\Theme                            $theme
-     * @param  int                                          $quantity
-     * @return  bool
+     * @param User  $recipient
+     * @param Theme $theme
+     *
+     * @return bool
      */
     public function creditTheme($recipient, $theme) {
         DB::beginTransaction();
 
         try {
-            if (is_numeric($theme)) $theme = Theme::find($theme);
+            if (is_numeric($theme)) {
+                $theme = Theme::find($theme);
+            }
 
             if ($recipient->themes->contains($theme)) {
-                flash($recipient->name . " already has the theme " . $theme->displayName, 'warning');
+                flash($recipient->name.' already has the theme '.$theme->displayName, 'warning');
+
                 return $this->commitReturn(false);
             }
 
@@ -395,8 +314,117 @@ class ThemeManager extends Service
         } catch (\Exception $e) {
             $this->setError('error', $e->getMessage());
         }
+
         return $this->rollbackReturn(false);
     }
 
+    /**
+     * Processes user input for creating/updating an theme.
+     *
+     * @param array       $data
+     * @param Theme\Theme $theme
+     *
+     * @return array
+     */
+    private function populateData($data, $theme = null) {
+        if (isset($data['description']) && $data['description']) {
+            $data['parsed_description'] = parse($data['description']);
+        } else {
+            $data['parsed_description'] = null;
+        }
 
+        $data['prioritize_css'] = (isset($data['prioritize_css'])) ? 1 : 0;
+
+        $data['hash'] = randomString(10);
+
+        $names = explode(',', $data['creator_name']);
+        $urls = explode(',', $data['creator_url']);
+        $creators = [];
+
+        if (count($names) != count($urls)) {
+            throw new \Exception('Creator name to creator url count mismatch.');
+        }
+        foreach ($names as $key => $creator) {
+            $creators[trim($creator)] = trim($urls[$key]);
+        }
+
+        unset($data['creator_name']);
+        unset($data['creator_url']);
+        $data['creators'] = json_encode($creators);
+
+        if (!isset($data['is_active'])) {
+            $data['is_active'] = 0;
+        }
+
+        // Unset Default
+        if (isset($data['is_default'])) {
+            DB::table('themes')
+                ->where('id', '!=', $data['id'])
+                ->where('is_default', 1)
+                ->update(['is_default' => 0]);
+        } else {
+            $data['is_default'] = 0;
+        }
+
+        // Remove Header
+        if (isset($data['remove_header']) && isset($theme->extension) && $data['remove_header']) {
+            $data['extension'] = null;
+            $this->deleteImage($theme->imagePath, $theme->headerImageFileName);
+            unset($data['remove_image']);
+            $data['has_header'] = 0;
+        }
+
+        // Remove Background
+        if (isset($data['remove_background']) && isset($theme->extension_background) && $data['remove_background']) {
+            $data['extension_background'] = null;
+            $this->deleteImage($theme->imagePath, $theme->backgroundImageFileName);
+            unset($data['remove_image']);
+            $data['has_background'] = 0;
+        }
+
+        // Remove Pagedoll
+        if (isset($data['remove_pagedoll']) && isset($theme->extension_pagedoll) && $data['remove_pagedoll']) {
+            $data['extension_pagedoll'] = null;
+            $this->deleteImage($theme->imagePath, $theme->pagedollImageFileName);
+            unset($data['remove_image']);
+            $data['has_pagedoll'] = 0;
+        }
+        if (isset($data['remove_pagedoll'])) {
+            $data['has_pagedoll'] = 0;
+        }
+        if (isset($data['on_pagedoll'])) {
+            $data['has_pagedoll'] = 1;
+        }
+
+        // Remove Headerdoll
+        if (isset($data['remove_headerdoll']) && isset($theme->extension_headerdoll) && $data['remove_headerdoll']) {
+            $data['extension_headerdoll'] = null;
+            $this->deleteImage($theme->imagePath, $theme->headerdollImageFileName);
+            unset($data['remove_image']);
+            $data['has_headerdoll'] = 0;
+        }
+        if (isset($data['remove_headerdoll'])) {
+            $data['has_headerdoll'] = 0;
+        }
+        if (isset($data['on_headerdoll'])) {
+            $data['has_headerdoll'] = 1;
+        }
+
+        // Remove Css
+        if (isset($data['remove_css']) && $data['remove_css']) {
+            $this->deleteImage($theme->imagePath, $theme->cssFileName);
+            unset($data['remove_css']);
+            $data['has_css'] = 0;
+        }
+
+        if (isset($data['season_link_id'])) {
+            $data['link_id'] = $data['season_link_id'];
+            $data['link_type'] = 'season';
+        } elseif (isset($data['weather_link_id'])) {
+            $data['link_id'] = $data['weather_link_id'];
+            $data['link_type'] = 'weather';
+        }
+
+        return $data;
+    }
 }

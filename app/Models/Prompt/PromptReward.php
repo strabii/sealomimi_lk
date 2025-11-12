@@ -9,7 +9,6 @@ use App\Models\Model;
 use App\Models\Pet\Pet;
 use App\Models\Raffle\Raffle;
 use App\Models\Stat\Stat;
-use App\Models\Recipe\Recipe;
 
 class PromptReward extends Model {
     /**
@@ -89,7 +88,8 @@ class PromptReward extends Model {
             case 'Recipe':
                 return $this->belongsTo('App\Models\Recipe\Recipe', 'rewardable_id');
                 break;
-        }   
+        }
+
         return null;
     }
 }

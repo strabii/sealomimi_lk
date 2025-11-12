@@ -350,44 +350,44 @@ return [
     ],
     // AWARD_GRANT
     341 => [
-        'name' => 'Medal Grant',
+        'name'    => 'Medal Grant',
         'message' => 'You have earned the following medal(s): {award_name} (×{award_quantity}). Congratulations! (<a href="{url}">View Medals</a>)',
-        'url' => 'awardcase'
+        'url'     => 'awardcase',
     ],
 
     // AWARD_REMOVAL
     342 => [
-        'name' => 'Medal Removal',
+        'name'    => 'Medal Removal',
         'message' => '{award_name} (×{award_quantity}) was removed from your Medals by <a href="{sender_url}">{sender_name}</a>. (<a href="{url}">View Medals</a>)',
-        'url' => 'awardcase'
+        'url'     => 'awardcase',
     ],
 
     // AWARD_TRANSFER
     343 => [
-        'name' => 'Medal Transfer',
+        'name'    => 'Medal Transfer',
         'message' => 'You have received {award_name} (×{award_quantity}) from <a href="{sender_url}">{sender_name}</a>. (<a href="{url}">View Medals</a>)',
-        'url' => 'awardcase'
+        'url'     => 'awardcase',
     ],
 
     // FORCED_AWARD_TRANSFER
     344 => [
-        'name' => 'Forced Medal Transfer',
+        'name'    => 'Forced Medal Transfer',
         'message' => '{item_name} (×{item_quantity}) was removed from {character_name} by <a href="{sender_url}">{sender_name}</a>. (<a href="{url}">View Inventory</a>)',
-        'url' => 'character/{character_slug}/inventory'
+        'url'     => 'character/{character_slug}/inventory',
     ],
 
     // CHARACTER_AWARD_GRANT
     345 => [
-        'name' => 'Character Medal Grant',
+        'name'    => 'Character Medal Grant',
         'message' => '{character_name} has received a staff grant of {award_name} (×{award_quantity}) from <a href="{sender_url}">{sender_name}</a>. (<a href="{url}">View Medals</a>)',
-        'url' => 'character/{character_slug}/awardcase'
+        'url'     => 'character/{character_slug}/awardcase',
     ],
 
     // CHARACTER_AWARD_REMOVAL
     346 => [
-        'name' => 'Character Medal Removal',
+        'name'    => 'Character Medal Removal',
         'message' => '{award_name} (×{award_quantity}) was removed from {character_name} by <a href="{sender_url}">{sender_name}</a>. (<a href="{url}">View Medals</a>)',
-        'url' => 'character/{character_slug}/awardcase'
+        'url'     => 'character/{character_slug}/awardcase',
     ],
 
     // PET_REMOVAL
@@ -587,29 +587,29 @@ return [
 
     // GIFT_SUBMISSION_RECEIVED
     1002 => [
-        'name' => 'Gift Submission Received',
+        'name'    => 'Gift Submission Received',
         'message' => 'Your character (<a href="{character_url}">{character}</a>) has been included in a submission by <a href="{sender_url}">{sender}</a>. (<a href="{url}">View Submission</a>)',
-        'url' => 'submissions/view/{submission_id}'
+        'url'     => 'submissions/view/{submission_id}',
     ],
 
     // GIFT_CLAIM_RECEIVED
     1003 => [
-        'name' => 'Gift Claim Received',
+        'name'    => 'Gift Claim Received',
         'message' => 'Your character (<a href="{character_url}">{character}</a>) has been included in a claim by <a href="{sender_url}">{sender}</a>. (<a href="{url}">View Claim</a>)',
-        'url' => 'claims/view/{submission_id}'
+        'url'     => 'claims/view/{submission_id}',
     ],
 
     // GIFT_SUBMISSION_ALERT
     1004 => [
-        'name' => 'Gift Submission Alert',
+        'name'    => 'Gift Submission Alert',
         'message' => 'Your character (<a href="{character_url}">{character_name}</a>) has {count} submissions by other users. (<a href="{url}">View {character_name}’s Submissions</a>)',
-        'url' => '{character_url}/submissions'
+        'url'     => '{character_url}/submissions',
     ],
 
     // RECIPE_GRANT
     600 => [
-        'name' => 'Recipe Grant',
+        'name'    => 'Recipe Grant',
         'message' => 'You have received a staff grant of the crafting recipe {recipe_name} from <a href="{sender_url}">{sender_name}</a>. (<a href="{url}">View Unlocked Recipes</a>)',
-        'url' => 'crafting'
+        'url'     => 'crafting',
     ],
 ];

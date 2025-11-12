@@ -138,11 +138,11 @@ return [
             ],
             [
                 'name' => 'Medal Grants',
-                'url' => 'admin/grants/awards'
+                'url'  => 'admin/grants/awards',
             ],
             [
                 'name' => 'Recipe Grants',
-                'url' => 'admin/grants/recipes'
+                'url'  => 'admin/grants/recipes',
             ],
         ],
     ],
@@ -184,7 +184,7 @@ return [
             ],
             [
                 'name' => 'Award Categories',
-                'url' => 'admin/data/award-categories'
+                'url'  => 'admin/data/award-categories',
             ],
             [
                 'name' => 'Character Categories',
@@ -212,7 +212,7 @@ return [
             ],
             [
                 'name' => 'Titles',
-                'url' => 'admin/data/character-titles'
+                'url'  => 'admin/data/character-titles',
             ],
             [
                 'name' => 'Shops',
@@ -220,7 +220,7 @@ return [
             ],
             [
                 'name' => 'Dailies',
-                'url' => 'admin/data/dailies'
+                'url'  => 'admin/data/dailies',
             ],
             [
                 'name' => 'Currencies',
@@ -244,7 +244,7 @@ return [
             ],
             [
                 'name' => 'Medals',
-                'url' => 'admin/data/awards',
+                'url'  => 'admin/data/awards',
             ],
             [
                 'name' => 'Carousel',
@@ -302,53 +302,53 @@ return [
         'links' => [
             [
                 'name' => 'Glossary',
-                'url' => 'admin/world/glossary'
+                'url'  => 'admin/world/glossary',
             ],
             [
                 'name' => 'Locations',
-                'url' => 'admin/world/locations'
+                'url'  => 'admin/world/locations',
             ],
             [
                 'name' => 'Fauna',
-                'url' => 'admin/world/faunas'
+                'url'  => 'admin/world/faunas',
             ],
             [
                 'name' => 'Flora',
-                'url' => 'admin/world/floras'
+                'url'  => 'admin/world/floras',
             ],
             [
                 'name' => ' Events',
-                'url' => 'admin/world/events'
+                'url'  => 'admin/world/events',
             ],
             [
                 'name' => ' Figures',
-                'url' => 'admin/world/figures'
+                'url'  => 'admin/world/figures',
             ],
             [
                 'name' => 'Factions',
-                'url' => 'admin/world/factions'
+                'url'  => 'admin/world/factions',
             ],
             [
                 'name' => 'Concepts',
-                'url' => 'admin/world/concepts'
+                'url'  => 'admin/world/concepts',
             ],
             [
                 'name' => 'Codes',
-                'url' => 'admin/prizecodes'
+                'url'  => 'admin/prizecodes',
             ],
             [
                 'name' => 'Collections',
-                'url' => 'admin/data/collections'
+                'url'  => 'admin/data/collections',
             ],
             [
                 'name' => 'Recipes',
-                'url' => 'admin/data/recipes'
+                'url'  => 'admin/data/recipes',
             ],
             [
                 'name' => 'Scavenger Hunts',
-                'url' => 'admin/data/hunts'
+                'url'  => 'admin/data/hunts',
             ],
-        ]
+        ],
     ],
     'Raffles' => [
         'power' => 'manage_raffles',
@@ -376,8 +376,8 @@ return [
             ],
             [
                 'name' => 'Theme Manager',
-                'url' => 'admin/themes'
+                'url'  => 'admin/themes',
             ],
-        ]
+        ],
     ],
 ];

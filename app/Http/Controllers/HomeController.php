@@ -5,17 +5,12 @@ namespace App\Http\Controllers;
 use App\Models\Gallery\GallerySubmission;
 use App\Models\News;
 use App\Models\SitePage;
-use App\Models\Character\Character;
-use App\Services\CharacterManager;
 use App\Services\LinkService;
 use App\Services\UserService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Laravel\Socialite\Facades\Socialite;
-use Config;
-use Settings;
-use Carbon\Carbon;
 
 class HomeController extends Controller {
     /*
@@ -40,26 +35,24 @@ class HomeController extends Controller {
             $gallerySubmissions = [];
         }
 
-        
-        if(Auth::check() && Auth::user()->id) {
+        if (Auth::check() && Auth::user()->id) {
             $usernamequote = Auth::user()->name;
-            if(Auth::user()->settings->selectedCharacter) {
+            if (Auth::user()->settings->selectedCharacter) {
                 $hasSelectedCharacter = Auth::user()->settings->selectedCharacter->id;
             } else {
                 $hasSelectedCharacter = false;
             }
-        }
-        else {
+        } else {
             $usernamequote = null;
             $hasSelectedCharacter = false;
         }
 
-        $quoteinput = array(
-                "Hi ".$usernamequote."!!! Today I ate 56 peas. I think I'm going to turn green... you gotta save me...",
-                "Woah! ".$usernamequote." you look so weird... I've never seen ears so shrunk and legs with five hotdogs for hooves before...",
-                "Hey there ".$usernamequote."! Do you think you can spare a little DS for lil old me? Shhh you don't need to know what I'm spending it on.",
-                "Don't be such a little capitalist! Take a deep breath and enjoy a walk!",
-            );
+        $quoteinput = [
+            'Hi '.$usernamequote."!!! Today I ate 56 peas. I think I'm going to turn green... you gotta save me...",
+            'Woah! '.$usernamequote." you look so weird... I've never seen ears so shrunk and legs with five hotdogs for hooves before...",
+            'Hey there '.$usernamequote."! Do you think you can spare a little DS for lil old me? Shhh you don't need to know what I'm spending it on.",
+            "Don't be such a little capitalist! Take a deep breath and enjoy a walk!",
+        ];
         $rand_keys = array_rand($quoteinput);
 
         return view('welcome', [

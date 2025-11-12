@@ -170,7 +170,7 @@ Route::group(['prefix' => 'world'], function () {
     Route::get('collections', 'WorldController@getCollections');
     Route::get('collections/{id}', 'WorldController@getCollection');
     Route::get('collection-categories', 'WorldController@getCollectionCategories');
-    
+
     Route::get('recipes', 'WorldController@getRecipes');
     Route::get('recipes/{id}', 'WorldController@getRecipe');
 });
@@ -188,11 +188,10 @@ Route::group(['prefix' => 'shops'], function () {
     Route::get('{id}/{stockId}', 'ShopController@getShopStock')->where(['id' => '[0-9]+', 'stockId' => '[0-9]+']);
 });
 
-Route::group(['prefix' => __('dailies.dailies')], function() {
+Route::group(['prefix' => __('dailies.dailies')], function () {
     Route::get('/', 'DailyController@getIndex');
     Route::get('{id}', 'DailyController@getDaily')->where(['id' => '[0-9]+']);
 });
-
 
 /**************************************************************************************************
     Pet Drops
@@ -254,11 +253,10 @@ Route::get('time', function () {
     World Expansion
 **************************************************************************************************/
 
-Route::group(['prefix' => 'world', 'namespace' => 'WorldExpansion'], function() {
-
+Route::group(['prefix' => 'world', 'namespace' => 'WorldExpansion'], function () {
     Route::get('info', 'WorldExpansionController@getIndex');
     Route::get('glossary', 'WorldExpansionController@getGlossary');
-    
+
     Route::get('locations', 'LocationController@getLocations');
     Route::get('locations/{id}', 'LocationController@getLocation');
     Route::get('locations/{id}/submissions', 'LocationController@getLocationSubmissions');

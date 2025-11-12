@@ -1,29 +1,27 @@
-<?php namespace App\Services;
+<?php
+
+namespace App\Services;
 
 use App\Models\PrizeCode;
 use App\Models\User\User;
 use App\Models\User\UserPrizeLog;
-use App\Services\Service;
 use Auth;
 use Carbon\Carbon;
 use DB;
 
-class PrizeCodeManager extends Service
-{
-
-/**********************************************************************************************
-Code Redeem
- **********************************************************************************************/
+class PrizeCodeManager extends Service {
+    /**********************************************************************************************
+    Code Redeem
+     **********************************************************************************************/
 
     /**
-     * Attempts to redeem the code
+     * Attempts to redeem the code.
      *
-     * @param  array                        $data
-     * @param  \App\Models\User\User        $user
+     * @param array $data
+     *
      * @return bool
      */
-    public function reedeemPrize($data)
-    {
+    public function reedeemPrize($data) {
         DB::beginTransaction();
 
         try {
@@ -52,25 +50,24 @@ Code Redeem
             //or if it's limited, make sure the claim wouldn't be exceeded
             if ($codesuccess->use_limit > 0) {
                 if ($codesuccess->use_limit <= $codesuccess->redeemers()->count()) {
-                    throw new \Exception("This code has reached the maximum number of users.");
+                    throw new \Exception('This code has reached the maximum number of users.');
                 }
-
             }
 
             // if successful we can credit rewards
             $logType = 'Redeem Reward';
             $redeemData = [
-                'data' => 'Received rewards from ' . $codesuccess->name . ' code',
+                'data' => 'Received rewards from '.$codesuccess->name.' code',
             ];
             //make log
             $logging = UserPrizeLog::create([
-                'user_id' => $user->id,
-                'prize_id' => $codesuccess->id,
+                'user_id'    => $user->id,
+                'prize_id'   => $codesuccess->id,
                 'claimed_at' => Carbon::now(),
             ]);
             //credit reward
             if (!$rewards = fillUserAssets($codesuccess->rewardItems, null, $user, $logType, $redeemData)) {
-                throw new \Exception("Failed to distribute rewards to user.");
+                throw new \Exception('Failed to distribute rewards to user.');
             }
 
             flash($this->getRewardsString($rewards));
@@ -79,17 +76,18 @@ Code Redeem
         } catch (\Exception $e) {
             $this->setError('error', $e->getMessage());
         }
+
         return $this->rollbackReturn(false);
     }
 
     /**
      * Acts upon the item when used from the inventory.
      *
-     * @param  array                  $rewards
+     * @param array $rewards
+     *
      * @return string
      */
-    private function getRewardsString($rewards)
-    {
-        return 'You have received: ' . createRewardsString($rewards);
+    private function getRewardsString($rewards) {
+        return 'You have received: '.createRewardsString($rewards);
     }
 }

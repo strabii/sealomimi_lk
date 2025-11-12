@@ -8,8 +8,7 @@ class AddDesignNameToML extends Migration {
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
+    public function up(): void {
         Schema::table('characters', function (Blueprint $table) {
             $table->string('design_name', 50)->nullable();
         });
@@ -18,10 +17,9 @@ class AddDesignNameToML extends Migration {
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
+    public function down(): void {
         Schema::table('characters', function (Blueprint $table) {
             $table->dropColumn('design_name');
         });
     }
-};
+}

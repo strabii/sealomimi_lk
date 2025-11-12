@@ -2,30 +2,19 @@
 
 namespace App\Http\Controllers\Admin\World;
 
-use App\Models\WorldExpansion\Location;
+use App\Http\Controllers\Controller;
+use App\Models\News;
+use App\Models\Prompt\Prompt;
+use App\Models\WorldExpansion\Event;
+use App\Models\WorldExpansion\EventCategory;
 use App\Models\WorldExpansion\Faction;
 use App\Models\WorldExpansion\Figure;
-use App\Models\Item\Item;
-use App\Models\Prompt\Prompt;
-use App\Models\News;
-
-use App\Models\WorldExpansion\Event;
-use App\Models\WorldExpansion\EventFigure;
-use App\Models\WorldExpansion\EventCategory;
-
-use Auth;
-
-use Settings;
-
-use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
-
+use App\Models\WorldExpansion\Location;
 use App\Services\WorldExpansion\EventService;
+use Auth;
+use Illuminate\Http\Request;
 
-class EventController extends Controller
-{
-
-
+class EventController extends Controller {
     /**********************************************************************************************
 
         Event Types
@@ -37,10 +26,9 @@ class EventController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function getEventCategories()
-    {
+    public function getEventCategories() {
         return view('admin.world_expansion.event_categories', [
-            'categories' => EventCategory::orderBy('sort', 'DESC')->get()
+            'categories' => EventCategory::orderBy('sort', 'DESC')->get(),
         ]);
     }
 
@@ -49,65 +37,69 @@ class EventController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function getCreateEventCategory()
-    {
+    public function getCreateEventCategory() {
         return view('admin.world_expansion.create_edit_event_category', [
-            'category' => new EventCategory
+            'category' => new EventCategory,
         ]);
     }
 
     /**
      * Shows the edit event category page.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function getEditEventCategory($id)
-    {
+    public function getEditEventCategory($id) {
         $category = EventCategory::find($id);
-        if(!$category) abort(404);
+        if (!$category) {
+            abort(404);
+        }
+
         return view('admin.world_expansion.create_edit_event_category', [
-            'category' => $category
+            'category' => $category,
         ]);
     }
 
     /**
      * Creates or edits a category.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  App\Services\WorldExpansion\EventService  $service
-     * @param  int|null                  $id
+     * @param App\Services\WorldExpansion\EventService $service
+     * @param int|null                                 $id
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function postCreateEditEventCategory(Request $request, EventService $service, $id = null)
-    {
+    public function postCreateEditEventCategory(Request $request, EventService $service, $id = null) {
         $id ? $request->validate(EventCategory::$updateRules) : $request->validate(EventCategory::$createRules);
 
         $data = $request->only([
-            'name', 'names', 'description', 'image', 'image_th', 'remove_image', 'remove_image_th', 'summary'
+            'name', 'names', 'description', 'image', 'image_th', 'remove_image', 'remove_image_th', 'summary',
         ]);
-        if($id && $service->updateEventCategory(EventCategory::find($id), $data, Auth::user())) {
+        if ($id && $service->updateEventCategory(EventCategory::find($id), $data, Auth::user())) {
             flash('Event category updated successfully.')->success();
-        }
-        else if (!$id && $category = $service->createEventCategory($data, Auth::user())) {
+        } elseif (!$id && $category = $service->createEventCategory($data, Auth::user())) {
             flash('Event category created successfully.')->success();
+
             return redirect()->to('admin/world/event-categories/edit/'.$category->id);
+        } else {
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash($error)->error();
+            }
         }
-        else {
-            foreach($service->errors()->getMessages()['error'] as $error) flash($error)->error();
-        }
+
         return redirect()->back();
     }
 
     /**
      * Gets the category deletion modal.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function getDeleteEventCategory($id)
-    {
+    public function getDeleteEventCategory($id) {
         $category = EventCategory::find($id);
+
         return view('admin.world_expansion._delete_event_category', [
             'category' => $category,
         ]);
@@ -116,43 +108,41 @@ class EventController extends Controller
     /**
      * Deletes a category.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  App\Services\WorldExpansion\EventService  $service
-     * @param  int                       $id
+     * @param App\Services\WorldExpansion\EventService $service
+     * @param int                                      $id
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function postDeleteEventCategory(Request $request, EventService $service, $id)
-    {
-        if($id && $service->deleteEventCategory(EventCategory::find($id))) {
+    public function postDeleteEventCategory(Request $request, EventService $service, $id) {
+        if ($id && $service->deleteEventCategory(EventCategory::find($id))) {
             flash('Event Category deleted successfully.')->success();
+        } else {
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash($error)->error();
+            }
         }
-        else {
-            foreach($service->errors()->getMessages()['error'] as $error) flash($error)->error();
-        }
+
         return redirect()->to('admin/world/event-categories');
     }
 
     /**
      * Sorts categories.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  App\Services\WorldExpansion\EventService  $service
+     * @param App\Services\WorldExpansion\EventService $service
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function postSortEventCategory(Request $request, EventService $service)
-    {
-        if($service->sortEventCategory($request->get('sort'))) {
+    public function postSortEventCategory(Request $request, EventService $service) {
+        if ($service->sortEventCategory($request->get('sort'))) {
             flash('Event Category order updated successfully.')->success();
+        } else {
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash($error)->error();
+            }
         }
-        else {
-            foreach($service->errors()->getMessages()['error'] as $error) flash($error)->error();
-        }
+
         return redirect()->back();
     }
-
-
-
-
 
     /**********************************************************************************************
 
@@ -165,10 +155,9 @@ class EventController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function getEventIndex()
-    {
+    public function getEventIndex() {
         return view('admin.world_expansion.events', [
-            'events' => Event::orderBy('sort', 'DESC')->get()
+            'events' => Event::orderBy('sort', 'DESC')->get(),
         ]);
     }
 
@@ -177,52 +166,53 @@ class EventController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function getCreateEvent()
-    {
+    public function getCreateEvent() {
         return view('admin.world_expansion.create_edit_event', [
-            'event' => new Event,
-            'categories' => EventCategory::all()->pluck('name','id')->toArray(),
-            'events' => Event::all()->pluck('name','id')->toArray(),
-            'figures' => Figure::all()->pluck('name','id')->toArray(),
-            'locations' => Location::all()->pluck('name','id')->toArray(),
-            'factions' => Faction::all()->pluck('name','id')->toArray(),
-            'newses' => News::all()->pluck('title','id')->toArray(),
-            'prompts' => Prompt::all()->pluck('name','id')->toArray(),
+            'event'      => new Event,
+            'categories' => EventCategory::all()->pluck('name', 'id')->toArray(),
+            'events'     => Event::all()->pluck('name', 'id')->toArray(),
+            'figures'    => Figure::all()->pluck('name', 'id')->toArray(),
+            'locations'  => Location::all()->pluck('name', 'id')->toArray(),
+            'factions'   => Faction::all()->pluck('name', 'id')->toArray(),
+            'newses'     => News::all()->pluck('title', 'id')->toArray(),
+            'prompts'    => Prompt::all()->pluck('name', 'id')->toArray(),
         ]);
     }
 
     /**
      * Shows the edit event event page.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function getEditEvent($id)
-    {
+    public function getEditEvent($id) {
         $event = Event::find($id);
-        if(!$event) abort(404);
+        if (!$event) {
+            abort(404);
+        }
+
         return view('admin.world_expansion.create_edit_event', [
-            'event' => $event,
-            'categories' => EventCategory::all()->pluck('name','id')->toArray(),
-            'events' => Event::all()->where('id','!=',$event->id)->pluck('name','id')->toArray(),
-            'figures' => Figure::all()->pluck('name','id')->toArray(),
-            'locations' => Location::all()->pluck('name','id')->toArray(),
-            'factions' => Faction::all()->pluck('name','id')->toArray(),
-            'newses' => News::all()->pluck('title','id')->toArray(),
-            'prompts' => Prompt::all()->pluck('name','id')->toArray(),
+            'event'      => $event,
+            'categories' => EventCategory::all()->pluck('name', 'id')->toArray(),
+            'events'     => Event::all()->where('id', '!=', $event->id)->pluck('name', 'id')->toArray(),
+            'figures'    => Figure::all()->pluck('name', 'id')->toArray(),
+            'locations'  => Location::all()->pluck('name', 'id')->toArray(),
+            'factions'   => Faction::all()->pluck('name', 'id')->toArray(),
+            'newses'     => News::all()->pluck('title', 'id')->toArray(),
+            'prompts'    => Prompt::all()->pluck('name', 'id')->toArray(),
         ]);
     }
 
     /**
      * Creates or edits a event.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  App\Services\WorldExpansion\EventService  $service
-     * @param  int|null                  $id
+     * @param App\Services\WorldExpansion\EventService $service
+     * @param int|null                                 $id
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function postCreateEditEvent(Request $request, EventService $service, $id = null)
-    {
+    public function postCreateEditEvent(Request $request, EventService $service, $id = null) {
         $id ? $request->validate(Event::$updateRules) : $request->validate(Event::$createRules);
 
         $data = $request->only([
@@ -231,28 +221,31 @@ class EventController extends Controller
             'occur_start', 'occur_end',
             'attachment_type', 'attachment_id', 'attachment_data',
         ]);
-        if($id && $service->updateEvent(Event::find($id), $data, Auth::user())) {
+        if ($id && $service->updateEvent(Event::find($id), $data, Auth::user())) {
             flash('Event updated successfully.')->success();
-        }
-        else if (!$id && $event = $service->createEvent($data, Auth::user())) {
+        } elseif (!$id && $event = $service->createEvent($data, Auth::user())) {
             flash('Event created successfully.')->success();
+
             return redirect()->to('admin/world/events/edit/'.$event->id);
+        } else {
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash($error)->error();
+            }
         }
-        else {
-            foreach($service->errors()->getMessages()['error'] as $error) flash($error)->error();
-        }
+
         return redirect()->back();
     }
 
     /**
      * Gets the event deletion modal.
      *
-     * @param  int  $id
+     * @param int $id
+     *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function getDeleteEvent($id)
-    {
+    public function getDeleteEvent($id) {
         $event = Event::find($id);
+
         return view('admin.world_expansion._delete_event', [
             'event' => $event,
         ]);
@@ -261,40 +254,39 @@ class EventController extends Controller
     /**
      * Deletes a event.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  App\Services\WorldExpansion\EventService  $service
-     * @param  int                       $id
+     * @param App\Services\WorldExpansion\EventService $service
+     * @param int                                      $id
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function postDeleteEvent(Request $request, EventService $service, $id)
-    {
-        if($id && $service->deleteEvent(Event::find($id))) {
+    public function postDeleteEvent(Request $request, EventService $service, $id) {
+        if ($id && $service->deleteEvent(Event::find($id))) {
             flash('Event deleted successfully.')->success();
+        } else {
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash($error)->error();
+            }
         }
-        else {
-            foreach($service->errors()->getMessages()['error'] as $error) flash($error)->error();
-        }
+
         return redirect()->to('admin/world/events');
     }
 
     /**
      * Sorts events.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  App\Services\WorldExpansion\EventService  $service
+     * @param App\Services\WorldExpansion\EventService $service
+     *
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function postSortEvent(Request $request, EventService $service)
-    {
-        if($service->sortEvent($request->get('sort'))) {
+    public function postSortEvent(Request $request, EventService $service) {
+        if ($service->sortEvent($request->get('sort'))) {
             flash('Event order updated successfully.')->success();
+        } else {
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash($error)->error();
+            }
         }
-        else {
-            foreach($service->errors()->getMessages()['error'] as $error) flash($error)->error();
-        }
+
         return redirect()->back();
     }
-
-
-
 }

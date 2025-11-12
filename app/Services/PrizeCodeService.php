@@ -1,12 +1,12 @@
-<?php namespace App\Services;
+<?php
+
+namespace App\Services;
 
 use App\Models\PrizeCode;
-use App\Services\Service;
 use DB;
 use Illuminate\Support\Arr;
 
-class PrizeCodeService extends Service
-{
+class PrizeCodeService extends Service {
     /*
     |--------------------------------------------------------------------------
     | Prize Service
@@ -19,16 +19,15 @@ class PrizeCodeService extends Service
     /**
      * Creates a new prize.
      *
-     * @param  array                  $data
-     * @param  \App\Models\User\User  $user
-     * @return bool|\App\Models\PrizeCode
+     * @param array                 $data
+     * @param \App\Models\User\User $user
+     *
+     * @return bool|PrizeCode
      */
-    public function createPrize($data, $user)
-    {
+    public function createPrize($data, $user) {
         DB::beginTransaction();
 
         try {
-
             if (!isset($data['rewardable_type'])) {
                 throw new \Exception('Please add at least one reward to the prize.');
             }
@@ -37,17 +36,16 @@ class PrizeCodeService extends Service
 
             foreach ($data['rewardable_type'] as $key => $type) {
                 if (!$type) {
-                    throw new \Exception("Reward type is required.");
+                    throw new \Exception('Reward type is required.');
                 }
 
                 if (!$data['rewardable_id'][$key]) {
-                    throw new \Exception("Reward is required.");
+                    throw new \Exception('Reward is required.');
                 }
 
                 if (!$data['reward_quantity'][$key] || $data['reward_quantity'][$key] < 1) {
-                    throw new \Exception("Quantity is required and must be an integer greater than 0.");
+                    throw new \Exception('Quantity is required and must be an integer greater than 0.');
                 }
-
             }
 
             if (!isset($data['use_limit'])) {
@@ -65,25 +63,26 @@ class PrizeCodeService extends Service
         } catch (\Exception $e) {
             $this->setError('error', $e->getMessage());
         }
+
         return $this->rollbackReturn(false);
     }
 
     /**
      * Updates an prize.
      *
-     * @param  \App\Models\PrizeCode  $prize
-     * @param  array                  $data
-     * @param  \App\Models\User\User  $user
-     * @return bool|\App\Models\rizeCode
+     * @param PrizeCode             $prize
+     * @param array                 $data
+     * @param \App\Models\User\User $user
+     *
+     * @return \App\Models\rizeCode|bool
      */
-    public function updatePrize($prize, $data, $user)
-    {
+    public function updatePrize($prize, $data, $user) {
         DB::beginTransaction();
 
         try {
             // More specific validation
             if (PrizeCode::where('name', $data['name'])->where('id', '!=', $prize->id)->exists()) {
-                throw new \Exception("The name has already been taken.");
+                throw new \Exception('The name has already been taken.');
             }
 
             if (!isset($data['rewardable_type'])) {
@@ -94,17 +93,16 @@ class PrizeCodeService extends Service
 
             foreach ($data['rewardable_type'] as $key => $type) {
                 if (!$type) {
-                    throw new \Exception("Reward type is required.");
+                    throw new \Exception('Reward type is required.');
                 }
 
                 if (!$data['rewardable_id'][$key]) {
-                    throw new \Exception("Reward is required.");
+                    throw new \Exception('Reward is required.');
                 }
 
                 if (!$data['reward_quantity'][$key] || $data['reward_quantity'][$key] < 1) {
-                    throw new \Exception("Quantity is required and must be an integer greater than 0.");
+                    throw new \Exception('Quantity is required and must be an integer greater than 0.');
                 }
-
             }
 
             if (!isset($data['use_limit'])) {
@@ -124,17 +122,39 @@ class PrizeCodeService extends Service
         } catch (\Exception $e) {
             $this->setError('error', $e->getMessage());
         }
+
         return $this->rollbackReturn(false);
     }
 
     /**
-     * Creates the assets json from rewards
+     * Deletes a code.
      *
-     * @param  \App\Models\PrizeCode   $prize
-     * @param  array                       $data
+     * @param mixed $prize
+     *
+     * @return bool
      */
-    private function populateRewards($data)
-    {
+    public function deletePrize($prize) {
+        DB::beginTransaction();
+
+        try {
+            DB::table('user_prize_logs')->where('prize_id', $prize->id)->delete();
+
+            $prize->delete();
+
+            return $this->commitReturn(true);
+        } catch (\Exception $e) {
+            $this->setError('error', $e->getMessage());
+        }
+
+        return $this->rollbackReturn(false);
+    }
+
+    /**
+     * Creates the assets json from rewards.
+     *
+     * @param array $data
+     */
+    private function populateRewards($data) {
         if (isset($data['rewardable_type'])) {
             // The data will be stored as an asset table, json_encode()d.
             // First build the asset table, then prepare it for storage.
@@ -160,46 +180,23 @@ class PrizeCodeService extends Service
 
             return getDataReadyAssets($assets);
         }
+
         return null;
     }
 
     /**
      * Processes user input for creating/updating an prize.
      *
-     * @param  array                  $data
-     * @param  \App\Models\PrizeCode  $prize
+     * @param array     $data
+     * @param PrizeCode $prize
+     *
      * @return array
      */
-    private function populateData($data, $prize = null)
-    {
+    private function populateData($data, $prize = null) {
         if (!isset($data['is_active'])) {
             $data['is_active'] = 0;
         }
 
         return $data;
     }
-
-    /**
-     * Deletes a code
-     *
-     *
-     * @return bool
-     */
-    public function deletePrize($prize) {
-        DB::beginTransaction();
-
-        try {
-
-            DB::table('user_prize_logs')->where('prize_id', $prize->id)->delete();
-
-            $prize->delete();
-
-            return $this->commitReturn(true);
-        } catch (\Exception $e) {
-            $this->setError('error', $e->getMessage());
-        }
-
-        return $this->rollbackReturn(false);
-    }
-
 }

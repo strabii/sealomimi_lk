@@ -458,19 +458,19 @@ function prettyProfileName($url) {
  *
  * @return string
  */
-function LiveClock($LCtimezone = NULL)
-{
-    $date = NULL;
+function LiveClock($LCtimezone = null) {
+    $date = null;
     try {
         $date = new DateTimeZone($LCtimezone);
+    } catch (Exception $e) { /* Do Nothing If Wrong, Will End Up As Default */
     }
-    catch(Exception $e) { /* Do Nothing If Wrong, Will End Up As Default */}
 
     $LCtimezone = Carbon\Carbon::now($date);
 
     $LCcode = '<span class="LiveClock" LiveClockOffset="'.$LCtimezone->utcOffset().'"></span>';
-    $LCtz = '<abbr data-toggle="tooltip" title="UTC'.$LCtimezone->timezone->toOffsetName().'">' . strtoupper($LCtimezone->timezone->getAbbreviatedName($LCtimezone->isDST())) . '</abbr>';
-    return $LCcode . " " . $LCtz;
+    $LCtz = '<abbr data-toggle="tooltip" title="UTC'.$LCtimezone->timezone->toOffsetName().'">'.strtoupper($LCtimezone->timezone->getAbbreviatedName($LCtimezone->isDST())).'</abbr>';
+
+    return $LCcode.' '.$LCtz;
 }
 
 /**
@@ -484,7 +484,7 @@ function LiveClock($LCtimezone = NULL)
 function parseLiveClock($text) {
     $matches = null;
     $matches2 = null;
-    
+
     $count = preg_match_all('/\[liveclock\]/', $text, $matches);
     if ($count) {
         $matches = array_unique($matches);
@@ -505,26 +505,30 @@ function parseLiveClock($text) {
 }
 
 // World Expansion attachments
-function allAttachments($model)
-{
+function allAttachments($model) {
     $attachments = $model->attachments;
     $attachers = $model->attachers;
     $totals = [];
-    if($attachments){
-        foreach($attachments as $attach){
+    if ($attachments) {
+        foreach ($attachments as $attach) {
             $class = class_basename($attach->attachment);
-            if(!isset($totals[$class])) $totals[$class] = [];
+            if (!isset($totals[$class])) {
+                $totals[$class] = [];
+            }
             $totals[$class][] = $attach->attachment;
             $totals[$class] = array_unique($totals[$class]);
         }
     }
-    if($attachers){
-        foreach($attachers as $attach){
+    if ($attachers) {
+        foreach ($attachers as $attach) {
             $class = class_basename($attach->attacher);
-            if(!isset($totals[$class])) $totals[$class] = [];
+            if (!isset($totals[$class])) {
+                $totals[$class] = [];
+            }
             $totals[$class][] = $attach->attacher;
             $totals[$class] = array_unique($totals[$class]);
         }
     }
+
     return $totals;
 }

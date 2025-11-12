@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers\WorldExpansion;
 
-use Settings;
 use App\Http\Controllers\Controller;
 use App\Models\SitePage;
 use App\Models\WorldExpansion\Glossary;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Settings;
 
-class WorldExpansionController extends Controller
-{
+class WorldExpansionController extends Controller {
     /*
     |--------------------------------------------------------------------------
     | World Expansion Controller
@@ -24,38 +23,39 @@ class WorldExpansionController extends Controller
     /**
      * Shows the index page.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function getIndex()
-    {
-        $world = SitePage::where('key','world')->first();
-        if(!$world) abort(404);
+    public function getIndex() {
+        $world = SitePage::where('key', 'world')->first();
+        if (!$world) {
+            abort(404);
+        }
 
         return view('worldexpansion.world', [
-            'world' => $world
+            'world' => $world,
         ]);
     }
-    
+
     /**
      * Shows the glossary page.
      *
-     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function getGlossary(Request $request)
-    {
+    public function getGlossary(Request $request) {
         $showGlossary = Settings::get('WE_glossary');
-        if(!$showGlossary) abort(404);
-        
+        if (!$showGlossary) {
+            abort(404);
+        }
+
         $query = Glossary::query();
         $name = $request->get('name');
         $sort = $request->get('sort');
-        if($name) $query->where('name', 'LIKE', '%'.$name.'%');
-        
-        if(isset($sort))
-        {
-            switch($sort) {
+        if ($name) {
+            $query->where('name', 'LIKE', '%'.$name.'%');
+        }
+
+        if (isset($sort)) {
+            switch ($sort) {
                 case 'alpha':
                     $query->sortAlphabetical();
                     break;
@@ -63,10 +63,13 @@ class WorldExpansionController extends Controller
                     $query->sortAlphabetical(true);
                     break;
             }
+        } else {
+            $query->sortAlphabetical();
         }
-        else $query->sortAlphabetical();
-        if(!Auth::check() || !(Auth::check() && Auth::user()->isStaff)) $query->visible();
-        
+        if (!Auth::check() || !(Auth::check() && Auth::user()->isStaff)) {
+            $query->visible();
+        }
+
         return view('worldexpansion.glossary', [
             'terms' => $query->paginate(30)->appends($request->query()),
         ]);

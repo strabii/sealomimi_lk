@@ -6,17 +6,16 @@ use App\Facades\Settings;
 use App\Http\Controllers\Controller;
 use App\Models\Character\Character;
 use App\Models\Character\CharacterCategory;
+use App\Models\Character\CharacterTitle;
 use App\Models\Character\CharacterTransfer;
 use App\Models\Feature\Feature;
 use App\Models\Rarity;
-use App\Models\Character\CharacterTitle;
 use App\Models\Species\Species;
 use App\Models\Species\Subtype;
 use App\Models\Stat\Stat;
 use App\Models\Trade;
 use App\Models\User\User;
 use App\Models\User\UserItem;
-use App\Services\AwardCaseManager;
 use App\Services\CharacterManager;
 use App\Services\TradeManager;
 use Illuminate\Http\Request;
@@ -52,12 +51,12 @@ class CharacterController extends Controller {
         return view('admin.masterlist.create_character', [
             'categories'  => CharacterCategory::orderBy('sort')->get(),
             'userOptions' => User::query()->orderBy('name')->pluck('name', 'id')->toArray(),
-            'rarities' => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'titles' => ['0' => 'Select Title', 'custom' => 'Custom Title'] + CharacterTitle::orderBy('sort', 'DESC')->pluck('title', 'id')->toArray(),
-            'specieses' => ['0' => 'Select '.ucfirst(__('lorekeeper.species'))] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
-            'subtypes' => ['0' => 'Pick a '.ucfirst(__('lorekeeper.species')).' First'],
-            'features' => Feature::orderBy('name')->pluck('name', 'id')->toArray(),
-            'isMyo' => false
+            'rarities'    => ['0' => 'Select Rarity'] + Rarity::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'titles'      => ['0' => 'Select Title', 'custom' => 'Custom Title'] + CharacterTitle::orderBy('sort', 'DESC')->pluck('title', 'id')->toArray(),
+            'specieses'   => ['0' => 'Select '.ucfirst(__('lorekeeper.species'))] + Species::orderBy('sort', 'DESC')->pluck('name', 'id')->toArray(),
+            'subtypes'    => ['0' => 'Pick a '.ucfirst(__('lorekeeper.species')).' First'],
+            'features'    => Feature::orderBy('name')->pluck('name', 'id')->toArray(),
+            'isMyo'       => false,
         ]);
     }
 
@@ -131,7 +130,7 @@ class CharacterController extends Controller {
             'designer_id', 'designer_url',
             'artist_id', 'artist_url',
             'species_id', 'subtype_id', 'rarity_id', 'feature_id', 'feature_data', 'title_id', 'title_data', 'design_name',
-            'image', 'thumbnail', 'image_description'
+            'image', 'thumbnail', 'image_description',
         ]);
         if ($character = $service->createCharacter($data, Auth::user())) {
             flash(ucfirst(__('lorekeeper.character')).' created successfully.')->success();

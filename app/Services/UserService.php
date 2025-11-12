@@ -6,28 +6,22 @@ use App\Facades\Notifications;
 use App\Facades\Settings;
 /*use DB;*/
 /*use Settings;*/
-use Auth;
+use App\Models\Character\CharacterDesignUpdate;
 /*use File;*/
 /*use Image;*/
 
-use App\Models\WorldExpansion\Location;
-use App\Models\WorldExpansion\Faction;
-use App\Models\WorldExpansion\FactionRankMember;
-use App\Models\Character\CharacterDesignUpdate;
 use App\Models\Character\CharacterTransfer;
 use App\Models\Gallery\GallerySubmission;
 use App\Models\Invitation;
 use App\Models\Rank\Rank;
 use App\Models\Submission\Submission;
-use Illuminate\Support\Facades\Storage;
-
-use App\Services\SubmissionManager;
-use App\Services\GalleryManager;
-use App\Services\CharacterManager;
-use App\Services\CurrencyManager;
 use App\Models\Trade;
 use App\Models\User\User;
 use App\Models\User\UserUpdateLog;
+use App\Models\WorldExpansion\Faction;
+use App\Models\WorldExpansion\FactionRankMember;
+use App\Models\WorldExpansion\Location;
+use Auth;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
@@ -144,78 +138,98 @@ class UserService extends Service {
     }
 
     /**
-    * Updates a user. Used in modifying the admin user on the command line.
-    *
-    * @param  array  $data
-    * @return \App\Models\User\User
-    */
-   public function updateLocation($id, $user)
-   {
-       DB::beginTransaction();
+     * Updates a user. Used in modifying the admin user on the command line.
+     *
+     * @param mixed $id
+     * @param mixed $user
+     *
+     * @return User
+     */
+    public function updateLocation($id, $user) {
+        DB::beginTransaction();
 
-       try {
-           $location = Location::find($id);
-           if(!$location) throw new \Exception("Not a valid location.");
-           if(!$location->is_user_home) throw new \Exception("Not a location a user can have as their home.");
+        try {
+            $location = Location::find($id);
+            if (!$location) {
+                throw new \Exception('Not a valid location.');
+            }
+            if (!$location->is_user_home) {
+                throw new \Exception('Not a location a user can have as their home.');
+            }
 
-           $limit = Settings::get('WE_change_timelimit');
+            $limit = Settings::get('WE_change_timelimit');
 
-           if($user->canChangeLocation) {
-               $user->home_id = $id;
-               $user->home_changed = Carbon::now();
-               $user->save();
-           }
-           else throw new \Exception("You can't change your location yet!");
+            if ($user->canChangeLocation) {
+                $user->home_id = $id;
+                $user->home_changed = Carbon::now();
+                $user->save();
+            } else {
+                throw new \Exception("You can't change your location yet!");
+            }
 
-           return $this->commitReturn(true);
-       } catch(\Exception $e) {
-           $this->setError('error', $e->getMessage());
-       }
-       return $this->rollbackReturn(false);
-   }
+            return $this->commitReturn(true);
+        } catch (\Exception $e) {
+            $this->setError('error', $e->getMessage());
+        }
 
-   /**
-    * Updates a user. Used in modifying the admin user on the command line.
-    *
-    * @param  array  $data
-    * @return \App\Models\User\User
-    */
-   public function updateFaction($id, $user)
-   {
-       DB::beginTransaction();
+        return $this->rollbackReturn(false);
+    }
 
-       try {
-           if($user->faction) $old = $user->faction;
-           $faction = Faction::find($id);
-           if($id == 0) $id = null;
-           elseif(!$faction) throw new \Exception("Not a valid faction.");
-           else if(!$faction->is_user_faction) throw new \Exception("Not a faction a user can join.");
+    /**
+     * Updates a user. Used in modifying the admin user on the command line.
+     *
+     * @param mixed $id
+     * @param mixed $user
+     *
+     * @return User
+     */
+    public function updateFaction($id, $user) {
+        DB::beginTransaction();
 
-           $limit = Settings::get('WE_change_timelimit');
+        try {
+            if ($user->faction) {
+                $old = $user->faction;
+            }
+            $faction = Faction::find($id);
+            if ($id == 0) {
+                $id = null;
+            } elseif (!$faction) {
+                throw new \Exception('Not a valid faction.');
+            } elseif (!$faction->is_user_faction) {
+                throw new \Exception('Not a faction a user can join.');
+            }
 
-           if($user->canChangeFaction) {
-               $user->faction_id = $id;
-               $user->faction_changed = Carbon::now();
-               $user->save();
-           }
-           else throw new \Exception("You can't change your faction yet!");
+            $limit = Settings::get('WE_change_timelimit');
 
-           // Reset standing/remove from closed rank
-           if(($id == null) || (isset($old) && $faction->id != $old->id)) {
-               $standing = $user->getCurrencies(true)->where('id', Settings::get('WE_faction_currency'))->first();
-               if($standing && $standing->quantity > 0) if(!$debit = (new CurrencyManager)->debitCurrency($user, null, 'Changed Factions', null, $standing, $standing->quantity))
-                   throw new \Exception('Failed to reset standing.');
+            if ($user->canChangeFaction) {
+                $user->faction_id = $id;
+                $user->faction_changed = Carbon::now();
+                $user->save();
+            } else {
+                throw new \Exception("You can't change your faction yet!");
+            }
 
-               if(FactionRankMember::where('member_type', 'user')->where('member_id', $user->id)->first()) FactionRankMember::where('member_type', 'user')->where('member_id', $user->id)->first()->delete();
-           }
+            // Reset standing/remove from closed rank
+            if (($id == null) || (isset($old) && $faction->id != $old->id)) {
+                $standing = $user->getCurrencies(true)->where('id', Settings::get('WE_faction_currency'))->first();
+                if ($standing && $standing->quantity > 0) {
+                    if (!$debit = (new CurrencyManager)->debitCurrency($user, null, 'Changed Factions', null, $standing, $standing->quantity)) {
+                        throw new \Exception('Failed to reset standing.');
+                    }
+                }
 
-           return $this->commitReturn(true);
-       } catch(\Exception $e) {
-           $this->setError('error', $e->getMessage());
-       }
-       return $this->rollbackReturn(false);
-   }
+                if (FactionRankMember::where('member_type', 'user')->where('member_id', $user->id)->first()) {
+                    FactionRankMember::where('member_type', 'user')->where('member_id', $user->id)->first()->delete();
+                }
+            }
 
+            return $this->commitReturn(true);
+        } catch (\Exception $e) {
+            $this->setError('error', $e->getMessage());
+        }
+
+        return $this->rollbackReturn(false);
+    }
 
     /**
      * Updates the user's password.
@@ -397,10 +411,10 @@ class UserService extends Service {
             // Checks if uploaded file is a GIF
             if ($avatar->getClientOriginalExtension() == 'gif') {
                 if (!copy($avatar, $file)) {
-                    throw new \Exception("Failed to copy file.");
+                    throw new \Exception('Failed to copy file.');
                 }
-                if (!$file->move( public_path('images/avatars', $filename))) {
-                    throw new \Exception("Failed to move file.");
+                if (!$file->move(public_path('images/avatars', $filename))) {
+                    throw new \Exception('Failed to move file.');
                 }
                 if (!$avatar->move(public_path('images/avatars'), $filename)) {
                     throw new \Exception('Failed to move file.');
@@ -741,19 +755,20 @@ class UserService extends Service {
 
         return $this->rollbackReturn(false);
     }
-    
+
     /**
      * Updates the user's theme.
      *
-     * @param  array                  $data
-     * @param  \App\Models\User\User  $user
+     * @param array $data
+     * @param User  $user
+     *
      * @return bool
      */
-    public function updateTheme($data, $user)
-    {
+    public function updateTheme($data, $user) {
         $user->theme_id = $data['theme'];
         $user->decorator_theme_id = $data['decorator_theme'];
         $user->save();
+
         return true;
     }
 }
