@@ -36,8 +36,8 @@
 
             {{-- Basic info --}}
             <div class="tab-pane fade show active" id="info-{{ $image->id }}">
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 col-4">
+                <div class="row no-gutters">
+                    <div class="col-lg-4 col-5">
                         <h5>Class</h5>
                     </div>
                     <div class="col-lg-8 col-md-6 col-8">{!! $image->character->class_id ? $image->character->class->displayName : 'None' !!}
@@ -48,18 +48,18 @@
                         @endif
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 col-4">
+                <div class="row no-gutters">
+                    <div class="col-lg-4 col-5">
                         <h5>{{ ucfirst(__('lorekeeper.species'))}}</h5>
                     </div>
-                    <div class="col-lg-8 col-md-6 col-8">{!! $image->species_id ? $image->species->displayName : 'None' !!}</div>
+                    <div class="col-lg-8 col-7 pl-1">{!! $image->species_id ? $image->species->displayName : 'None' !!}</div>
                 </div>
                 @if ($image->subtype_id)
-                    <div class="row">
-                        <div class="col-lg-4 col-md-6 col-4">
+                    <div class="row no-gutters">
+                        <div class="col-lg-4 col-5">
                             <h5>{{ ucfirst(__('lorekeeper.subtype'))}}</h5>
                         </div>
-                        <div class="col-lg-8 col-md-6 col-8">{!! $image->subtype_id ? $image->subtype->displayName : 'None' !!}</div>
+                        <div class="col-lg-8 col-7 pl-1">{!! $image->subtype_id ? $image->subtype->displayName : 'None' !!}</div>
                     </div>
                 @endif
                 @if($image->character->homeSetting)
@@ -74,11 +74,11 @@
                         <div class="col-lg-8 col-md-6 col-8">{!! $image->character->faction ? $image->character->currentFaction : 'None' !!}{!! $character->factionRank ? ' ('.$character->factionRank->name.')' : null !!}</div>
                     </div>
                 @endif
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 col-4">
+                <div class="row no-gutters">
+                    <div class="col-lg-4 col-5">
                         <h5>Rarity</h5>
                     </div>
-                    <div class="col-lg-8 col-md-6 col-8">{!! $image->rarity_id ? $image->rarity->displayName : 'None' !!}</div>
+                    <div class="col-lg-8 col-7 pl-1">{!! $image->rarity_id ? $image->rarity->displayName : 'None' !!}</div>
                 </div>
                 @php
                     // check if there is a type for this object if not passed
@@ -259,21 +259,21 @@
                         <a href="#" class="btn btn-outline-info btn-ty edit-credits" data-id="{{ $image->id }}"><i class="fas fa-cog"></i> Edit Credits</a>
                     @endif</h5>
 
-                <div class="row mb-2">
-                    <div class="col-lg-4 col-md-6 col-4">
-                        <b>Design</b>
+                <div class="row no-gutters mb-2">
+                    <div class="col-lg-4 col-4">
+                        <h5>Design</h5>
                     </div>
-                    <div class="col-lg-8 col-md-6 col-8">
+                    <div class="col-lg-8 col-8">
                         @foreach ($image->designers as $designer)
                             <div>{!! $designer->displayLink() !!}</div>
                         @endforeach
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-4 col-md-6 col-4">
-                        <b>Art</b>
+                <div class="row no-gutters">
+                    <div class="col-lg-4 col-4">
+                        <h5>Art</h5>
                     </div>
-                    <div class="col-lg-8 col-md-6 col-8">
+                    <div class="col-lg-8 col-8">
                         @foreach ($image->artists as $artist)
                             <div>{!! $artist->displayLink() !!}</div>
                         @endforeach
@@ -303,10 +303,12 @@
                     <div class="alert alert-secondary">
                         [character={{ $character->slug }}]
                     </div>
-                    In a comment:
-                    <div class="alert alert-secondary">
-                        [{{ $character->fullName }}]({{ $character->url }})
-                    </div>
+                    @if (!config('lorekeeper.settings.wysiwyg_comments'))
+                        In a comment:
+                        <div class="alert alert-secondary">
+                            [{{ $character->fullName }}]({{ $character->url }})
+                        </div>
+                    @endif
                     <hr>
                     <div class="my-2">
                         <strong>For Thumbnails:</strong>
@@ -315,10 +317,12 @@
                     <div class="alert alert-secondary">
                         [charthumb={{ $character->slug }}]
                     </div>
-                    In a comment:
-                    <div class="alert alert-secondary">
-                        [![Thumbnail of {{ $character->fullName }}]({{ $character->image->thumbnailUrl }})]({{ $character->url }})
-                    </div>
+                    @if (!config('lorekeeper.settings.wysiwyg_comments'))
+                        In a comment:
+                        <div class="alert alert-secondary">
+                            [![Thumbnail of {{ $character->fullName }}]({{ $character->image->thumbnailUrl }})]({{ $character->url }})
+                        </div>
+                    @endif
                 </div>
             @endif
 

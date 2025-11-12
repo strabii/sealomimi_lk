@@ -20,7 +20,7 @@ return [
     */
 
     // Navbar News Notif - Juni
-    'navbar_news_notif'                    => 0,
+    'navbar_news_notif' => 0,
 
     // Species Trait Index - Mercury
     'species_trait_index'                  => [
@@ -35,7 +35,7 @@ return [
     'character_TH_profile_link'            => 1,
 
     // Design Update Voting - Mercury
-    'design_update_voting'                 => 0,
+    'design_update_voting' => 0,
 
     // Item Entry Expansion - Mercury
     'item_entry_expansion' => [
@@ -52,10 +52,10 @@ return [
     'traits_by_category'                   => 1,
 
     // Scroll To Top - Uri
-    'scroll_to_top'                        => 0, // 1 - On, 0 - off
+    'scroll_to_top' => 0, // 1 - On, 0 - off
 
     // Character Reward Expansion - Uri
-    'character_reward_expansion'           => [
+    'character_reward_expansion' => [
         'expanded'          => 1,
         'default_recipient' => 0, // 0 to default to the character's owner (if a user), 1 to default to the submission user.
     ],
@@ -72,16 +72,16 @@ return [
 
     // Auto-populate New Image Traits - Mercury
     // Automatically adds the traits present on a character's active image to the list when uploading a new image for an extant character.
-    'autopopulate_image_features'          => 0,
+    'autopopulate_image_features' => 0,
 
     // Staff Rewards - Mercury
-    'staff_rewards'                        => [
+    'staff_rewards' => [
         'enabled'     => 0,
         'currency_id' => 1,
     ],
 
     // Organised Traits Dropdown - Draginraptor
-    'organised_traits_dropdown'            => 0,
+    'organised_traits_dropdown' => 0,
 
     // Previous & Next buttons on Character pages - Speedy
     // Adds buttons linking to the previous character as well as the next character on all character pages.
