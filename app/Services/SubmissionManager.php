@@ -10,6 +10,7 @@ use App\Models\Currency\Currency;
 use App\Models\Element\Element;
 use App\Models\Item\Item;
 use App\Models\Loot\LootTable;
+use App\Models\Pet\Pet;
 use App\Models\Prompt\Prompt;
 use App\Models\Raffle\Raffle;
 use App\Models\Recipe\Recipe;
@@ -17,7 +18,6 @@ use App\Models\Submission\Submission;
 use App\Models\Submission\SubmissionCharacter;
 use App\Models\User\User;
 use App\Models\User\UserItem;
-use App\Models\Pet\Pet;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -1027,7 +1027,7 @@ class SubmissionManager extends Service {
             }
 
             // Users might not pass in clean arrays (may contain redundant data) so we need to clean that up
-            $assets = $this->processRewards($data + ['character_id' => $c->id, 'currencies' => $currencies, 'items' => $items, 'tables' => $tables, 'pets' => $pets, 'awards' => $awards ], true);
+            $assets = $this->processRewards($data + ['character_id' => $c->id, 'currencies' => $currencies, 'items' => $items, 'tables' => $tables, 'pets' => $pets, 'awards' => $awards], true);
 
             // Now we have a clean set of assets (redundant data is gone, duplicate entries are merged)
             // so we can attach the character to the submission

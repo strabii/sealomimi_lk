@@ -8,12 +8,12 @@ use App\Models\Award\Award;
 use App\Models\Character\Character;
 use App\Models\Claymore\Gear;
 use App\Models\Claymore\Weapon;
-use App\Models\Pet\Pet;
 use App\Models\Currency\Currency;
 use App\Models\Element\Element;
 use App\Models\Item\Item;
 use App\Models\Item\ItemCategory;
 use App\Models\Loot\LootTable;
+use App\Models\Pet\Pet;
 use App\Models\Prompt\Prompt;
 use App\Models\Raffle\Raffle;
 use App\Models\Recipe\Recipe;
@@ -470,7 +470,7 @@ class SubmissionController extends Controller {
             'inventory'             => $inventory,
             'awards'                => Award::orderBy('name')->released()->where('is_user_owned', 1)->pluck('name', 'id'),
             'characterAwards'       => Award::orderBy('name')->released()->where('is_character_owned', 1)->pluck('name', 'id'),
-            'pets'                => Pet::orderBy('name')->pluck('name', 'id'),
+            'pets'                  => Pet::orderBy('name')->pluck('name', 'id'),
             'weapons'               => Weapon::orderBy('name')->pluck('name', 'id'),
             'gears'                 => Gear::orderBy('name')->pluck('name', 'id'),
             'raffles'               => Raffle::where('rolled_at', null)->where('is_active', 1)->orderBy('name')->pluck('name', 'id'),
