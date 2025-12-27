@@ -8,6 +8,7 @@ use App\Models\Award\Award;
 use App\Models\Character\Character;
 use App\Models\Claymore\Gear;
 use App\Models\Claymore\Weapon;
+use App\Models\Pet\Pet;
 use App\Models\Currency\Currency;
 use App\Models\Element\Element;
 use App\Models\Item\Item;
@@ -110,6 +111,7 @@ class SubmissionController extends Controller {
             'inventory'           => $inventory,
             'page'                => 'submission',
             'awards'              => Award::orderBy('name')->released()->where('is_user_owned', 1)->pluck('name', 'id'),
+            'pets'                => Pet::orderBy('name')->pluck('name', 'id'),
             'weapons'             => Weapon::orderBy('name')->pluck('name', 'id'),
             'gears'               => Gear::orderBy('name')->pluck('name', 'id'),
             'characterAwards'     => Award::orderBy('name')->released()->where('is_character_owned', 1)->pluck('name', 'id'),
@@ -151,6 +153,7 @@ class SubmissionController extends Controller {
             'page'                => 'submission',
             'awards'              => Award::orderBy('name')->released()->where('is_user_owned', 1)->pluck('name', 'id'),
             'characterAwards'     => Award::orderBy('name')->released()->where('is_character_owned', 1)->pluck('name', 'id'),
+            'pets'                => Pet::orderBy('name')->pluck('name', 'id'),
             'weapons'             => Weapon::orderBy('name')->pluck('name', 'id'),
             'gears'               => Gear::orderBy('name')->pluck('name', 'id'),
             'elements'            => Element::orderBy('name')->pluck('name', 'id'),
@@ -428,6 +431,7 @@ class SubmissionController extends Controller {
             'raffles'             => Raffle::where('rolled_at', null)->where('is_active', 1)->orderBy('name')->pluck('name', 'id'),
             'awards'              => Award::orderBy('name')->released()->where('is_user_owned', 1)->pluck('name', 'id'),
             'characterAwards'     => Award::orderBy('name')->released()->where('is_character_owned', 1)->pluck('name', 'id'),
+            'pets'                => Pet::orderBy('name')->pluck('name', 'id'),
             'weapons'             => Weapon::orderBy('name')->pluck('name', 'id'),
             'gears'               => Gear::orderBy('name')->pluck('name', 'id'),
             'page'                => 'submission',
@@ -466,6 +470,7 @@ class SubmissionController extends Controller {
             'inventory'             => $inventory,
             'awards'                => Award::orderBy('name')->released()->where('is_user_owned', 1)->pluck('name', 'id'),
             'characterAwards'       => Award::orderBy('name')->released()->where('is_character_owned', 1)->pluck('name', 'id'),
+            'pets'                => Pet::orderBy('name')->pluck('name', 'id'),
             'weapons'               => Weapon::orderBy('name')->pluck('name', 'id'),
             'gears'                 => Gear::orderBy('name')->pluck('name', 'id'),
             'raffles'               => Raffle::where('rolled_at', null)->where('is_active', 1)->orderBy('name')->pluck('name', 'id'),

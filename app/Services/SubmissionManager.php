@@ -17,6 +17,7 @@ use App\Models\Submission\Submission;
 use App\Models\Submission\SubmissionCharacter;
 use App\Models\User\User;
 use App\Models\User\UserItem;
+use App\Models\Pet\Pet;
 use Carbon\Carbon;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -961,6 +962,8 @@ class SubmissionManager extends Service {
         $currencyIds = [];
         $itemIds = [];
         $tableIds = [];
+        $awardIds = [];
+        $petIds = [];
         if (isset($data['character_currency_id'])) {
             foreach ($data['character_currency_id'] as $c) {
                 foreach ($c as $currencyId) {
@@ -976,6 +979,10 @@ class SubmissionManager extends Service {
                             break;
                         case 'Item': $itemIds[] = $id;
                             break;
+                        case 'Award': $awardIds[] = $id;
+                            break;
+                        case 'Pet': $petIds[] = $id;
+                            break;
                         case 'LootTable': $tableIds[] = $id;
                             break;
                     }
@@ -985,8 +992,12 @@ class SubmissionManager extends Service {
         array_unique($currencyIds);
         array_unique($itemIds);
         array_unique($tableIds);
+        array_unique($awardIds);
+        array_unique($petIds);
         $currencies = Currency::whereIn('id', $currencyIds)->where('is_character_owned', 1)->get()->keyBy('id');
         $items = Item::whereIn('id', $itemIds)->get()->keyBy('id');
+        $awards = Award::whereIn('id', $awardIds)->get()->keyBy('id');
+        $pets = Pet::whereIn('id', $petIds)->get()->keyBy('id');
         $tables = LootTable::whereIn('id', $tableIds)->get()->keyBy('id');
 
         // Attach characters
@@ -1016,7 +1027,7 @@ class SubmissionManager extends Service {
             }
 
             // Users might not pass in clean arrays (may contain redundant data) so we need to clean that up
-            $assets = $this->processRewards($data + ['character_id' => $c->id, 'currencies' => $currencies, 'items' => $items, 'tables' => $tables], true);
+            $assets = $this->processRewards($data + ['character_id' => $c->id, 'currencies' => $currencies, 'items' => $items, 'tables' => $tables, 'pets' => $pets, 'awards' => $awards ], true);
 
             // Now we have a clean set of assets (redundant data is gone, duplicate entries are merged)
             // so we can attach the character to the submission

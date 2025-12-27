@@ -27,7 +27,12 @@
             ->orderBy('name')
             ->pluck('name', 'id');
     }
-    $themes = \App\Models\Theme::orderBy('name')->pluck('name', 'id')->where('is_active', 1);
+    if (isset($showRecipes) && $showRecipes) {
+        $recipes = \App\Models\Recipe\Recipe::orderBy('name')->pluck('name', 'id');
+    }
+    if (isset($showThemes) && $showThemes) {
+        $themes = \App\Models\Theme::orderBy('name')->pluck('name', 'id')->where('is_active', 1);
+    }
 @endphp
 
 <div class="text-right mb-3">
@@ -52,7 +57,7 @@
                             ($showLootTables ? ['LootTable' => 'Loot Table'] : []) +
                             ($showRaffles ? ['Raffle' => 'Raffle Ticket'] : []) +
                             (isset($showThemes) && $showThemes ? ['Theme' => 'Theme'] : []) +
-                            ($showRecipes ? ['Recipe' => 'Recipe'] : []),
+                            (isset($showRecipes) ? ['Recipe' => 'Recipe'] : []),
                         $loot->rewardable_type,
                         ['class' => 'form-control reward-type', 'placeholder' => 'Select Reward Type'],
                     ) !!}</td>
@@ -79,7 +84,7 @@
                             {!! Form::text('rewardable_id[]', null, ['class' => 'form-control hide claymore-select', 'placeholder' => 'Enter Reward']) !!}
                         @elseif(isset($showThemes) && $showThemes && $loot->rewardable_type == 'Theme')
                             {!! Form::select('rewardable_id[]', $themes, $loot->rewardable_id, ['class' => 'form-control theme-select selectize', 'placeholder' => 'Select Theme']) !!}
-                        @elseif($showRecipes && $loot->rewardable_type == 'Recipe')
+                        @elseif(isset($showRecipes) && $loot->rewardable_type == 'Recipe')
                             {!! Form::select('rewardable_id[]', $recipes, $loot->rewardable_id, ['class' => 'form-control recipe-select selectize', 'placeholder' => 'Select Recipe']) !!}
                         @endif
                     </td>

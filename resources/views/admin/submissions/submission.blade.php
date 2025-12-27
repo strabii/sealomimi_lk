@@ -10,7 +10,6 @@
     @else
         {!! breadcrumbs(['Admin Panel' => 'admin', 'Claim Queue' => 'admin/claims/pending', 'Claim (#' . $submission->id . ')' => $submission->viewUrl]) !!}
     @endif
-    @endif
 
     @if ($submission->status == 'Pending')
 
@@ -265,7 +264,7 @@
                 <tr class="character-reward-row">
                     @if ($expanded_rewards)
                         <td>
-                            {!! Form::select('character_rewardable_type[]', ['Item' => 'Item', 'Currency' => 'Currency', 'LootTable' => 'Loot Table', 'Award' => ucfirst(__('awards.award'))], 'Exp' => 'Exp', 'Points' => 'Stat Points', 'Element' => 'Element'], null, [
+                            {!! Form::select('character_rewardable_type[]', ['Item' => 'Item', 'Currency' => 'Currency', 'LootTable' => 'Loot Table', 'Award' => ucfirst(__('awards.award')), 'Exp' => 'Exp', 'Points' => 'Stat Points', 'Element' => 'Element'], null, [
                                 'class' => 'form-control character-rewardable-type',
                                 'placeholder' => 'Select Reward Type',
                             ]) !!}

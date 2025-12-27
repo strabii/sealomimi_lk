@@ -72,7 +72,6 @@
     @if (!$closed)
         @if ($isClaim)
             @include('js._loot_js', ['showLootTables' => false, 'showRaffles' => true, 'showRecipes' => true])
-            <!--@include('js._loot_js', ['showLootTables' => false, 'showRaffles' => true, 'showRecipes' => true])-->
         @else
             @include('js._loot_js', ['showLootTables' => false, 'showRaffles' => false, 'showRecipes' => true])
         @endif
