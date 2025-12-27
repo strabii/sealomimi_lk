@@ -227,8 +227,8 @@ class SubmissionController extends Controller {
 
         return view('home._prompt', [
             'prompt' => $prompt,
-            /*'count'  => Submission::where('prompt_id', $id)->where('status', 'Approved')->where('user_id', Auth::user()->id)->count(), //non-promptlimits variable */
-            'count' => $count, //prompt-limits variable
+            /* 'count'  => Submission::where('prompt_id', $id)->where('status', 'Approved')->where('user_id', Auth::user()->id)->count(), //non-promptlimits variable */
+            'count' => $count, // prompt-limits variable
             'limit' => $limit,
         ]);
     }

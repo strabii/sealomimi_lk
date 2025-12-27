@@ -64,10 +64,10 @@ class SubmissionManager extends Service {
                     throw new \Exception('Invalid prompt selected.');
                 }
 
-                //check that the prompt limit hasn't been hit
+                // check that the prompt limit hasn't been hit
                 if ($prompt->limit) {
-                    //check that the user hasn't hit the prompt submission limit
-                    //filter the submissions by hour/day/week/etc and count
+                    // check that the user hasn't hit the prompt submission limit
+                    // filter the submissions by hour/day/week/etc and count
                     $count['all'] = Submission::submitted($prompt->id, $user->id)->count();
                     $count['Hour'] = Submission::submitted($prompt->id, $user->id)->where('created_at', '>=', now()->startOfHour())->count();
                     $count['Day'] = Submission::submitted($prompt->id, $user->id)->where('created_at', '>=', now()->startOfDay())->count();
@@ -75,13 +75,13 @@ class SubmissionManager extends Service {
                     $count['Month'] = Submission::submitted($prompt->id, $user->id)->where('created_at', '>=', now()->startOfMonth())->count();
                     $count['Year'] = Submission::submitted($prompt->id, $user->id)->where('created_at', '>=', now()->startOfYear())->count();
 
-                    //if limit by character is on... multiply by # of chars. otherwise, don't
+                    // if limit by character is on... multiply by # of chars. otherwise, don't
                     if ($prompt->limit_character) {
                         $limit = $prompt->limit * Character::visible()->where('is_myo_slot', 0)->where('user_id', $user->id)->count();
                     } else {
                         $limit = $prompt->limit;
                     }
-                    //if limit by time period is on
+                    // if limit by time period is on
                     if ($prompt->limit_period) {
                         if ($count[$prompt->limit_period] >= $limit) {
                             throw new \Exception('You have already submitted to this prompt the maximum number of times.');
@@ -100,7 +100,7 @@ class SubmissionManager extends Service {
                     throw new \Exception('This prompt may only be submitted to by staff members.');
                 }
 
-                //level req
+                // level req
                 if ($prompt->level_req) {
                     if (!$user->level || $user->level->current_level < $prompt->level_req) {
                         throw new \Exception('You are not high enough level to enter this prompt');
@@ -110,7 +110,7 @@ class SubmissionManager extends Service {
                 $prompt = null;
             }
 
-            //----------prompt-limits additions//
+            // ----------prompt-limits additions//
             // The character identification comes in both the slug field and as character IDs
             // that key the reward ID/quantity arrays.
             // We'll need to match characters to the rewards for them.
@@ -132,7 +132,7 @@ class SubmissionManager extends Service {
                 }
             }
             $promptRewards = mergeAssetsArrays($promptRewards, $this->processRewards($data, false));
-            //----------prompt-limits additions end//
+            // ----------prompt-limits additions end//
 
             // Create the submission itself.
             $submission = Submission::create([
@@ -145,7 +145,7 @@ class SubmissionManager extends Service {
                 'prompt_id' => $prompt->id,
             ]));
 
-            //----------prompt-limits additions//
+            // ----------prompt-limits additions//
             // Retrieve all currency IDs for characters
             $currencyIds = [];
             if (isset($data['character_currency_id'])) {
@@ -171,7 +171,7 @@ class SubmissionManager extends Service {
                     'data'          => json_encode(getDataReadyAssets($assets)),
                 ]);
             }
-            //----------prompt-limits additions end//
+            // ----------prompt-limits additions end//
 
             // Set items that have been attached.
             $assets = $this->createUserAttachments($submission, $data, $user);
@@ -759,7 +759,7 @@ class SubmissionManager extends Service {
                         case 'Points': if ($data['character_rewardable_quantity'][$data['character_id']][$key]) {
                             addAsset($assets, 'Points', $data['character_rewardable_quantity'][$data['character_id']][$key]);
                         } break;
-                        case 'Element': /* we don't check for quanity here*/
+                        case 'Element': /* we don't check for quanity here */
                             addAsset($assets, $data['elements'][$reward], 1);
                             break;
                         case 'Award': if ($data['character_rewardable_quantity'][$data['character_id']][$key]) {

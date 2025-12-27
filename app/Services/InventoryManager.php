@@ -202,8 +202,8 @@ class InventoryManager extends Service {
                     throw new \Exception('One of the selected items cannot be owned by characters.');
                 }
 
-                //for character-locked items
-                //would shift this to the check after this one, but then you can't transfer from user to character, and having it here makes it more clear this is part of the ext
+                // for character-locked items
+                // would shift this to the check after this one, but then you can't transfer from user to character, and having it here makes it more clear this is part of the ext
                 if ($sender->logType == 'Character' && $stack->item->isLocked && !$user->hasPower('edit_inventories')) {
                     throw new \Exception('This item is character-locked.');
                 }
@@ -216,7 +216,7 @@ class InventoryManager extends Service {
                     throw new \Exception('Quantity to transfer exceeds item count.');
                 }
 
-                //Check that hold count isn't being exceeded
+                // Check that hold count isn't being exceeded
                 if ($stack->item->category->character_limit > 0) {
                     $limit = $stack->item->category->character_limit;
                 }

@@ -109,7 +109,7 @@ class PrizeCodeService extends Service {
                 $data['use_limit'] = 0;
             }
 
-            //if wanting to re generate code
+            // if wanting to re generate code
             if (isset($data['regenerate'])) {
                 $data['code'] = randomString(15);
             }

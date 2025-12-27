@@ -315,11 +315,11 @@ class CharacterManager extends Service {
 
                 $wmScale = config('lorekeeper.settings.watermark_percent');
 
-                //Assume Landscape by Default
+                // Assume Landscape by Default
                 $maxSize = $imageWidth * $wmScale;
 
                 if ($imageWidth > $imageHeight) {
-                    //Landscape
+                    // Landscape
                     $maxSize = $imageWidth * $wmScale;
                 } else {
                     // Portrait
@@ -327,7 +327,7 @@ class CharacterManager extends Service {
                 }
 
                 if ($wmWidth > $wmHeight) {
-                    //Landscape
+                    // Landscape
                     $watermark->resize($maxSize, null, function ($constraint) {
                         $constraint->aspectRatio();
                     });
@@ -423,11 +423,11 @@ class CharacterManager extends Service {
 
                     $wmScale = config('lorekeeper.settings.watermark_percent');
 
-                    //Assume Landscape by Default
+                    // Assume Landscape by Default
                     $maxSize = $imageWidth * $wmScale;
 
                     if ($imageWidth > $imageHeight) {
-                        //Landscape
+                        // Landscape
                         $maxSize = $imageWidth * $wmScale;
                     } else {
                         // Portrait
@@ -435,7 +435,7 @@ class CharacterManager extends Service {
                     }
 
                     if ($wmWidth > $wmHeight) {
-                        //Landscape
+                        // Landscape
                         $watermark->resize($maxSize, null, function ($constraint) {
                             $constraint->aspectRatio();
                         });
@@ -646,7 +646,7 @@ class CharacterManager extends Service {
                 }
             }
 
-            //Check that species & rarity are selected
+            // Check that species & rarity are selected
             if (!(isset($data['species_id']) && $data['species_id'])) {
                 throw new \Exception('Characters require a species.');
             }
@@ -1054,12 +1054,12 @@ class CharacterManager extends Service {
 
             $count = 0;
             foreach ($images as $image) {
-                //if($count == 1)
-                //{
+                // if($count == 1)
+                // {
                 //    // Set the first one as the active image
                 //    $image->character->image_id = $image->id;
                 //    $image->character->save();
-                //}
+                // }
                 $image->sort = $count;
                 $image->save();
                 $count++;
@@ -1144,10 +1144,10 @@ class CharacterManager extends Service {
                 $user->settings->update(['selected_character_id' => null]);
             }
 
-            //$character = Character::visible()->where('id', $data['character_id'])->first();
-            //if(!$character) throw new \Exception('Invalid character selected.');
-            //if($character->user_id != $user->id) throw new \Exception('You can\'t select a character that doesn\'t belong to you.');
-            //$user->settings->update(['selected_character_id' => $character->id,]);
+            // $character = Character::visible()->where('id', $data['character_id'])->first();
+            // if(!$character) throw new \Exception('Invalid character selected.');
+            // if($character->user_id != $user->id) throw new \Exception('You can\'t select a character that doesn\'t belong to you.');
+            // $user->settings->update(['selected_character_id' => $character->id,]);
 
             return $this->commitReturn(true);
         } catch (\Exception $e) {
@@ -1747,7 +1747,7 @@ class CharacterManager extends Service {
 
                 // Process the character move if the transfer has already been approved
                 if ($transfer->is_approved) {
-                    //check the cooldown saved
+                    // check the cooldown saved
                     if (isset($transfer->data['cooldown'])) {
                         $cooldown = $transfer->data['cooldown'];
                     }

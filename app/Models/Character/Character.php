@@ -2,7 +2,7 @@
 
 namespace App\Models\Character;
 
-/*use App\Facades\Notifications;*/
+/* use App\Facades\Notifications; */
 use App\Models\Award\Award;
 use App\Models\Award\AwardLog;
 use App\Models\Claymore\Gear;
@@ -833,14 +833,14 @@ class Character extends Model {
         return Submission::with('user.rank')->with('prompt')->where('status', 'Approved')->whereIn('id', SubmissionCharacter::where('character_id', $this->id)->pluck('submission_id')->toArray())->paginate(30);
 
         // Untested
-        //$character = $this;
-        //return Submission::where('status', 'Approved')->with(['characters' => function($query) use ($character) {
+        // $character = $this;
+        // return Submission::where('status', 'Approved')->with(['characters' => function($query) use ($character) {
         //    $query->where('submission_characters.character_id', 1);
-        //}])
-        //->whereHas('characters', function($query) use ($character) {
+        // }])
+        // ->whereHas('characters', function($query) use ($character) {
         //    $query->where('submission_characters.character_id', 1);
-        //});
-        //return Submission::where('status', 'Approved')->where('user_id', $this->id)->orderBy('id', 'DESC')->paginate(30);
+        // });
+        // return Submission::where('status', 'Approved')->where('user_id', $this->id)->orderBy('id', 'DESC')->paginate(30);
     }
 
     /**

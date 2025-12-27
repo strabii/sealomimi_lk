@@ -47,7 +47,7 @@ class PrizeCodeManager extends Service {
                 throw new \Exception('You have already redeemed this code.');
             }
 
-            //or if it's limited, make sure the claim wouldn't be exceeded
+            // or if it's limited, make sure the claim wouldn't be exceeded
             if ($codesuccess->use_limit > 0) {
                 if ($codesuccess->use_limit <= $codesuccess->redeemers()->count()) {
                     throw new \Exception('This code has reached the maximum number of users.');
@@ -59,13 +59,13 @@ class PrizeCodeManager extends Service {
             $redeemData = [
                 'data' => 'Received rewards from '.$codesuccess->name.' code',
             ];
-            //make log
+            // make log
             $logging = UserPrizeLog::create([
                 'user_id'    => $user->id,
                 'prize_id'   => $codesuccess->id,
                 'claimed_at' => Carbon::now(),
             ]);
-            //credit reward
+            // credit reward
             if (!$rewards = fillUserAssets($codesuccess->rewardItems, null, $user, $logType, $redeemData)) {
                 throw new \Exception('Failed to distribute rewards to user.');
             }

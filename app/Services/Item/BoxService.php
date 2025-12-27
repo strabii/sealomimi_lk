@@ -6,7 +6,7 @@ use App\Models\Award\Award;
 use App\Models\Claymore\Gear;
 use App\Models\Claymore\Weapon;
 use App\Models\Currency\Currency;
-/*use Illuminate\Support\Facades\DB;*/
+/* use Illuminate\Support\Facades\DB; */
 use App\Models\Item\Item;
 use App\Models\Loot\LootTable;
 use App\Models\Pet\Pet;
