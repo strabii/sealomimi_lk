@@ -131,6 +131,7 @@
                     'items' => $items,
                     'tables' => $tables,
                     'character' => $character,
+                    'pets' => $pets,
                     'characterAwards' => $characterAwards,
                     'expanded_rewards' => $expanded_rewards,
                     'elements' => $elements,
@@ -208,6 +209,10 @@
             <a href="#" class="remove-skill btn btn-danger mb-2">×</a>
         </div>
 
+        <!-- php
+            $characters = \App\Models\Character\Character::visible(Auth::check() ? Auth::user() : null)->myo(0)->orderBy('slug', 'DESC')->get()->pluck('fullName', 'slug')->toArray();
+        endphp -->
+
         <div id="characterComponents" class="hide">
             <div class="submission-character mb-3 card">
                 <div class="card-body">
@@ -222,7 +227,9 @@
                         <div class="col-md-10">
                             <div class="form-group">
                                 {!! Form::label('slug[]', 'Character Code') !!}
-                                {!! Form::text('slug[]', null, ['class' => 'form-control character-code']) !!}
+                                {!! Form::select('slug[]', $characters, $character->character ? $character->character->slug : $character->slug, ['class' => 'form-control character-code', 'placeholder' => 'Select Character']) !!}
+                                <!-- Form::label('character_codes', 'Character Code') 
+                                 Form::select('character_codes[]', $characters, null, ['class' => 'form-control character-code', 'placeholder' => 'Select Character']) -->
                             </div>
                             <div class="form-group col-6">
                                 {!! Form::label('character-is-focus[]', 'Focus Character?', ['class' => 'form-check-label ']) !!}
@@ -273,6 +280,7 @@
                             <div class="character-currencies hide">{!! Form::select('character_rewardable_id[]', $characterCurrencies, 0, ['class' => 'form-control character-currency-id', 'placeholder' => 'Select Currency']) !!}</div>
                             <div class="character-items hide">{!! Form::select('character_rewardable_id[]', $items, 0, ['class' => 'form-control character-item-id', 'placeholder' => 'Select Item']) !!}</div>
                             <div class="character-awards hide">{!! Form::select('character_rewardable_id[]', $characterAwards, 0, ['class' => 'form-control character-award-id', 'placeholder' => 'Select '.ucfirst(__('awards.award'))]) !!}</div>
+                            <div class="character-pets hide">{!! Form::select('character_rewardable_id[]', $pets, 0, ['class' => 'form-control character-pet-id', 'placeholder' => 'Select Pet']) !!}</div>
                             <div class="character-tables hide">{!! Form::select('character_rewardable_id[]', $tables, 0, ['class' => 'form-control character-table-id', 'placeholder' => 'Select Loot Table']) !!}</div>
                             <div class="character-claymores hide">{!! Form::number('character_claymores_id[]', 1, ['class' => 'form-control character-claymores-id']) !!}</div>
                             <div class="character-elements hide">{!! Form::select('character_rewardable_id[]', $elements, 0, ['class' => 'form-control character-element-id', 'placeholder' => 'Select Element']) !!}</div>

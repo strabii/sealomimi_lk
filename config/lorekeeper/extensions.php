@@ -57,7 +57,7 @@ return [
     // Character Reward Expansion - Uri
     'character_reward_expansion' => [
         'expanded'          => 1,
-        'default_recipient' => 0, // 0 to default to the character's owner (if a user), 1 to default to the submission user.
+        'default_recipient' => 1, // 0 to default to the character's owner (if a user), 1 to default to the submission user.
     ],
 
     // Awards - Uri

@@ -70,7 +70,7 @@
                             @endif Name Item
                         </a>
                         <div id="nameForm" class="collapse">
-                            <p>Enter a name to display for the selected stack(s)! Note that only one of the stacks' names will display on the inventory page and title of this panel, while other stacks' names will appear in the list above.</p>
+                            <p>Enter a name to display for the selected stack(s)! Note that only one of the stacks' names will display on the inventory page and title of this panel, while other stacks' names will appear in the list above. Leave the entry field blank to remove a name. Make sure to select a stack with the checkboxes.</p>
                             {!! Form::open() !!}
                             <div class="form-group">
                                 {!! Form::text('stack_name', null, ['class' => 'form-control stock-field', 'data-name' => 'stack_name']) !!}

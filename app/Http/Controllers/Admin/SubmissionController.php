@@ -8,6 +8,7 @@ use App\Models\Character\Character;
 use App\Models\Currency\Currency;
 use App\Models\Element\Element;
 use App\Models\Item\Item;
+use App\Models\Pet\Pet;
 use App\Models\Loot\LootTable;
 use App\Models\Prompt\Prompt;
 use App\Models\Prompt\PromptCategory;
@@ -91,11 +92,13 @@ class SubmissionController extends Controller {
             'itemsrow'         => Item::all()->keyBy('id'),
             'page'             => 'submission',
             'expanded_rewards' => config('lorekeeper.extensions.character_reward_expansion.expanded'),
-            'characters'       => Character::visible(Auth::check() ? Auth::user() : null)->myo(0)->orderBy('slug', 'DESC')->get()->pluck('fullName', 'slug')->toArray(),
+            'characters'       => Character::visible(Auth::user() ?? null)->myo(0)->orderBy('slug', 'DESC')->get()->pluck('fullName', 'slug')->toArray(),
             'skills'           => Skill::pluck('name', 'id')->toArray(),
         ] + ($submission->status == 'Pending' ? [
             'characterCurrencies' => Currency::where('is_character_owned', 1)->orderBy('sort_character', 'DESC')->pluck('name', 'id'),
             'items'               => Item::orderBy('name')->pluck('name', 'id'),
+            'currencies'          => Currency::where('is_user_owned', 1)->orderBy('name')->pluck('name', 'id'),
+            'pets'                => Pet::orderBy('name')->pluck('name', 'id'),
             'awards'              => Award::orderBy('name')->released()->where('is_user_owned', 1)->pluck('name', 'id'),
             'characterAwards'     => Award::orderBy('name')->released()->where('is_character_owned', 1)->pluck('name', 'id'),
             'currencies'          => Currency::where('is_user_owned', 1)->orderBy('name')->pluck('name', 'id'),
@@ -159,11 +162,13 @@ class SubmissionController extends Controller {
             'inventory'        => $inventory,
             'itemsrow'         => Item::all()->keyBy('id'),
             'expanded_rewards' => config('lorekeeper.extensions.character_reward_expansion.expanded'),
-            'characters'       => Character::visible(Auth::check() ? Auth::user() : null)->myo(0)->orderBy('slug', 'DESC')->get()->pluck('fullName', 'slug')->toArray(),
+            'characters'       => Character::visible(Auth::user() ?? null)->myo(0)->orderBy('slug', 'DESC')->get()->pluck('fullName', 'slug')->toArray(),
             'skills'           => Skill::pluck('name', 'id')->toArray(),
         ] + ($submission->status == 'Pending' ? [
             'characterCurrencies' => Currency::where('is_character_owned', 1)->orderBy('sort_character', 'DESC')->pluck('name', 'id'),
             'items'               => Item::orderBy('name')->pluck('name', 'id'),
+            'currencies'          => Currency::where('is_user_owned', 1)->orderBy('name')->pluck('name', 'id'),
+            'pets'                => Pet::orderBy('name')->pluck('name', 'id'),
             'awards'              => Award::orderBy('name')->released()->where('is_user_owned', 1)->pluck('name', 'id'),
             'characterAwards'     => Award::orderBy('name')->released()->where('is_character_owned', 1)->pluck('name', 'id'),
             'currencies'          => Currency::where('is_user_owned', 1)->orderBy('name')->pluck('name', 'id'),
@@ -185,8 +190,8 @@ class SubmissionController extends Controller {
      * @return \Illuminate\Http\RedirectResponse
      */
     public function postSubmission(Request $request, SubmissionManager $service, $id, $action) {
-        $data = $request->only(['slug',  'character_rewardable_quantity', 'character_rewardable_id',  'character_rewardable_type', 'character_currency_id', 'rewardable_type', 'rewardable_id', 'quantity', 'staff_comments', 'character_notify_owner',
-            'character_is_focus', 'skill_id', 'skill_quantity',
+        $data = $request->only([
+            'slug',  'character_rewardable_quantity', 'character_rewardable_id',  'character_rewardable_type', 'character_currency_id', 'rewardable_type', 'rewardable_id', 'quantity', 'staff_comments', 'character_is_focus','character_notify_owner','skill_id', 'skill_quantity',
         ]);
         if ($action == 'reject' && $service->rejectSubmission($request->only(['staff_comments']) + ['id' => $id], Auth::user())) {
             flash('Submission rejected successfully.')->success();

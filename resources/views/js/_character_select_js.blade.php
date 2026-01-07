@@ -47,6 +47,10 @@
                 $(this).parent().parent().find('.character-rewards').append($clone);
                 attachRewardTypeListener(node.find('.character-rewardable-type'));
             });
+            node.find('.remove-reward').on('click', function(e) {
+                e.preventDefault();
+                    $(this).parent().parent().remove();
+            });
             attachRewardTypeListener(node.find('.character-rewardable-type'));
         }
 
@@ -74,6 +78,9 @@
                 } else if (val == 'LootTable') {
                     $cell.children('.character-tables').addClass('show');
                     $cell.children('.character-tables').removeClass('hide');
+                } else if (val == 'Pet') {
+                    $cell.children('.character-pets').addClass('show');
+                    $cell.children('.character-pets').removeClass('hide');
                 } else if (val == 'Element') {
                     $cell.children('.character-elements').addClass('show');
                     $cell.children('.character-elements').removeClass('hide');
@@ -90,6 +97,7 @@
             node.find('.character-currency-id').attr('name', 'character_rewardable_id[' + id + '][]');
             node.find('.character-item-id').attr('name', 'character_rewardable_id[' + id + '][]');
             node.find('.character-award-id').attr('name', 'character_rewardable_id[' + id + '][]');
+            node.find('.character-pet-id').attr('name', 'character_rewardable_id[' + id + '][]');
             node.find('.character-table-id').attr('name', 'character_rewardable_id[' + id + '][]');
             node.find('.character-claymores-id').attr('name', 'character_rewardable_id[' + id + '][]');
             node.find('.character-element-id').attr('name', 'character_rewardable_id[' + id + '][]');

@@ -37,7 +37,7 @@
                                             <i class="fas fa-brush ml-1" data-toggle="tooltip" title="This pet has custom art."></i>
                                         @endif
                                         @if ($pet->pivot->character_id)
-                                            <span data-toggle="tooltip" title="Attached to {!! getDisplayName(\App\Models\Pet\Pet::class, $pet->pivot->chara_id) !!}"><i class="fas fa-link ml-1"></i></span>
+                                            <span data-toggle="tooltip"><i class="fas fa-link ml-1"></i></span>
                                         @endif
                                         @if ($pet->pivot->evolution_id)
                                             <span data-toggle="tooltip" title="This pet has evolved. Stage

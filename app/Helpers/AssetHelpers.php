@@ -75,7 +75,7 @@ function getAssetKeys($isCharacter = false) {
         return ['items', 'awards', 'currencies', 'pets', 'weapons', 'gears', 'raffle_tickets', 'loot_tables',
             'user_items', 'user_awards', 'characters', 'exp', 'points', 'themes', 'recipes'];
     } else {
-        return ['currencies', 'items', 'character_items', 'loot_tables', 'elements', 'exp', 'points', 'awards'];
+        return ['currencies', 'items', 'character_items', 'loot_tables', 'elements', 'exp', 'points', 'awards', 'pets'];
     }
 }
 
@@ -588,7 +588,8 @@ function fillCharacterAssets($assets, $sender, $recipient, $logType, $data, $sub
     if (!Config::get('lorekeeper.extensions.character_reward_expansion.default_recipient') && $recipient->user) {
         $item_recipient = $recipient->user;
     } else {
-        $item_recipient = $submitter;
+        $item_recipient = $recipient;
+        // $item_recipient = $submitter;
     }
 
     // Roll on any loot tables
@@ -635,6 +636,13 @@ function fillCharacterAssets($assets, $sender, $recipient, $logType, $data, $sub
             $service = new App\Services\AwardCaseManager;
             foreach ($contents as $asset) {
                 if (!$service->creditAward($sender, ($asset['asset']->is_character_owned ? $recipient : $item_recipient), $logType, $data, $asset['asset'], $asset['quantity'])) {
+                    return false;
+                }
+            }
+        } elseif ($key == 'pets' && count($contents)) {
+            $service = new App\Services\PetManager;
+            foreach ($contents as $asset) {
+                if (!$service->creditPet($sender, ($asset['asset']->is_character_owned ? $recipient : $item_recipient), $logType, $data, $asset['asset'], $asset['quantity'])) {
                     return false;
                 }
             }

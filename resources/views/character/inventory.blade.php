@@ -44,19 +44,27 @@
                     @foreach ($categoryItems->chunk(4) as $chunk)
                         <div class="row mb-3">
                             @foreach ($chunk as $itemId => $stack)
-                                <div class="col-sm-3 col-6 text-center inventory-item" data-id="{{ $stack->first()->pivot->id }}"
-                                    data-name="{!! $stack->first()->category->can_name && $stack->first()->pivot->stack_name ? htmlentities($stack->first()->pivot->stack_name) . ' [' : null !!}{{ $character->name ? $character->name : $character->slug }}'s {{ $stack->first()->name }}{!! $stack->first()->category->can_name && $stack->first()->pivot->stack_name ? ']' : null !!}">
+                                <div class="col-sm-3 col-6 text-center inventory-item" 
+                                    data-id="{{ $stack->first()->pivot->id ?? '' }}"
+                                    data-name="{!! 
+                                        ($stack->first()->category && $stack->first()->category->can_name && $stack->first()->pivot->stack_name) 
+                                        ? htmlentities($stack->first()->pivot->stack_name) . ' [' : null 
+                                    !!}{{ $character->name ? $character->name : $character->slug }}'s {{ $stack->first()->name ?? '' }}
+                                    {!! 
+                                        ($stack->first()->category && $stack->first()->category->can_name && $stack->first()->pivot->stack_name) 
+                                        ? ']' : null 
+                                    !!}">
                                     <div class="mb-1">
                                         <a href="#" class="inventory-stack">
                                             <img src="{{ $stack->first()->imageUrl }}" alt="{{ $stack->first()->name }}" />
                                         </a>
                                     </div>
-                                    <div class="{{ $stack->first()->category->can_name ? 'text-muted' : '' }}">
+                                    <div class="{{ $stack->first()->category && $stack->first()->category->can_name ? 'text-muted' : '' }}">
                                         <a href="#" class="inventory-stack inventory-stack-name">
                                             {{ $stack->first()->name }} x{{ $stack->sum('pivot.count') }}
                                         </a>
                                     </div>
-                                    @if ($stack->first()->category->can_name && $stack->first()->pivot->stack_name)
+                                    @if ($stack->first()->category && $stack->first()->category->can_name && $stack->first()->pivot && $stack->first()->pivot->stack_name)
                                         <div>
                                             <span class="inventory-stack inventory-stack-name badge badge-info" style="font-size:95%; margin:5px;">"{{ $stack->first()->pivot->stack_name }}"</span>
                                         </div>
@@ -88,11 +96,12 @@
                             <a href="{{ $itemtype->first()->idUrl }}">{{ $itemtype->first()->name }}</a>
                             <ul class="mb-0">
                                 @foreach ($itemtype as $item)
-                                    <div data-id="{{ $item->pivot->id }}" data-name="{!! $item->category->can_name && $item->pivot->stack_name ? htmlentities($item->pivot->stack_name) . ' [' : null !!}{{ $character->name ? $character->name : $character->slug }}'s {{ $item->name }}{!! $item->category->can_name && $item->pivot->stack_name ? ']' : null !!}">
+                                    <div data-id="{{ $item->pivot->id ?? '' }}" 
+                                        data-name="{!! ($item->category && $item->category->can_name && $item->pivot && $item->pivot->stack_name) ? htmlentities($item->pivot->stack_name) . ' [' : '' !!}{{ $character->name ? $character->name : $character->slug }}'s {{ $item->name }}{!! ($item->category && $item->category->can_name && $item->pivot && $item->pivot->stack_name) ? ']' : '' !!}">
                                         <li>
                                             <a class="inventory-stack" href="#">
                                                 Stack of x{{ $item->pivot->count }}.
-                                                @if ($item->category->can_name && $item->pivot->stack_name)
+                                                @if ($item->category && $item->category->can_name && $item->pivot && $item->pivot->stack_name)
                                                     <span class="text-info m-0" style="font-size:95%; margin:5px;" data-toggle="tooltip" data-placement="top" title='Named stack:<br />"{{ $item->pivot->stack_name }}"'>
                                                         &nbsp;<i class="fas fa-tag"></i>
                                                     </span>
