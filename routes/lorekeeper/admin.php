@@ -417,7 +417,7 @@ Route::group(['prefix' => 'data', 'namespace' => 'Data', 'middleware' => 'power:
     Route::get('carousel/delete/{id}', 'CarouselController@getDeleteCarousel');
     Route::post('carousel/delete/{id}', 'CarouselController@postDeleteCarousel');
 
-    //RANDOM GENERATOR
+    // RANDOM GENERATOR
     Route::get('random', 'GeneratorController@getIndex');
     Route::get('random/create/{id}', 'GeneratorController@getCreateRandom');
     Route::get('random/edit/{id}', 'GeneratorController@getEditRandom');

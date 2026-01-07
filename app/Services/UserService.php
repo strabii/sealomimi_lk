@@ -4,11 +4,11 @@ namespace App\Services;
 
 use App\Facades\Notifications;
 use App\Facades\Settings;
-/*use DB;*/
-/*use Settings;*/
+/* use DB; */
+/* use Settings; */
 use App\Models\Character\CharacterDesignUpdate;
-/*use File;*/
-/*use Image;*/
+/* use File; */
+/* use Image; */
 
 use App\Models\Character\CharacterTransfer;
 use App\Models\Gallery\GallerySubmission;
@@ -399,7 +399,7 @@ class UserService extends Service {
 
             if ($user->avatar != 'default.jpg') {
                 $file = 'images/avatars/'.$user->avatar;
-                //$destinationPath = 'uploads/' . $id . '/';
+                // $destinationPath = 'uploads/' . $id . '/';
 
                 if (File::exists($file)) {
                     if (!unlink($file)) {

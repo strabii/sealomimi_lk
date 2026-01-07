@@ -12,7 +12,7 @@ use App\Models\Report\Report;
 use App\Models\Sales\Sales;
 use App\Models\SitePage;
 use App\Models\User\User;
-/*use Illuminate\Routing\Controller;*/
+/* use Illuminate\Routing\Controller; */
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
@@ -103,7 +103,7 @@ class CommentController extends Controller {
         $recipient = null;
         $post = null;
         $model_type = $comment->commentable_type;
-        //getting user who commented
+        // getting user who commented
         $sender = User::find($comment->commenter_id);
         $type = $comment->type;
 

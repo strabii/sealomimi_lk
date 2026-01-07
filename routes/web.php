@@ -26,7 +26,7 @@ Route::post('register/{driver}', 'Auth\RegisterController@postRegisterWithDriver
 require_once __DIR__.'/lorekeeper/browse.php';
 
 Route::feeds();
-/*Route::get('feeds');*/
+/* Route::get('feeds'); */
 
 /**************************************************************************************************
     Routes that require login

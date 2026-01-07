@@ -8,7 +8,7 @@ use App\Models\Award\AwardCategory;
 use App\Models\Character\Character;
 use App\Models\Character\CharacterImage;
 use App\Models\Character\Sublist;
-/*use Auth;*/
+/* use Auth; */
 use App\Models\Claymore\GearCategory;
 use App\Models\Claymore\WeaponCategory;
 use App\Models\Collection\CollectionCategory;

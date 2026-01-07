@@ -232,7 +232,7 @@ class AwardCaseManager extends Service {
                     throw new \Exception('Quantity to transfer exceeds '.__('awards.award').' count.');
                 }
 
-                //Check that hold count isn't being exceeded
+                // Check that hold count isn't being exceeded
                 if ($stack->award->character_limit > 0) {
                     $limit = $stack->award->character_limit;
                 }

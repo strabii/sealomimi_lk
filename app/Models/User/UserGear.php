@@ -98,7 +98,7 @@ class UserGear extends Model {
         if (!isset($this->data['disallow_transfer']) && isset($this->item) && $this->item->allow_transfer) {
             return true;
         }
-        /*if (!isset($this->data['disallow_transfer']) && $this->gear->allow_transfer) */
+        /* if (!isset($this->data['disallow_transfer']) && $this->gear->allow_transfer) */
 
         return false;
     }
