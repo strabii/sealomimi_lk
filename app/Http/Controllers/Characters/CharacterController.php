@@ -910,8 +910,8 @@ class CharacterController extends Controller {
         if ($service->nameStack($this->character, CharacterItem::find($request->get('ids')), $request->get('stack_name'), Auth::user())) {
             flash('Item named successfully.')->success();
         } elseif (CharacterItem::find($request->get('ids') == null)) {
-        foreach ($service->errors()->getMessages()['error'] as $error) {
-            flash('You need to select a stack.')->error();
+            foreach ($service->errors()->getMessages()['error'] as $error) {
+                flash('You need to select a stack.')->error();
             }
         } else {
             foreach ($service->errors()->getMessages()['error'] as $error) {

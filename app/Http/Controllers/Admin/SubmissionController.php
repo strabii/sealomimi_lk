@@ -8,8 +8,8 @@ use App\Models\Character\Character;
 use App\Models\Currency\Currency;
 use App\Models\Element\Element;
 use App\Models\Item\Item;
-use App\Models\Pet\Pet;
 use App\Models\Loot\LootTable;
+use App\Models\Pet\Pet;
 use App\Models\Prompt\Prompt;
 use App\Models\Prompt\PromptCategory;
 use App\Models\Raffle\Raffle;
@@ -191,7 +191,7 @@ class SubmissionController extends Controller {
      */
     public function postSubmission(Request $request, SubmissionManager $service, $id, $action) {
         $data = $request->only([
-            'slug',  'character_rewardable_quantity', 'character_rewardable_id',  'character_rewardable_type', 'character_currency_id', 'rewardable_type', 'rewardable_id', 'quantity', 'staff_comments', 'character_is_focus','character_notify_owner','skill_id', 'skill_quantity',
+            'slug',  'character_rewardable_quantity', 'character_rewardable_id',  'character_rewardable_type', 'character_currency_id', 'rewardable_type', 'rewardable_id', 'quantity', 'staff_comments', 'character_is_focus', 'character_notify_owner', 'skill_id', 'skill_quantity',
         ]);
         if ($action == 'reject' && $service->rejectSubmission($request->only(['staff_comments']) + ['id' => $id], Auth::user())) {
             flash('Submission rejected successfully.')->success();

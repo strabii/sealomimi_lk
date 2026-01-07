@@ -64,10 +64,10 @@ class SubmissionManager extends Service {
                     throw new \Exception('Invalid prompt selected.');
                 }
 
-                //check that the prompt limit hasn't been hit
+                // check that the prompt limit hasn't been hit
                 if ($prompt->limit) {
-                    //check that the user hasn't hit the prompt submission limit
-                    //filter the submissions by hour/day/week/etc and count
+                    // check that the user hasn't hit the prompt submission limit
+                    // filter the submissions by hour/day/week/etc and count
                     $count['all'] = Submission::submitted($prompt->id, $user->id)->count();
                     $count['Hour'] = Submission::submitted($prompt->id, $user->id)->where('created_at', '>=', now()->startOfHour())->count();
                     $count['Day'] = Submission::submitted($prompt->id, $user->id)->where('created_at', '>=', now()->startOfDay())->count();
@@ -75,13 +75,13 @@ class SubmissionManager extends Service {
                     $count['Month'] = Submission::submitted($prompt->id, $user->id)->where('created_at', '>=', now()->startOfMonth())->count();
                     $count['Year'] = Submission::submitted($prompt->id, $user->id)->where('created_at', '>=', now()->startOfYear())->count();
 
-                    //if limit by character is on... multiply by # of chars. otherwise, don't
+                    // if limit by character is on... multiply by # of chars. otherwise, don't
                     if ($prompt->limit_character) {
                         $limit = $prompt->limit * Character::visible()->where('is_myo_slot', 0)->where('user_id', $user->id)->count();
                     } else {
                         $limit = $prompt->limit;
                     }
-                    //if limit by time period is on
+                    // if limit by time period is on
                     if ($prompt->limit_period) {
                         if ($count[$prompt->limit_period] >= $limit) {
                             throw new \Exception('You have already submitted to this prompt the maximum number of times.');
@@ -100,7 +100,7 @@ class SubmissionManager extends Service {
                     throw new \Exception('This prompt may only be submitted to by staff members.');
                 }
 
-                //level req
+                // level req
                 if ($prompt->level_req) {
                     if (!$user->level || $user->level->current_level < $prompt->level_req) {
                         throw new \Exception('You are not high enough level to enter this prompt');
@@ -117,12 +117,10 @@ class SubmissionManager extends Service {
                 'status'    => $isDraft ? 'Draft' : 'Pending',
                 'comments'  => $data['comments'],
                 'data'      => null,
-                //'data'    => json_encode(getDataReadyAssets($promptRewards)) // list of rewards
+                // 'data'    => json_encode(getDataReadyAssets($promptRewards)) // list of rewards
             ] + ($isClaim ? [] : [
                 'prompt_id' => $prompt->id,
             ]));
-
-
 
             // Set items that have been attached.
             $assets = $this->createUserAttachments($submission, $data, $user);
@@ -452,7 +450,7 @@ class SubmissionManager extends Service {
             // Distribute user rewards
             if (!$rewards = fillUserAssets($rewards, $user, $submission->user, $promptLogType, $promptData)) {
                 throw new \Exception('Failed to distribute rewards to user.');
-            }  
+            }
 
             // Retrieve all reward IDs for characters
             $currencyIds = [];
@@ -472,9 +470,8 @@ class SubmissionManager extends Service {
                 $data['character_rewardable_id'] = array_map([$this, 'innerNull'], $data['character_rewardable_id']);
 
                 foreach ($data['character_rewardable_id'] as $ckey => $c) {
-                    
                     $rewardTypes = $data['character_rewardable_type'][$ckey];
-                    
+
                     // Check if we need to add missing reward types
                     $numRewardTypes = count($rewardTypes);
                     $numRewardableIds = count($c);
@@ -497,16 +494,16 @@ class SubmissionManager extends Service {
 
                         // Access the reward type (now both arrays have the same length)
                         $rewardType = $rewardTypes[$index];
-                        \Log::debug("Reward type for index {$index} at ckey {$ckey}: " . json_encode($rewardType));
+                        \Log::debug("Reward type for index {$index} at ckey {$ckey}: ".json_encode($rewardType));
 
                         switch ($rewardType) {
-                            case 'Currency': 
+                            case 'Currency':
                                 $currencyIds[] = $id;
                                 break;
-                            case 'Item': 
+                            case 'Item':
                                 $itemIds[] = $id;
                                 break;
-                            case 'LootTable': 
+                            case 'LootTable':
                                 $tableIds[] = $id;
                                 break;
                             case 'Pet':
@@ -519,11 +516,10 @@ class SubmissionManager extends Service {
                                 $awardIds[] = $id;
                                 break;
                             default:
-                                \Log::error("Unexpected reward type for key {$index} at ckey {$ckey}: " . json_encode($rewardType));
+                                \Log::error("Unexpected reward type for key {$index} at ckey {$ckey}: ".json_encode($rewardType));
                         }
                     }
                 } // Expanded character rewards
-
             }
             array_unique($currencyIds);
             array_unique($itemIds);
@@ -546,8 +542,8 @@ class SubmissionManager extends Service {
                     $char = $characters->firstWhere('slug', $slug);
                     if ($char) {
                         // Default to 0 if index is not set in either of the arrays
-                        $focusData[$char->id] = isset($data['character_is_focus'][$index]) ? $data['character_is_focus'][$index] : 0;
-                        $notifyData[$char->id] = isset($data['character_notify_owner'][$index]) ? $data['character_notify_owner'][$index] : 0;
+                        $focusData[$char->id] = $data['character_is_focus'][$index] ?? 0;
+                        $notifyData[$char->id] = $data['character_notify_owner'][$index] ?? 0;
                     }
                 }
             }
@@ -784,7 +780,7 @@ class SubmissionManager extends Service {
                         case 'Points': if ($data['character_rewardable_quantity'][$data['character_id']][$key]) {
                             addAsset($assets, 'Points', $data['character_rewardable_quantity'][$data['character_id']][$key]);
                         } break;
-                        case 'Element': /* we don't check for quanity here*/
+                        case 'Element': /* we don't check for quanity here */
                             addAsset($assets, $data['elements'][$reward], 1);
                             break;
                         case 'Award': if ($data['character_rewardable_quantity'][$data['character_id']][$key]) {
@@ -1033,7 +1029,6 @@ class SubmissionManager extends Service {
 
         // Attach characters
         foreach ($characters as $key => $c) {
-
             // Users might not pass in clean arrays (may contain redundant data) so we need to clean that up
             $assets = $this->processRewards($data + ['character_id' => $c->id, 'currencies' => $currencies, 'items' => $items, 'tables' => $tables, 'pets' => $pets, 'awards' => $awards], true);
 
@@ -1043,7 +1038,7 @@ class SubmissionManager extends Service {
                 'character_id'  => $c->id,
                 'submission_id' => $submission->id,
                 'data'          => json_encode(getDataReadyAssets($assets)),
-                //'is_focus'      => isset($data['character_is_focus']) && $data['character_is_focus'][$c->id] ? $data['character_is_focus'][$c->id] : 0,
+                // 'is_focus'      => isset($data['character_is_focus']) && $data['character_is_focus'][$c->id] ? $data['character_is_focus'][$c->id] : 0,
                 'is_focus'      => isset($data['character_is_focus'][$c->id]) ? 1 : 0,
                 'notify_owner'  => isset($data['character_notify_owner'][$c->id]) ? 1 : 0,
             ]);
